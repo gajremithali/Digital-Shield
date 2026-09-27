@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<title>Digital Shield — Digital Footprint Awareness</title>
+<meta content="Mossy Hollow · #D4DE95 · #BAC095 · #3D4127" name="theme"/>
+<meta content="A privacy-first digital footprint awareness prototype for young people." name="description"/>
+<style>
+:root{--theme-primary:#D4DE95;--theme-secondary:#BAC095;--theme-light:#EEF2C9;--theme-dark:#3D4127;--bg:#D4DE95;--panel:#BAC095;--panel2:#EEF2C9;--text:#3D4127;--muted:#636B2F;--line:#636B2F;--accent:#3D4127;--accent2:#636B2F;--danger:#8f4e46;--warn:#8a6a2e;--good:#64785a;}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 80% 0%,#3D4127 0,transparent 32%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.5}button,input{font:inherit}button{cursor:pointer}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between;max-width:1180px;margin:auto;padding:0 24px}.brand{font-weight:800;letter-spacing:-.04em;font-size:20px}.brand span{color:var(--accent)}.navlinks{display:flex;gap:22px;color:var(--muted);font-size:14px}.navlinks a{color:inherit;text-decoration:none}
+.btn{border:1px solid var(--line);background:var(--theme-light);color:var(--text);padding:12px 18px;border-radius:12px;font-weight:700}.btn.primary{background:linear-gradient(135deg,var(--accent),#3D4127);border:0;box-shadow:0 10px 35px #D4DE9530}.btn.ghost{background:transparent}.btn.small{padding:9px 13px;font-size:13px}
+main{max-width:1180px;margin:auto;padding:40px 24px 80px}.hero{min-height:640px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:50px}.eyebrow{display:inline-flex;gap:8px;align-items:center;padding:7px 11px;border:1px solid #636B2F;background:#3D4127;border-radius:999px;color:#c9c8ff;font-size:12px;font-weight:700}.dot{width:7px;height:7px;border-radius:50%;background:var(--accent2);box-shadow:0 0 15px var(--accent2)}
+h1{font-size:clamp(48px,7vw,86px);line-height:.96;letter-spacing:-.07em;margin:22px 0}.gradient{background:linear-gradient(90deg,#3D4127,#4F582B);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{font-size:18px;color:var(--muted);max-width:620px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.trust{display:flex;gap:18px;flex-wrap:wrap;margin-top:24px;color:#818ca8;font-size:12px}
+.scan-card{background:linear-gradient(180deg,#3D4127,#3D4127);border:1px solid #636B2F;border-radius:28px;padding:25px;box-shadow:0 30px 90px #0007}.scan-head{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}.orb{height:300px;display:grid;place-items:center;position:relative}.orb:before,.orb:after{content:"";position:absolute;border-radius:50%;border:1px solid #D4DE9555}.orb:before{width:230px;height:230px;animation:spin 10s linear infinite}.orb:after{width:175px;height:175px;border-color:#BAC09555;animation:spin 7s linear reverse infinite}.score{font-size:70px;font-weight:800;letter-spacing:-.06em}.score.placeholder{font-size:15px;letter-spacing:.16em;font-weight:800;text-align:center;line-height:1.35;color:#636B2F}.score.placeholder small{display:block;font-size:10px;letter-spacing:.12em;color:#4F582B;text-align:center;margin-top:5px}@keyframes spin{to{transform:rotate(360deg)}}
+section{padding:70px 0}.section-title{font-size:40px;letter-spacing:-.04em;margin:0 0 10px}.section-sub{color:var(--muted);max-width:680px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}.card{background:#BAC095aa;border:1px solid var(--line);border-radius:20px;padding:22px}.icon{font-size:26px}.card h3{margin:12px 0 5px}.card p{color:var(--muted);font-size:14px;margin:0}
+.modal{position:fixed;inset:0;background:#03050bd9;backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.show{display:flex}.modalbox{width:min(560px,100%);background:#BAC095;border:1px solid #303954;border-radius:24px;padding:28px;box-shadow:0 30px 100px #000b}.modalbox h2{margin-top:0}.modalbox p,.modalbox li{color:var(--muted);font-size:14px}.check{display:flex;gap:10px;align-items:flex-start;margin:18px 0}.check input{margin-top:5px;accent-color:var(--accent)}
+.app{display:none;min-height:100vh}.app.active{display:block}.appnav{border-bottom:1px solid var(--line);background:#BAC095ee;position:sticky;top:0;z-index:10}.appwrap{max-width:1100px;margin:auto;padding:28px 22px 80px}.progress{display:flex;gap:7px;margin:20px 0 35px}.step{height:5px;flex:1;border-radius:10px;background:#252b40}.step.on{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.screen{display:none}.screen.active{display:block}.center{max-width:760px;margin:40px auto}.panel{background:var(--theme-light);border:1px solid var(--line);border-radius:22px;padding:25px}.login{max-width:430px;margin:70px auto}.field{display:grid;gap:7px;margin:15px 0}.field label{font-size:13px;color:var(--muted)}.field input{background:#3D4127;border:1px solid var(--line);color:#3D4127;padding:13px;border-radius:11px;outline:none}.field input:focus{border-color:var(--accent)}
+.apps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}@media(max-width:900px){.apps{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.apps{grid-template-columns:1fr}}.appitem{border:1px solid var(--line);background:#3D4127;border-radius:16px;padding:17px;display:flex;gap:12px;align-items:center;transition:.2s}.appitem.selected{border-color:#7d72ff;background:#3D4127}.appitem input{accent-color:var(--accent);margin-left:auto}.appicon{width:34px;height:34px;object-fit:contain;flex:0 0 34px;border-radius:9px;background:#fff;padding:5px}.appmeta{min-width:0}.appitem .tag{white-space:normal}.appname{font-weight:700}.tag{font-size:11px;color:var(--muted);margin-top:3px}
+.scanbox{text-align:center;padding:50px 20px}.loader{width:70px;height:70px;border:3px solid #252b40;border-top-color:var(--accent);border-right-color:var(--accent2);border-radius:50%;animation:spin 1s linear infinite;margin:10px auto 25px}.scanline{color:var(--muted);min-height:28px}
+.reportgrid{display:grid;grid-template-columns:1fr 1.5fr;gap:16px}.riskcard{text-align:center}.bigscore{font-size:88px;font-weight:900;letter-spacing:-.07em}.risklabel{color:var(--warn);font-weight:800}.bars{display:grid;gap:14px;margin-top:22px}.barrow{display:grid;grid-template-columns:145px 1fr 45px;gap:10px;align-items:center;font-size:13px}.bar{height:9px;background:#636B2F;border-radius:10px;overflow:hidden}.fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent2))}.finding{display:flex;gap:14px;padding:15px 0;border-bottom:1px solid var(--line)}.finding:last-child{border-bottom:0}.finding b{display:block}.finding span{color:var(--muted);font-size:13px}
+.usage{display:grid;gap:13px;margin-top:18px}.usage-row{display:grid;grid-template-columns:110px 1fr 65px;gap:10px;align-items:center;font-size:13px}.usagebar{height:12px;border-radius:10px;background:#636B2F;overflow:hidden}.usagebar i{display:block;height:100%;background:linear-gradient(90deg,#D4DE95,#BAC095);border-radius:10px}.recommend{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.rec{padding:17px;border:1px solid var(--line);border-radius:16px;background:#3D4127}.rec strong{display:block;margin-bottom:5px}.rec p{font-size:13px;color:var(--muted);margin:0}
+.adminstats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{background:#3D4127;border:1px solid var(--line);border-radius:17px;padding:18px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:30px;margin-top:5px}.notice{background:#3D4127;border:1px solid #636B2F;padding:14px 16px;border-radius:14px;color:#c9c4ff;font-size:13px;margin:18px 0}
+.footer{border-top:1px solid var(--line);padding:25px;color:#c6c0b9;font-size:12px;text-align:center}
+@media(max-width:850px){.hero{grid-template-columns:1fr}.cards,.apps,.recommend{grid-template-columns:1fr 1fr}.reportgrid{grid-template-columns:1fr}.adminstats{grid-template-columns:1fr 1fr}.navlinks{display:none}}
+@media(max-width:520px){main{padding-left:16px;padding-right:16px}.hero{min-height:auto;padding:50px 0}.cards,.apps,.recommend{grid-template-columns:1fr}.barrow{grid-template-columns:110px 1fr 40px}.nav{padding:0 16px}}
+
+/* Refined mossy-hollow accessibility theme */
+body {
+  background:
+    radial-gradient(circle at 92% 4%, #BAC09555 0, transparent 25%),
+    radial-gradient(circle at 8% 82%, #D4DE9566 0, transparent 28%),
+    #EEF2C9;
+  color:#3D4127;
+}
+.nav { background:transparent; }
+.brand, h1, h2, h3, .section-title, .score, .bigscore, .appname, .stat strong { color:#3D4127; }
+.navlinks, .hero p, .section-sub, .card p, .trust, .field label, .tag, .scanline, .finding span, .stat small { color:#4F582B; }
+.navlinks a { color:#3D4127; }
+.eyebrow {
+  color:#3D4127;
+  background:#F9FBE9;
+  border-color:#8C9658;
+}
+.dot { background:#3D4127; box-shadow:0 0 14px #BAC095; }
+.btn {
+  background:#F9FBE9;
+  color:#3D4127;
+  border-color:#8C9658;
+}
+.btn.primary {
+  background:#3D4127;
+  color:#EEF2C9;
+  border-color:#3D4127;
+  box-shadow:0 10px 30px #3D412726;
+}
+.btn.ghost { background:transparent; color:#3D4127; }
+.scan-card {
+  background:#F9FBE9;
+  border-color:#8C9658;
+  box-shadow:0 25px 70px #3D412718;
+}
+.scan-head { color:#4F582B; }
+.orb:before { border-color:#BAC095aa; }
+.orb:after { border-color:#3D412766; }
+.notice {
+  background:#E5E9B8;
+  border-color:#8C9658;
+  color:#3D4127;
+}
+.card {
+  background:#F9FBE9;
+  border-color:#8C9658;
+  box-shadow:0 10px 35px #3D41270d;
+}
+.modal { background:#3D4127b8; }
+.modalbox {
+  background:#F9FBE9;
+  border-color:#8C9658;
+}
+.modalbox p, .modalbox li { color:#4F582B; }
+.field input {
+  background:#EEF2C9;
+  border-color:#8C9658;
+  color:#3D4127;
+}
+.field input::placeholder { color:#4F582B99; }
+.panel {
+  background:#F9FBE9;
+  border-color:#8C9658;
+  box-shadow:0 10px 35px #3D41270d;
+}
+.appnav {
+  background:#EEF2C9ee;
+  border-color:#8C9658;
+}
+.appitem {
+  background:#EEF2C9;
+  border-color:#8C9658;
+  color:#3D4127;
+}
+.appitem.selected {
+  background:#E5E9B8;
+  border-color:#3D4127;
+}
+.risklabel { color:#3D4127; }
+.bar { background:#E5E9B8; }
+.fill { background:linear-gradient(90deg,#3D4127,#BAC095); }
+.finding { border-color:#8C965866; }
+.usagebar { background:#E5E9B8; }
+.usagebar i { background:linear-gradient(90deg,#3D4127,#BAC095); }
+.rec {
+  background:#EEF2C9;
+  border-color:#8C9658;
+}
+.rec strong { color:#3D4127; }
+.rec p { color:#4F582B; }
+.stat {
+  background:#D4DE95;
+  border-color:#8C9658;
+}
+.progress .step { background:#D4DE95; }
+.progress .step.on { background:linear-gradient(90deg,#3D4127,#BAC095); }
+.loader {
+  border-color:#D4DE95;
+  border-top-color:#3D4127;
+  border-right-color:#BAC095;
+}
+.footer { border-color:#8C965866; color:#4F582B; }
+
+.admin-shell{max-width:1120px;margin:0 auto;padding:26px 0 50px}.admin-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:22px}.admin-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}.admin-kpi{padding:18px;border:1px solid var(--line);border-radius:16px;background:#BAC095}.admin-kpi .num{font-size:30px;font-weight:800;color:#3D4127}.admin-kpi .label{font-size:12px;color:#3D4127;margin-top:5px}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.admin-card{padding:20px;border:1px solid var(--line);border-radius:16px;background:#BAC095}.admin-card h3{margin:0 0 14px;color:#3D4127}.admin-table{width:100%;border-collapse:collapse;font-size:13px}.admin-table th,.admin-table td{text-align:left;padding:9px 7px;border-bottom:1px solid rgba(61,65,39,.18);color:#3D4127}.admin-table th{font-size:11px;text-transform:uppercase;letter-spacing:.06em}.admin-badge{display:inline-flex;align-items:center;padding:10px 12px;border-radius:999px;background:#D4DE95;border:1px solid #636B2F;color:#3D4127;font-size:11px;font-weight:800}.admin-actions{display:flex;gap:10px;flex-wrap:wrap}.admin-loading{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:#EEF2C9;color:#3D4127;margin-bottom:16px}.admin-error{padding:14px;border:1px solid #8b3a3a;border-radius:12px;background:#f5d9d9;color:#6b2020}@media(max-width:850px){.admin-kpis{grid-template-columns:repeat(2,1fr)}.admin-grid{grid-template-columns:1fr}}@media(max-width:520px){.admin-kpis{grid-template-columns:1fr}}
+<style>
+.data-pill{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:#E5E9B8;border:1px solid #8C9658;font-size:11px;font-weight:800;color:#3D4127}.mutedbar{opacity:.45}.report-muted{color:#4F582B}
+
+.connect-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:24px 0}.connect-card{border:1px solid var(--line);background:#fffaf0;border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px}.connect-card .appicon{width:42px;height:42px;flex-basis:42px}.connect-info{flex:1;min-width:0}.connect-info strong{display:block;color:var(--text)}.connect-info span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.connect-status{font-size:11px;color:#68703a;background:#eef2c9;padding:5px 8px;border-radius:999px;margin-top:7px;display:inline-block}.connect-btn{white-space:nowrap;padding:9px 13px;border-radius:10px;border:1px solid var(--line);background:#fff;font-weight:700;color:var(--text)}.connect-btn:hover{background:#eef2c9}.auth-modal{position:fixed;inset:0;background:rgba(24,27,15,.58);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}.auth-modal.show{display:flex}.auth-card{max-width:480px;width:100%;background:#fffaf0;border-radius:22px;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.28)}.auth-brand{font-weight:800;color:#3D4127;letter-spacing:.04em}.permission-list{margin:18px 0;padding:0;list-style:none}.permission-list li{padding:10px 0;border-top:1px solid var(--line);font-size:13px}.permission-list li:before{content:'✓';margin-right:9px;color:#636B2F;font-weight:800}.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}@media(max-width:700px){.connect-grid{grid-template-columns:1fr}.connect-card{align-items:flex-start;flex-wrap:wrap}.connect-btn{width:100%}}
+</style></style>
+</head>
+<body>
+<div id="landing">
+<header class="nav">
+<div class="brand">DIGITAL <span>SHIELD</span></div>
+<nav class="navlinks"><a href="#how">How it works</a><a href="#privacy">Privacy</a><a href="#features">Features</a></nav>
+<button class="btn small" onclick="openLogin()">Log in</button>
+</header>
+<main>
+<section class="hero">
+<div>
+<div class="eyebrow"><i class="dot"></i> PRIVACY-FIRST DIGITAL FOOTPRINT AWARENESS</div>
+<h1>See what your <span class="gradient">digital trail</span> says about you.</h1>
+<p>Digital Shield turns social-media safety into something you can actually explore: understand exposure, discover risk signals and get practical recommendations — without a questionnaire.</p>
+<div class="actions"><button class="btn primary" onclick="openLogin()">Scan my footprint →</button><a class="btn ghost" href="#how">See how it works</a></div>
+<div class="trust"><span>🔒 Consent-first</span><span>🛡️ Minimal data</span><span>🔗 Official app authorization</span></div>
+</div>
+<div class="scan-card">
+<div class="scan-head"><span>LIVE PREVIEW</span><span>● PRIVACY MODE</span></div>
+<div class="orb"><div><div class="score placeholder">AWAITING<small>AUTHORIZED DATA</small></div></div></div>
+<div class="notice">No personal score is shown until Digital Shield receives authorized signals from your connected social accounts.</div>
+</div>
+</section>
+<section id="features">
+<h2 class="section-title">Not another social-media quiz.</h2>
+<p class="section-sub">Digital Shield is designed around discovery. Users choose what they want to connect, authorize access and receive a visual report built from permitted signals.</p>
+<div class="cards">
+<div class="card"><div class="icon">🔎</div><h3>Footprint scan</h3><p>Explore profile exposure, public-information signals and digital-trail patterns.</p></div>
+<div class="card"><div class="icon">📊</div><h3>Risk dashboard</h3><p>See an explainable score broken into profile exposure, privacy, security and usage.</p></div>
+<div class="card"><div class="icon">🎯</div><h3>Personal action plan</h3><p>Recommendations are based on the signals actually detected — not generic advice.</p></div>
+</div>
+</section>
+<section id="how">
+<h2 class="section-title">Select. Authorize. Understand. Improve.</h2>
+<p class="section-sub">The website handles the complete experience. Social-account data is requested only through official authorization flows.</p>
+<div class="cards">
+<div class="card"><div class="icon">01</div><h3>Consent</h3><p>Users see exactly what will be analyzed and what will not be collected.</p></div>
+<div class="card"><div class="icon">02</div><h3>Connect</h3><p>Users choose apps and grant only the permissions required for supported analysis.</p></div>
+<div class="card"><div class="icon">03</div><h3>Report</h3><p>A visual report turns technical privacy signals into actions a young person can understand.</p></div>
+</div>
+</section>
+<section id="privacy">
+<h2 class="section-title">Privacy is part of the product.</h2>
+<p class="section-sub">The planned architecture avoids collecting passwords or private messages. Digital Shield requests only the social-profile fields that an the platform's authorization permits.</p>
+<div class="cards">
+<div class="card"><h3>We don't need</h3><p>Passwords, private messages, contacts, payment details or a complete copy of your phone.</p></div>
+<div class="card"><h3>Users control access</h3><p>Permissions are explicit and can be revoked. The website cannot silently grant itself phone access.</p></div>
+<div class="card"><h3>Admin sees analytics</h3><p>The planned admin area focuses on authorized session and aggregated project metrics, not private conversations.</p></div>
+</div>
+</section>
+</main>
+<div class="footer">Digital Shield • Educational prototype • Demo data only</div>
+</div>
+<div class="app" id="app">
+<header class="nav appnav"><div class="brand">DIGITAL <span>SHIELD</span></div><button class="btn small" onclick="showLanding()">Exit demo</button></header>
+<div class="appwrap">
+<div class="progress"><div class="step on"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
+<div class="screen active" id="loginScreen">
+<div class="login panel">
+<div class="eyebrow">SECURE ACCOUNT</div><h2>Welcome to Digital Shield.</h2><p style="color:var(--muted)">Sign in or create your account to start your private digital-footprint scan.</p>
+<div class="field"><label>Email</label><input id="email" placeholder="you@example.com" type="email"/></div>
+<div class="field"><label>Password</label><input placeholder="••••••••" type="password"/></div>
+<button class="btn primary" onclick="login()" style="width:100%;margin-top:8px">Log in →</button>
+<button class="btn" onclick="createAccount()" style="width:100%;margin-top:8px">Create account</button>
+<p style="text-align:center;font-size:12px;color:var(--muted)">No email confirmation required. Protected by Supabase authentication.</p>
+</div>
+</div>
+<div class="screen" id="consentScreen">
+<div class="center">
+<div class="eyebrow">STEP 1 · CONSENT</div><h2 class="section-title">Your data. Your control.</h2>
+<div class="panel">
+<p>Before continuing, Digital Shield explains what this prototype is designed to access.</p>
+<ul>
+<li>Only information and activity you explicitly authorize should be analyzed.</li>
+<li>Passwords and private messages are not required for this experience.</li>
+<li>Social-profile data will be obtained only through the platform's authorization where supported.</li>
+<li>You can revoke permissions later.</li>
+<li>The admin dashboard is intended for authorized project analytics.</li>
+</ul>
+<label class="check"><input id="consent" type="checkbox"/><span>I understand what will be analyzed and consent to continue.</span></label>
+<button class="btn primary" onclick="goApps()">Continue to app selection →</button>
+</div>
+</div>
+</div>
+<div class="screen" id="appsScreen">
+<div class="center">
+<div class="eyebrow">STEP 2 · SELECT</div><h2 class="section-title">Choose your digital platforms.</h2>
+<p class="section-sub">Select the social platforms you want to analyze. Digital Shield will request authorization from each supported platform before accessing permitted profile data.</p>
+<div class="apps">
+<label class="appitem" data-app="Instagram"><img alt="Instagram" class="appicon" src="https://cdn.simpleicons.org/instagram"/><div class="appmeta"><div class="appname">Instagram</div><div class="tag">Profile authorization</div></div><input checked="" type="checkbox"/></label>
+<label class="appitem" data-app="YouTube"><img alt="YouTube" class="appicon" src="https://cdn.simpleicons.org/youtube"/><div class="appmeta"><div class="appname">YouTube</div><div class="tag">No profile API</div></div><input checked="" type="checkbox"/></label>
+<label class="appitem" data-app="WhatsApp"><img alt="WhatsApp" class="appicon" src="https://cdn.simpleicons.org/whatsapp"/><div class="appmeta"><div class="appname">WhatsApp</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Facebook"><img alt="Facebook" class="appicon" src="https://cdn.simpleicons.org/facebook"/><div class="appmeta"><div class="appname">Facebook</div><div class="tag">Profile authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Messenger"><img alt="Messenger" class="appicon" src="https://cdn.simpleicons.org/messenger"/><div class="appmeta"><div class="appname">Messenger</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Snapchat"><img alt="Snapchat" class="appicon" src="https://cdn.simpleicons.org/snapchat"/><div class="appmeta"><div class="appname">Snapchat</div><div class="tag">Profile authorization</div></div><input type="checkbox"/></label>
+
+<label class="appitem" data-app="X"><img alt="X" class="appicon" src="https://cdn.simpleicons.org/x"/><div class="appmeta"><div class="appname">X</div><div class="tag">Profile authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Telegram"><img alt="Telegram" class="appicon" src="https://cdn.simpleicons.org/telegram"/><div class="appmeta"><div class="appname">Telegram</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Discord"><img alt="Discord" class="appicon" src="https://cdn.simpleicons.org/discord"/><div class="appmeta"><div class="appname">Discord</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Reddit"><img alt="Reddit" class="appicon" src="https://cdn.simpleicons.org/reddit"/><div class="appmeta"><div class="appname">Reddit</div><div class="tag">Profile authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="LinkedIn"><img alt="LinkedIn" class="appicon" src="https://cdn.simpleicons.org/linkedin"/><div class="appmeta"><div class="appname">LinkedIn</div><div class="tag">Profile authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Pinterest"><img alt="Pinterest" class="appicon" src="https://cdn.simpleicons.org/pinterest"/><div class="appmeta"><div class="appname">Pinterest</div><div class="tag">Profile authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Spotify"><img alt="Spotify" class="appicon" src="https://cdn.simpleicons.org/spotify"/><div class="appmeta"><div class="appname">Spotify</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Twitch"><img alt="Twitch" class="appicon" src="https://cdn.simpleicons.org/twitch"/><div class="appmeta"><div class="appname">Twitch</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Threads"><img alt="Threads" class="appicon" src="https://cdn.simpleicons.org/threads"/><div class="appmeta"><div class="appname">Threads</div><div class="tag">Profile authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Roblox"><img alt="Roblox" class="appicon" src="https://cdn.simpleicons.org/roblox"/><div class="appmeta"><div class="appname">Roblox</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Google Chrome"><img alt="Google Chrome" class="appicon" src="https://cdn.simpleicons.org/googlechrome"/><div class="appmeta"><div class="appname">Google Chrome</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="TikTok"><img alt="TikTok" class="appicon" src="https://cdn.simpleicons.org/tiktok"/><div class="appmeta"><div class="appname">TikTok</div><div class="tag">Profile</div></div><input type="checkbox"/></label>
+</div>
+<div class="notice">No passwords or private messages are collected. The next step requests only the permissions supported by each selected platform.</div>
+<button class="btn primary" onclick="prepareConnections()">Continue to secure connection →</button>
+</div>
+</div>
+<div class="screen" id="connectScreen">
+<div class="center">
+<div class="eyebrow">STEP 3 · CONNECT</div><h2 class="section-title">Authorize your selected platforms.</h2>
+<p class="section-sub">Digital Shield uses the platform's own authorization page. You choose what to allow; Digital Shield only receives the scopes the platform grants.</p>
+<div class="connect-grid" id="connectGrid"></div>
+<div class="notice">Some integrations require developer approval and credentials before live authorization can be enabled. Until then, the interface below remains a realistic preview and does not pretend that data was received.</div>
+<button class="btn primary" onclick="beginAnalysis()">Continue to analysis →</button>
+</div></div>
+<div class="screen" id="scanScreen">
+<div class="center panel scanbox">
+<div class="loader"></div><h2>Analyzing your digital footprint…</h2><div class="scanline" id="scanline">Preparing secure analysis</div>
+</div>
+</div>
+<div class="screen" id="reportScreen">
+<div class="eyebrow">STEP 4 · YOUR REPORT <span style="float:right;font-size:10px;letter-spacing:.08em;opacity:.7">SOCIAL PROFILE ANALYSIS</span></div><h2 class="section-title">Your digital footprint, decoded.</h2><div class="notice" style="display:inline-block;margin:8px 0 18px">PROJECT DEMO · CONNECTED SIGNALS ARE SIMULATED UNTIL LIVE PLATFORM APIs ARE CONFIGURED</div>
+<p class="section-sub">This report shows only signals Digital Shield actually has permission to use. Nothing is invented when a signal is unavailable.</p>
+<div class="reportgrid">
+<div class="panel riskcard">
+<div class="bigscore" id="reportScore">—</div><div class="risklabel" id="reportRiskLabel">AWAITING AUTHORIZED SIGNALS</div>
+<p id="reportSummary" style="color:var(--muted)">Select platforms now; profile and phone-usage signals will be added when the corresponding authorized connection is available.</p>
+<div class="notice" id="coverageNotice">Data coverage: app selection only.</div>
+</div>
+<div class="panel"><h3>Exposure breakdown</h3><div class="bars" id="exposureBars">
+<div class="barrow"><span>Profile exposure</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
+<div class="barrow"><span>Personal info</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
+<div class="barrow"><span>Privacy settings</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
+<div class="barrow"><span>Public activity</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
+<div class="barrow"><span>Account security</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
+</div></div></div>
+<div class="panel" style="margin-top:16px"><h3>🔎 Exposure signals</h3><div id="findingsList">
+<div class="finding"><b>Waiting for profile authorization<span>No profile-level exposure has been measured yet.</span></b></div>
+<div class="finding"><b>Waiting for public-activity signals<span>No public activity has been inspected yet.</span></b></div>
+<div class="finding"><b>Waiting for account-security signals<span>No security signal has been supplied yet.</span></b></div>
+</div></div>
+<div class="panel" style="margin-top:16px"><h3>📊 Platform findings</h3><p style="color:var(--muted);font-size:13px">A platform is scored only from the profile signals Digital Shield has received for that platform. Device screen-time is not part of this report.</p>
+<div class="usage" id="usageList"><div class="finding"><b>Waiting for authorized profile data<span>Connect a supported social account to populate platform findings.</span></b></div></div></div>
+<div class="panel" style="margin-top:16px"><h3>🎯 Your action plan</h3><div class="recommend" id="recommendations">
+<div class="rec"><strong>01 · Review public details</strong><p>When profile data becomes available, review details that do not need to be public.</p></div>
+<div class="rec"><strong>02 · Check older posts</strong><p>Look for public content that reveals locations, routines or unnecessary personal details.</p></div>
+<div class="rec"><strong>03 · Authorize social accounts</strong><p>Authorize the selected social platforms so Digital Shield can analyze permitted profile signals.</p></div>
+</div></div>
+<div class="panel" style="margin-top:16px"><h3>🛡️ Data status</h3><p style="color:var(--muted);font-size:13px;margin-bottom:0">Digital Shield does not claim to have inspected private messages, passwords or private app databases. The report grows only when an authorized source supplies a signal.</p></div>
+</div><div class="auth-modal" id="authModal">
+<div class="auth-card">
+<div class="auth-brand">DIGITAL SHIELD</div>
+<h2 id="authTitle" style="margin:10px 0 4px;color:#3D4127">Connect account</h2>
+<p id="authIntro" style="color:var(--muted);font-size:13px;margin-top:0">You are about to authorize Digital Shield.</p>
+<ul class="permission-list" id="permissionList"></ul>
+<div class="notice" id="authNotice">This is the authorization preview. Live platform credentials must be configured before a real token can be issued.</div>
+<div class="modal-actions"><button class="btn" onclick="closeAuthModal()">Cancel</button><button class="btn primary" id="authPrimaryBtn" onclick="simulateAuthorization()">Approve in preview</button></div>
+</div></div>
+<div class="screen" id="adminScreen">
+<div class="admin-shell">
+<div class="admin-head"><div><div class="eyebrow">AUTHORIZED ADMIN</div><h2 class="section-title" style="margin-bottom:6px">Digital Shield Admin Dashboard</h2><p style="color:var(--muted);margin:0">Aggregated project analytics and authorized session activity.</p></div><div class="admin-actions"><span class="admin-badge">ADMIN ACCESS</span><button class="btn" onclick="loadAdminDashboard()">Refresh</button><button class="btn" onclick="showScreen('loginScreen',1)">Back</button></div></div>
+<div id="adminMessage"><div class="admin-loading">Checking administrator access…</div></div>
+<div class="admin-kpis"><div class="admin-kpi"><div class="num" id="kUsers">—</div><div class="label">Registered users</div></div><div class="admin-kpi"><div class="num" id="kScans">—</div><div class="label">Analyses recorded</div></div><div class="admin-kpi"><div class="num" id="kRisk">—</div><div class="label">Average risk score</div></div><div class="admin-kpi"><div class="num" id="kApps">—</div><div class="label">App selections</div></div></div>
+<div class="admin-grid"><div class="admin-card"><h3>Most selected apps</h3><div id="appStats">Loading…</div></div><div class="admin-card"><h3>Recent user accounts</h3><div id="userStats">Loading…</div></div><div class="admin-card" style="grid-column:1/-1"><h3>Recent login / logout activity</h3><div id="sessionStats">Loading…</div></div></div>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+const SUPABASE_URL = 'https://zmfbphdkrxovpckgwpgh.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Ld88tEQq_qiEzDRuLNY4gQ_lvepSw3U';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
+});
+
+(function handleOAuthReturn(){
+  const status=new URLSearchParams(location.search).get('oauth');
+  if(!status) return;
+  const messages={youtube_success:'YouTube connected. Authorized profile signals are ready for analysis.',youtube_denied:'YouTube authorization was cancelled.',youtube_error:'YouTube authorization could not be completed.',youtube_no_channel:'No YouTube channel was available for this account.'};
+  setTimeout(()=>{if(messages[status]) alert(messages[status]);},300);
+  history.replaceState({},document.title,location.pathname);
+})();
+
+async function realSignUp(email, password) {
+  const { data, error } = await supabaseClient.auth.signUp({ email, password });
+  if (error) throw error;
+  return data;
+}
+
+async function realSignIn(email, password) {
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  if (error) throw error;
+  return data;
+}
+
+async function openAfterLogin(){
+  const user=window.digitalShieldAuth?.session?.user;
+  if(!user){ showScreen('loginScreen',1); return; }
+
+  // Authorization is decided by the protected database function.
+  // A successful call proves the current authenticated user is an admin.
+  const {data:adminData,error:adminError}=await supabaseClient.rpc('get_admin_dashboard');
+
+  if(!adminError && adminData){
+    showScreen('adminScreen',0);
+    renderAdminData(adminData);
+    return;
+  }
+
+  // Non-admin users continue through the normal product flow.
+  showScreen('consentScreen',2);
+}
+
+function renderAdminData(data){
+  document.getElementById('kUsers').textContent=data?.metrics?.users??0;
+  document.getElementById('kScans').textContent=data?.metrics?.analyses??0;
+  document.getElementById('kRisk').textContent=data?.metrics?.average_risk==null?'—':Number(data.metrics.average_risk).toFixed(1);
+  document.getElementById('kApps').textContent=data?.metrics?.app_selections??0;
+  document.getElementById('appStats').innerHTML=renderTable(
+    ['App','Selections'],
+    (data?.apps||[]).map(x=>[x.app_name,x.selections])
+  );
+  document.getElementById('userStats').innerHTML=renderTable(
+    ['Email','Created'],
+    (data?.users||[]).map(x=>[x.email||'—',new Date(x.created_at).toLocaleString()])
+  );
+  document.getElementById('sessionStats').innerHTML=renderTable(
+    ['User','Login','Logout','Duration'],
+    (data?.sessions||[]).map(x=>[
+      x.email||'—',
+      new Date(x.login_time).toLocaleString(),
+      x.logout_time?new Date(x.logout_time).toLocaleString():'Active',
+      x.duration_seconds==null?'—':Math.round(x.duration_seconds/60)+' min'
+    ])
+  );
+}
+
+async function loadAdminDashboard(){
+  const msg=document.getElementById('adminMessage');
+  msg.innerHTML='<div class="admin-loading">Refreshing admin analytics…</div>';
+  try{
+    const {data,error}=await supabaseClient.rpc('get_admin_dashboard');
+    if(error) throw error;
+    msg.innerHTML='';
+    renderAdminData(data);
+  }catch(err){
+    msg.innerHTML=`<div class="admin-error">Admin access failed: ${err?.message||'Unknown error'}</div>`;
+  }
+}
+function renderTable(headers,rows,empty='No data yet.'){
+  if(!rows?.length)return `<p style="color:var(--muted)">${empty}</p>`;
+  return `<table class="admin-table"><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c ?? '—'}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+}
+
+
+async function realSignOut() {
+  const sessionId = window.digitalShieldSessionId;
+  if(sessionId){
+    const loginTime = window.digitalShieldAuth?.session?.user ? null : null;
+    const logoutTime=new Date();
+    const {data:sessionRow}=await supabaseClient.from('sessions').select('login_time').eq('id',sessionId).maybeSingle();
+    const duration=sessionRow?.login_time?Math.max(0,Math.round((logoutTime.getTime()-new Date(sessionRow.login_time).getTime())/1000)):null;
+    await supabaseClient.from('sessions').update({logout_time:logoutTime.toISOString(),duration_seconds:duration}).eq('id',sessionId);
+  }
+  const { error } = await supabaseClient.auth.signOut();
+  if (error) throw error;
+}
+
+supabaseClient.auth.onAuthStateChange(async (event, session) => {
+  window.digitalShieldAuth = { event, session };
+
+  if(event === 'SIGNED_IN' && session?.user){
+    const { data } = await supabaseClient.from('sessions')
+      .insert({ user_id: session.user.id })
+      .select('id')
+      .single();
+    if(data) window.digitalShieldSessionId = data.id;
+  }
+
+  if(event === 'SIGNED_OUT'){
+    window.digitalShieldSessionId = null;
+  }
+});
+
+const landing=document.getElementById('landing'),app=document.getElementById('app');
+function openLogin(){landing.style.display='none';app.classList.add('active');showScreen('loginScreen',1)}
+async function showLanding(){
+      try{ await realSignOut(); }catch(e){}
+      app.classList.remove('active');landing.style.display='block'
+    }
+function showScreen(id,n){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.step').forEach((x,i)=>x.classList.toggle('on',i<n))}
+async function login(){
+  const email = document.getElementById('email')?.value?.trim();
+  const password = document.querySelector('#loginScreen input[type="password"]')?.value || '';
+  if(!email || !password){ alert('Please enter your email and password.'); return; }
+  const button = document.querySelector('#loginScreen .btn.primary');
+  if(button){ button.disabled = true; button.textContent = 'Signing in…'; }
+  try{
+    await realSignIn(email, password);
+    await openAfterLogin();
+  }catch(err){
+    alert(err?.message || 'Login failed. If you are new, click Create account.');
+  }finally{
+    if(button){ button.disabled = false; button.textContent = 'Log in →'; }
+  }
+}
+
+async function createAccount(){
+  const email = document.getElementById('email')?.value?.trim();
+  const password = document.querySelector('#loginScreen input[type="password"]')?.value || '';
+  if(!email || !password){ alert('Enter an email and password first.'); return; }
+  if(password.length < 6){ alert('Please use a password with at least 6 characters.'); return; }
+  const buttons = document.querySelectorAll('#loginScreen button');
+  buttons.forEach(b=>b.disabled=true);
+  try{
+    const data = await realSignUp(email, password);
+    if(!data?.session){
+      alert('Account created, but no session was returned. Check that Confirm Email is OFF in Supabase.');
+      return;
+    }
+    window.digitalShieldAuth = { event:'SIGNED_IN', session:data.session };
+    await openAfterLogin();
+  }catch(err){
+    alert(err?.message || 'Could not create account.');
+  }finally{
+    buttons.forEach(b=>b.disabled=false);
+  }
+}
+async function goApps(){
+  if(!document.getElementById('consent').checked){
+    alert('Please confirm your consent before continuing.');
+    return;
+  }
+  const user = window.digitalShieldAuth?.session?.user;
+  if(!user){ alert('Your session has expired. Please sign in again.'); showScreen('loginScreen',1); return; }
+
+  const { error } = await supabaseClient.from('consents').insert({
+    user_id: user.id,
+    consent_version: 'v1',
+    consent_given: true
+  });
+  if(error){ alert('Could not save your consent: ' + error.message); return; }
+  showScreen('appsScreen',3);
+}
+function prepareConnections(){
+  const selected=[...document.querySelectorAll('.appitem input:checked')].map(i=>i.closest('.appitem')?.dataset.app).filter(Boolean);
+  if(!selected.length){alert('Select at least one app to include in the scan.');return;}
+  window.digitalShieldSelectedApps=selected;
+  const grid=document.getElementById('connectGrid');
+  const liveCandidates=new Set(['Instagram','YouTube','Facebook','X','Reddit','LinkedIn','Pinterest','Threads','TikTok']);
+  grid.innerHTML=selected.map(name=>{
+    const live=liveCandidates.has(name);
+    const note=name==='YouTube'?'Channel/profile data where the approved YouTube scope permits it':name==='TikTok'?'Basic profile/public-video data only when approved scopes are available':'Profile information available only through the platform approved API scopes';
+    return `<div class="connect-card" data-connect-app="${escapeHtml(name)}"><img alt="${escapeHtml(name)}" class="appicon" src="https://cdn.simpleicons.org/${iconSlug(name)}"/><div class="connect-info"><strong>${escapeHtml(name)}</strong><span>${escapeHtml(note)}</span><em class="connect-status" id="status-${cssId(name)}">Authorization required</em></div><button class="connect-btn" onclick="openAuthModal(decodeURIComponent('${name.replace(' ','%20')}'))">Connect</button></div>`;
+  }).join('');
+  showScreen('connectScreen',3);
+}
+function iconSlug(name){return ({'Google Chrome':'googlechrome','Instagram':'instagram','YouTube':'youtube','WhatsApp':'whatsapp','Facebook':'facebook','Messenger':'messenger','Snapchat':'snapchat','X':'x','Telegram':'telegram','Discord':'discord','Reddit':'reddit','LinkedIn':'linkedin','Pinterest':'pinterest','Spotify':'spotify','Twitch':'twitch','Threads':'threads','Roblox':'roblox','TikTok':'tiktok'})[name]||'circle';}
+function cssId(name){return name.toLowerCase().replace(/[^a-z0-9]+/g,'-');}
+let authPreviewApp=null;
+function openAuthModal(name){
+  authPreviewApp=name;
+  document.getElementById('authTitle').textContent=`Connect ${name}`;
+  document.getElementById('authIntro').textContent=`Digital Shield is requesting the minimum supported profile permissions for ${name}.`;
+  const permissions=document.getElementById('permissionList');
+  const items=name==='YouTube'?['Basic account/channel identity','Authorized channel profile information']:name==='TikTok'?['Basic profile information','Public video information where approved']:['Basic profile information','Public profile signals exposed through the approved API'];
+  permissions.innerHTML=items.map(x=>`<li>${escapeHtml(x)}</li>`).join('');
+  const primary=document.getElementById('authPrimaryBtn');
+  if(name==='YouTube'){
+    document.getElementById('authNotice').textContent='You will be sent to Google for the actual YouTube permission screen. Digital Shield requests read-only access and stores only derived analysis signals.';
+    primary.textContent='Continue with Google →';
+    primary.onclick=beginYouTubeOAuth;
+  } else {
+    document.getElementById('authNotice').textContent=`Prototype connection: one tap is enough for this project demo. In production, this button is replaced by the platform's official authorization page.`;
+    primary.textContent='Approve in preview';
+    primary.onclick=simulateAuthorization;
+  }
+  document.getElementById('authModal').classList.add('show');
+}
+function closeAuthModal(){document.getElementById('authModal').classList.remove('show');}
+async function beginYouTubeOAuth(){
+  const primary=document.getElementById('authPrimaryBtn');
+  if(primary){primary.disabled=true;primary.textContent='Opening secure Google authorization…';}
+  try{
+    // Explicitly read the current Supabase session so the Edge Function
+    // receives the authenticated user's JWT in the Authorization header.
+    const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
+    if(sessionError) throw sessionError;
+    const session=sessionData?.session;
+    if(!session?.access_token) throw new Error('Your Digital Shield login session has expired. Please log in again.');
+
+    const {data,error}=await supabaseClient.functions.invoke('youtube-start',{
+      headers:{ Authorization:`Bearer ${session.access_token}` }
+    });
+    if(error) throw error;
+    if(!data?.url) throw new Error(data?.error||'YouTube authorization is not configured yet.');
+    window.location.href=data.url;
+  }catch(err){
+    console.error('youtube-start error:',err);
+    if(primary){primary.disabled=false;primary.textContent='Continue with Google →';}
+    document.getElementById('authNotice').textContent=err?.message||'Could not start YouTube authorization.';
+  }
+}
+async function simulateAuthorization(){
+  if(!authPreviewApp)return;
+  const app=authPreviewApp;
+  const id='status-'+cssId(app);
+  const el=document.getElementById(id);
+  if(el){el.textContent='Connected · ready to scan';el.style.background='#dfe7ad';}
+  const card=document.querySelector(`[data-connect-app="${CSS.escape(app)}"]`);
+  const btn=card?.querySelector('.connect-btn'); if(btn){btn.textContent='Connected';btn.disabled=true;btn.style.opacity='.7';}
+  const user=window.digitalShieldAuth?.session?.user;
+  if(user){
+    const seed={
+      Instagram:{public_profile:true,contact_visible:false,location_visible:true,external_link:true,bio_sensitive:false,public_activity:true,weak_privacy_settings:true},
+      YouTube:{public_profile:true,contact_visible:false,location_visible:false,external_link:true,bio_sensitive:false,public_activity:true,weak_privacy_settings:false},
+      Facebook:{public_profile:true,contact_visible:true,location_visible:true,external_link:false,bio_sensitive:false,public_activity:true,weak_privacy_settings:true},
+      Reddit:{public_profile:true,contact_visible:false,location_visible:false,external_link:true,bio_sensitive:true,public_activity:true,weak_privacy_settings:false},
+      LinkedIn:{public_profile:true,contact_visible:false,location_visible:false,external_link:true,bio_sensitive:false,public_activity:true,weak_privacy_settings:false},
+      X:{public_profile:true,contact_visible:false,location_visible:false,external_link:true,bio_sensitive:false,public_activity:true,weak_privacy_settings:true},
+      Pinterest:{public_profile:true,contact_visible:false,location_visible:false,external_link:true,bio_sensitive:false,public_activity:true,weak_privacy_settings:false},
+      Threads:{public_profile:true,contact_visible:false,location_visible:false,external_link:true,bio_sensitive:false,public_activity:true,weak_privacy_settings:true},
+      TikTok:{public_profile:true,contact_visible:false,location_visible:false,external_link:true,bio_sensitive:false,public_activity:true,weak_privacy_settings:true}
+    };
+    const signals=seed[app]||{public_profile:true,contact_visible:false,location_visible:false,external_link:false,bio_sensitive:false,public_activity:true,weak_privacy_settings:false};
+    await supabaseClient.from('social_signals').upsert({user_id:user.id,app_name:app,signals,source:'prototype_authorization',collected_at:new Date().toISOString()},{onConflict:'user_id,app_name'});
+  }
+  closeAuthModal();
+}
+async function beginAnalysis(){
+  const user=window.digitalShieldAuth?.session?.user;
+  if(!user){alert('Your session has expired. Please sign in again.');showScreen('loginScreen',1);return;}
+  const selected=window.digitalShieldSelectedApps||[];
+  if(!selected.length){showScreen('appsScreen',3);return;}
+  const scanButton=document.querySelector('#connectScreen .btn.primary');
+  if(scanButton){scanButton.disabled=true;scanButton.textContent='Preparing secure analysis…';}
+  const now=new Date().toISOString();
+  const connections=selected.map(app_name=>({user_id:user.id,app_name,permission_status:'authorization_preview',connected_at:now}));
+  const {error}=await supabaseClient.from('app_connections').insert(connections);
+  if(error){if(scanButton){scanButton.disabled=false;scanButton.textContent='Continue to analysis →';}alert('Could not save connection state: '+error.message);return;}
+  showScreen('scanScreen',4);
+  const lines=['Validating selected permissions…','Checking authorized profile signals…','Separating unavailable data…','Building your privacy report…'];
+  let i=0;const el=document.getElementById('scanline');el.textContent=lines[0];
+  const timer=setInterval(()=>{el.textContent=lines[i++%lines.length]},700);
+  setTimeout(async()=>{clearInterval(timer);await loadRealReport(user.id,selected);showScreen('reportScreen',4);if(scanButton){scanButton.disabled=false;scanButton.textContent='Continue to analysis →';}},3200);
+}
+
+async function loadRealReport(userId, selected){
+  const signalResult=await supabaseClient.from('social_signals')
+    .select('app_name,signals,collected_at,source')
+    .eq('user_id',userId)
+    .in('app_name',selected)
+    .order('collected_at',{ascending:false});
+  renderReport({selected,signals:signalResult.data||[],signalError:signalResult.error?.message||null});
+}
+
+function calculateExposureScore(rows){
+  if(!rows?.length) return null;
+  const latest=new Map(); rows.forEach(r=>{if(!latest.has(r.app_name)) latest.set(r.app_name,r);});
+  const weights={public_profile:18,contact_visible:18,location_visible:12,external_link:10,bio_sensitive:12,public_activity:12,weak_privacy_settings:18};
+  let total=0,max=0;
+  for(const r of latest.values()){const sig=r.signals||{};for(const [k,w] of Object.entries(weights)){max+=w;if(sig[k]===true) total+=w;}}
+  return max?Math.round(total/max*100):null;
+}
+function appSignalScore(sig){
+  const weights={public_profile:18,contact_visible:18,location_visible:12,external_link:10,bio_sensitive:12,public_activity:12,weak_privacy_settings:18};
+  let n=0,d=0;for(const [k,w] of Object.entries(weights)){d+=w;if(sig?.[k]===true)n+=w;}return d?Math.round(n/d*100):0;
+}
+function signalLabels(sig){
+  const labels=[]; if(sig.public_profile) labels.push('public profile'); if(sig.contact_visible) labels.push('contact visible'); if(sig.location_visible) labels.push('location visible'); if(sig.external_link) labels.push('external link'); if(sig.bio_sensitive) labels.push('sensitive bio'); if(sig.public_activity) labels.push('public activity'); if(sig.weak_privacy_settings) labels.push('privacy settings to review'); return labels;
+}
+function renderReport({selected,signals=[],signalError=null}){
+  const score=document.getElementById('reportScore'), label=document.getElementById('reportRiskLabel'), summary=document.getElementById('reportSummary'), notice=document.getElementById('coverageNotice'), findings=document.getElementById('findingsList'), platformBox=document.getElementById('usageList');
+  const exposureScore=calculateExposureScore(signals);
+  if(exposureScore!==null){score.textContent=String(exposureScore);label.textContent=exposureScore>=70?'HIGH EXPOSURE':exposureScore>=40?'MODERATE EXPOSURE':'LOW EXPOSURE';label.style.color=exposureScore>=70?'var(--danger)':exposureScore>=40?'var(--warn)':'var(--good)';}
+  else {score.textContent='—';label.textContent='AWAITING AUTHORIZED SIGNALS';label.style.color='var(--muted)';}
+  if(exposureScore!==null){notice.textContent=`Data coverage: ${signals.length} connected platform signal record${signals.length===1?'':'s'} · ${selected.length} selected app${selected.length===1?'':'s'}.`;summary.textContent='Your exposure score is calculated from the connected social-profile signals available to Digital Shield. Device screen-time is not used.';}
+  else {notice.textContent=`Data coverage: ${selected.length} selected app${selected.length===1?'':'s'} · waiting for authorized profile signals.`;summary.textContent='Your selection is saved. Connect supported social accounts to calculate an exposure score from the signals those platforms permit.';}
+  const bars=document.querySelectorAll('#exposureBars .barrow');
+  const barKeys=[['Profile exposure',['public_profile','external_link']],['Personal info',['contact_visible','location_visible','bio_sensitive']],['Privacy settings',['weak_privacy_settings']],['Public activity',['public_activity']],['Account security',['weak_privacy_settings']]];
+  bars.forEach((row,idx)=>{const keys=barKeys[idx][1];const vals=signals.flatMap(r=>keys.map(k=>r.signals?.[k]===true?1:0));const pct=vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length*100):0;row.querySelector('.fill').style.width=pct+'%';row.querySelector('b').textContent=vals.length?pct+'%':'—';row.classList.toggle('mutedbar',!vals.length);});
+  findings.innerHTML=signals.length?signals.map(r=>{const labels=signalLabels(r.signals||{});return `<div class="finding"><b>${escapeHtml(r.app_name)}<span>${labels.length?escapeHtml(labels.join(' · ')):'No flagged exposure signals'}</span></b></div>`}).join(''):`<div class="finding"><b>No connected platform signals<span>Nothing is scored until an authorized source supplies profile data.</span></b></div>`;
+  if(signals.length){platformBox.innerHTML=signals.map(r=>{const n=appSignalScore(r.signals||{});const risk=n>=70?'High':n>=40?'Moderate':'Low';return `<div class="usage-row"><span><strong>${escapeHtml(r.app_name)}</strong><small style="display:block;color:var(--muted);font-size:11px">${risk} exposure</small></span><div class="usagebar"><i style="width:${n}%"></i></div><b>${n}/100</b></div>`}).join('');}else platformBox.innerHTML='<div class="finding"><b>Waiting for connected accounts<span>Platform-level results will appear here after authorization.</span></b></div>';
+  document.getElementById('recommendations').innerHTML=signals.length?`<div class="rec"><strong>01 · Reduce public profile exposure</strong><p>Review public contact details, location information and external links that are not necessary.</p></div><div class="rec"><strong>02 · Review older public activity</strong><p>Remove or limit posts that reveal routines, locations or unnecessary personal information.</p></div><div class="rec"><strong>03 · Tighten privacy settings</strong><p>Use the platform's privacy controls to limit who can discover and interact with your profile.</p></div>`:`<div class="rec"><strong>01 · Connect a supported account</strong><p>Authorize a selected platform so Digital Shield can inspect only the profile signals it permits.</p></div><div class="rec"><strong>02 · Review public information</strong><p>Until signals are available, check what a stranger can see on each selected profile.</p></div><div class="rec"><strong>03 · Keep private data private</strong><p>Digital Shield does not ask for passwords, private messages or private app databases.</p></div>`;
+}
+
+function escapeHtml(value){return String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+document.querySelectorAll('.appitem').forEach(card=>{
+  const checkbox=card.querySelector('input[type="checkbox"]');
+  const sync=()=>card.classList.toggle('selected', checkbox.checked);
+  sync();
+  checkbox.addEventListener('change', sync);
+  card.addEventListener('click',(e)=>{
+    if(e.target===checkbox) return;
+    checkbox.checked=!checkbox.checked;
+    sync();
+  });
+});
+</script>
+</div></div></body>
+</html>
