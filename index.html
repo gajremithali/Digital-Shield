@@ -136,7 +136,7 @@ body {
 .data-pill{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:#E5E9B8;border:1px solid #8C9658;font-size:11px;font-weight:800;color:#3D4127}.mutedbar{opacity:.45}.report-muted{color:#4F582B}
 
 .connect-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:24px 0}.connect-card{border:1px solid var(--line);background:#fffaf0;border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px}.connect-card .appicon{width:42px;height:42px;flex-basis:42px}.connect-info{flex:1;min-width:0}.connect-info strong{display:block;color:var(--text)}.connect-info span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.connect-status{font-size:11px;color:#68703a;background:#eef2c9;padding:5px 8px;border-radius:999px;margin-top:7px;display:inline-block}.connect-btn{white-space:nowrap;padding:9px 13px;border-radius:10px;border:1px solid var(--line);background:#fff;font-weight:700;color:var(--text)}.connect-btn:hover{background:#eef2c9}.auth-modal{position:fixed;inset:0;background:rgba(24,27,15,.58);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}.auth-modal.show{display:flex}.auth-card{max-width:480px;width:100%;background:#fffaf0;border-radius:22px;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.28)}.auth-brand{font-weight:800;color:#3D4127;letter-spacing:.04em}.permission-list{margin:18px 0;padding:0;list-style:none}.permission-list li{padding:10px 0;border-top:1px solid var(--line);font-size:13px}.permission-list li:before{content:'✓';margin-right:9px;color:#636B2F;font-weight:800}.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}@media(max-width:700px){.connect-grid{grid-template-columns:1fr}.connect-card{align-items:flex-start;flex-wrap:wrap}.connect-btn{width:100%}}
-</style></style>
+.app-toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:20px 0 10px;padding:14px 16px;border:1px solid #8C9658;border-radius:16px;background:#F9FBE9}.app-toolbar>div{display:flex;align-items:center;gap:10px}.app-toolbar strong{font-size:13px}.app-toolbar span{font-size:11px;color:#4F582B;background:#E5E9B8;border:1px solid #8C9658;padding:5px 8px;border-radius:999px}.app-toolbar input{width:min(260px,48vw);padding:10px 12px;border:1px solid #8C9658;border-radius:10px;background:#EEF2C9;color:#3D4127;outline:none}.app-toolbar input:focus{border-color:#3D4127}.appitem.hidden{display:none}.appitem .tag{min-height:16px}.appitem.ready{border-color:#64785a}.appitem.ready .tag{color:#53683f;font-weight:700}.connect-card.ready{border-color:#64785a}</style></style>
 </head>
 <body>
 <div id="landing">
@@ -180,7 +180,7 @@ body {
 </section>
 <section id="privacy">
 <h2 class="section-title">Privacy is part of the product.</h2>
-<p class="section-sub">The planned architecture avoids collecting passwords or private messages. Digital Shield requests only the social-profile fields that an the platform's authorization permits.</p>
+<p class="section-sub">The planned architecture avoids collecting passwords or private messages. Digital Shield requests only the social-profile fields that each platform's authorization permits.</p>
 <div class="cards">
 <div class="card"><h3>We don't need</h3><p>Passwords, private messages, contacts, payment details or a complete copy of your phone.</p></div>
 <div class="card"><h3>Users control access</h3><p>Permissions are explicit and can be revoked. The website cannot silently grant itself phone access.</p></div>
@@ -224,24 +224,25 @@ body {
 <div class="screen" id="appsScreen">
 <div class="center">
 <div class="eyebrow">STEP 2 · SELECT</div><h2 class="section-title">Choose your digital platforms.</h2>
-<p class="section-sub">Select the platforms you want to analyze. Only a platform that has a live authorization flow can contribute data to your report.</p>
+<p class="section-sub">Select the platforms you want to analyze. Only platforms with a verified authorization flow can contribute data to your report.</p>
+<div class="app-toolbar"><div><strong>Choose platforms</strong><span id="appSelectionCount">2 selected</span></div><input id="appSearch" type="search" placeholder="Search platforms…" aria-label="Search platforms"/></div>
 <div class="apps">
-<label class="appitem" data-app="Instagram"><img alt="Instagram" class="appicon" src="https://cdn.simpleicons.org/instagram"/><div class="appmeta"><div class="appname">Instagram</div><div class="tag">Live authorization</div></div><input checked="" type="checkbox"/></label>
-<label class="appitem" data-app="YouTube"><img alt="YouTube" class="appicon" src="https://cdn.simpleicons.org/youtube"/><div class="appmeta"><div class="appname">YouTube</div><div class="tag">Not connected yet</div></div><input checked="" type="checkbox"/></label>
+<label class="appitem" data-app="Instagram"><img alt="Instagram" class="appicon" src="https://cdn.simpleicons.org/instagram"/><div class="appmeta"><div class="appname">Instagram</div><div class="tag">Setup required</div></div><input checked="" type="checkbox"/></label>
+<label class="appitem" data-app="YouTube"><img alt="YouTube" class="appicon" src="https://cdn.simpleicons.org/youtube"/><div class="appmeta"><div class="appname">YouTube</div><div class="tag">Ready · Google OAuth</div></div><input checked="" type="checkbox"/></label>
 <label class="appitem" data-app="WhatsApp"><img alt="WhatsApp" class="appicon" src="https://cdn.simpleicons.org/whatsapp"/><div class="appmeta"><div class="appname">WhatsApp</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Facebook"><img alt="Facebook" class="appicon" src="https://cdn.simpleicons.org/facebook"/><div class="appmeta"><div class="appname">Facebook</div><div class="tag">Live authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Facebook"><img alt="Facebook" class="appicon" src="https://cdn.simpleicons.org/facebook"/><div class="appmeta"><div class="appname">Facebook</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
 <label class="appitem" data-app="Messenger"><img alt="Messenger" class="appicon" src="https://cdn.simpleicons.org/messenger"/><div class="appmeta"><div class="appname">Messenger</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Snapchat"><img alt="Snapchat" class="appicon" src="https://cdn.simpleicons.org/snapchat"/><div class="appmeta"><div class="appname">Snapchat</div><div class="tag">Live authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Snapchat"><img alt="Snapchat" class="appicon" src="https://cdn.simpleicons.org/snapchat"/><div class="appmeta"><div class="appname">Snapchat</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
 
-<label class="appitem" data-app="X"><img alt="X" class="appicon" src="https://cdn.simpleicons.org/x"/><div class="appmeta"><div class="appname">X</div><div class="tag">Live authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="X"><img alt="X" class="appicon" src="https://cdn.simpleicons.org/x"/><div class="appmeta"><div class="appname">X</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
 <label class="appitem" data-app="Telegram"><img alt="Telegram" class="appicon" src="https://cdn.simpleicons.org/telegram"/><div class="appmeta"><div class="appname">Telegram</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
 <label class="appitem" data-app="Discord"><img alt="Discord" class="appicon" src="https://cdn.simpleicons.org/discord"/><div class="appmeta"><div class="appname">Discord</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Reddit"><img alt="Reddit" class="appicon" src="https://cdn.simpleicons.org/reddit"/><div class="appmeta"><div class="appname">Reddit</div><div class="tag">Live authorization</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="LinkedIn"><img alt="LinkedIn" class="appicon" src="https://cdn.simpleicons.org/linkedin"/><div class="appmeta"><div class="appname">LinkedIn</div><div class="tag">Live authorization</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Pinterest"><img alt="Pinterest" class="appicon" src="https://cdn.simpleicons.org/pinterest"/><div class="appmeta"><div class="appname">Pinterest</div><div class="tag">Live authorization</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Spotify"><img alt="Spotify" class="appicon" src="https://cdn.simpleicons.org/spotify"/><div class="appmeta"><div class="appname">Spotify</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Reddit"><img alt="Reddit" class="appicon" src="https://cdn.simpleicons.org/reddit"/><div class="appmeta"><div class="appname">Reddit</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="LinkedIn"><img alt="LinkedIn" class="appicon" src="https://cdn.simpleicons.org/linkedin"/><div class="appmeta"><div class="appname">LinkedIn</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Pinterest"><img alt="Pinterest" class="appicon" src="https://cdn.simpleicons.org/pinterest"/><div class="appmeta"><div class="appname">Pinterest</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Spotify"><img alt="Spotify" class="appicon" src="https://cdn.simpleicons.org/spotify"/><div class="appmeta"><div class="appname">Spotify</div><div class="tag">Setup required · PKCE</div></div><input type="checkbox"/></label>
 <label class="appitem" data-app="Twitch"><img alt="Twitch" class="appicon" src="https://cdn.simpleicons.org/twitch"/><div class="appmeta"><div class="appname">Twitch</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Threads"><img alt="Threads" class="appicon" src="https://cdn.simpleicons.org/threads"/><div class="appmeta"><div class="appname">Threads</div><div class="tag">Live authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Threads"><img alt="Threads" class="appicon" src="https://cdn.simpleicons.org/threads"/><div class="appmeta"><div class="appname">Threads</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
 <label class="appitem" data-app="Roblox"><img alt="Roblox" class="appicon" src="https://cdn.simpleicons.org/roblox"/><div class="appmeta"><div class="appname">Roblox</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
 <label class="appitem" data-app="Google Chrome"><img alt="Google Chrome" class="appicon" src="https://cdn.simpleicons.org/googlechrome"/><div class="appmeta"><div class="appname">Google Chrome</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
 <label class="appitem" data-app="TikTok"><img alt="TikTok" class="appicon" src="https://cdn.simpleicons.org/tiktok"/><div class="appmeta"><div class="appname">TikTok</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
@@ -313,80 +314,75 @@ body {
 
 const SUPABASE_URL = 'https://zmfbphdkrxovpckgwpgh.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Ld88tEQq_qiEzDRuLNY4gQ_lvepSw3U';
+const SPOTIFY_CLIENT_ID = '';
+const SPOTIFY_REDIRECT_URI = window.location.origin + window.location.pathname;
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
 });
 
 (async function handleOAuthReturn(){
-  const params = new URLSearchParams(location.search);
-  const status = params.get('oauth');
-  const message = params.get('message');
-
-  if (!status) return;
-
-  // Remove OAuth parameters from the URL immediately.
-  history.replaceState(
-    {},
-    document.title,
-    location.pathname
-  );
-
-  if (status === 'youtube_success') {
-    alert(
-      'YouTube connected successfully. Your authorized profile signals are ready for analysis.'
-    );
-
-    // Restore the authenticated application after OAuth redirect.
-    const { data } = await supabaseClient.auth.getSession();
-
-    if (data?.session?.user) {
-      window.digitalShieldAuth = {
-        event: 'SIGNED_IN',
-        session: data.session
-      };
-
-      landing.style.display = 'none';
-      app.classList.add('active');
-
-      // Return directly to the connection screen.
-      showScreen('connectScreen', 3);
-
-      // Rebuild the connection cards.
-      if (typeof prepareConnections === 'function') {
-        prepareConnections();
-      }
-    } else {
-      alert(
-        'Your session could not be restored. Please sign in again.'
-      );
-
-      landing.style.display = 'none';
-      app.classList.add('active');
-      showScreen('loginScreen', 1);
+  const params=new URLSearchParams(location.search), status=params.get('oauth'), message=params.get('message');
+  if(status==='spotify_callback'){
+    const code=params.get('code'), state=params.get('state');
+    history.replaceState({},document.title,location.pathname);
+    try{
+      await completeSpotifyOAuth(code,state);
+      alert('Spotify connected successfully. Your authorized profile signals are ready for analysis.');
+      const {data}=await supabaseClient.auth.getSession(), landingEl=document.getElementById('landing'), appEl=document.getElementById('app');
+      if(data?.session?.user){window.digitalShieldAuth={event:'SIGNED_IN',session:data.session};landingEl.style.display='none';appEl.classList.add('active');showScreen('connectScreen',3);await prepareConnections();}
+      else{alert('Your Digital Shield session could not be restored. Please sign in again.');landingEl.style.display='none';appEl.classList.add('active');showScreen('loginScreen',1);}
+    }catch(err){
+      console.error('Spotify OAuth error:',err); alert(err?.message||'Spotify authorization failed. Please try again.');
+      const landingEl=document.getElementById('landing'), appEl=document.getElementById('app'); landingEl.style.display='none';appEl.classList.add('active');showScreen('connectScreen',3);
+      if(window.digitalShieldAuth?.session?.user) await prepareConnections();
     }
-
     return;
   }
-
-  const messages = {
-    youtube_cancelled:
-      'YouTube authorization was cancelled.',
-
-    youtube_denied:
-      'YouTube authorization was cancelled.',
-
-    youtube_no_channel:
-      'No YouTube channel was found for this Google account.',
-
-    youtube_error:
-      message ||
-      'YouTube authorization failed. Please try connecting again.'
-  };
-
-  if (messages[status]) {
-    alert(messages[status]);
+  if(!status)return;
+  history.replaceState({},document.title,location.pathname);
+  if(status==='youtube_success'){
+    alert('YouTube connected successfully. Your authorized profile signals are ready for analysis.');
+    const {data}=await supabaseClient.auth.getSession(), landingEl=document.getElementById('landing'), appEl=document.getElementById('app');
+    if(data?.session?.user){window.digitalShieldAuth={event:'SIGNED_IN',session:data.session};landingEl.style.display='none';appEl.classList.add('active');showScreen('connectScreen',3);await prepareConnections();}
+    else{alert('Your session could not be restored. Please sign in again.');landingEl.style.display='none';appEl.classList.add('active');showScreen('loginScreen',1);}
+    return;
   }
+  const messages={youtube_cancelled:'YouTube authorization was cancelled.',youtube_denied:'YouTube authorization was cancelled.',youtube_no_channel:'No YouTube channel was found for this Google account.',youtube_error:message||'YouTube authorization failed. Please try connecting again.'};
+  if(messages[status])alert(messages[status]);
 })();
+function spotifyReady(){return Boolean(SPOTIFY_CLIENT_ID);}
+function spotifyRandom(length=64){const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';const bytes=crypto.getRandomValues(new Uint8Array(length));return [...bytes].map(b=>chars[b%chars.length]).join('');}
+function spotifyBase64Url(buffer){return btoa(String.fromCharCode(...new Uint8Array(buffer))).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');}
+async function spotifyChallenge(verifier){const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(verifier));return spotifyBase64Url(digest);}
+async function beginSpotifyOAuth(){
+  if(!spotifyReady()){document.getElementById('authNotice').textContent='Spotify is ready in the interface, but its public Client ID still needs to be configured.';return;}
+  const verifier=spotifyRandom(64),state=spotifyRandom(32),challenge=await spotifyChallenge(verifier);
+  sessionStorage.setItem('ds_spotify_verifier',verifier);sessionStorage.setItem('ds_spotify_state',state);sessionStorage.setItem('ds_spotify_started_at',String(Date.now()));
+  const params=new URLSearchParams({response_type:'code',client_id:SPOTIFY_CLIENT_ID,scope:'user-read-private user-read-email playlist-read-private',code_challenge_method:'S256',code_challenge:challenge,redirect_uri:SPOTIFY_REDIRECT_URI,state});
+  window.location.href='https://accounts.spotify.com/authorize?'+params.toString();
+}
+async function spotifyTokenFromCode(code,verifier){
+  const res=await fetch('https://accounts.spotify.com/api/token',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({grant_type:'authorization_code',code,redirect_uri:SPOTIFY_REDIRECT_URI,client_id:SPOTIFY_CLIENT_ID,code_verifier:verifier})});
+  const data=await res.json();if(!res.ok)throw new Error(data?.error_description||'Spotify token exchange failed.');return data;
+}
+async function spotifyApi(accessToken,path){
+  const res=await fetch('https://api.spotify.com/v1'+path,{headers:{Authorization:'Bearer '+accessToken}});const data=await res.json();if(!res.ok)throw new Error(data?.error?.message||'Spotify API request failed.');return data;
+}
+async function completeSpotifyOAuth(code,state){
+  if(!code||!state)throw new Error('Spotify authorization response is incomplete.');
+  const savedState=sessionStorage.getItem('ds_spotify_state'),verifier=sessionStorage.getItem('ds_spotify_verifier'),started=Number(sessionStorage.getItem('ds_spotify_started_at')||0);
+  if(!savedState||state!==savedState)throw new Error('Spotify authorization state could not be verified.');
+  if(!verifier||started&&Date.now()-started>10*60*1000)throw new Error('Spotify authorization session expired. Please connect again.');
+  const token=await spotifyTokenFromCode(code,verifier),profile=await spotifyApi(token.access_token,'/me'),playlists=await spotifyApi(token.access_token,'/me/playlists?limit=50'),items=Array.isArray(playlists?.items)?playlists.items:[];
+  const signals={public_profile:true,contact_visible:false,location_visible:false,external_link:Boolean(profile?.external_urls?.spotify),bio_sensitive:false,public_activity:Number(playlists?.total||0)>0,weak_privacy_settings:false,display_name:profile?.display_name||'Spotify profile',follower_count:Number(profile?.followers?.total||0),playlist_count:Number(playlists?.total||0),public_playlist_count:items.filter(p=>p?.public===true).length};
+  const {data:sessionData}=await supabaseClient.auth.getSession(),user=sessionData?.session?.user;if(!user)throw new Error('Your Digital Shield login session has expired.');
+  const {error:deleteError}=await supabaseClient.from('social_signals').delete().eq('user_id',user.id).eq('app_name','Spotify');if(deleteError)throw deleteError;
+  const {error:signalError}=await supabaseClient.from('social_signals').insert({user_id:user.id,app_name:'Spotify',signals,source:'spotify_api',collected_at:new Date().toISOString()});if(signalError)throw signalError;
+  const {data:existing}=await supabaseClient.from('app_connections').select('id').eq('user_id',user.id).eq('app_name','Spotify').limit(1).maybeSingle(),now=new Date().toISOString();
+  if(existing)await supabaseClient.from('app_connections').update({permission_status:'authorized',connected_at:now}).eq('id',existing.id);else await supabaseClient.from('app_connections').insert({user_id:user.id,app_name:'Spotify',permission_status:'authorized',connected_at:now});
+  sessionStorage.removeItem('ds_spotify_verifier');sessionStorage.removeItem('ds_spotify_state');sessionStorage.removeItem('ds_spotify_started_at');
+}
+
 async function realSignUp(email, password) {
   const { data, error } = await supabaseClient.auth.signUp({ email, password });
   if (error) throw error;
@@ -559,12 +555,12 @@ async function prepareConnections(){
   const authorized=new Set((authorizedRows||[]).map(r=>r.app_name));
   const grid=document.getElementById('connectGrid');
   grid.innerHTML=selected.map(name=>{
-    const live=name==='YouTube';
+    const live=isProviderReady(name);
     const isAuthorized=authorized.has(name);
     const note=name==='YouTube'
       ? 'Read-only channel/profile signals through YouTube OAuth'
-      : 'Live authorization is not configured for this platform yet';
-    const status=isAuthorized?'Authorized · ready to scan':live?'Authorization required':'Unavailable';
+      : 'Setup required is not configured for this platform yet';
+    const status=isAuthorized?'Authorized · ready to scan':live?'Authorization required':'Setup required';
     const button=isAuthorized
       ? `<button class="connect-btn" disabled style="opacity:.7">Connected</button>`
       : live
@@ -577,17 +573,24 @@ async function prepareConnections(){
 function iconSlug(name){return ({'Google Chrome':'googlechrome','Instagram':'instagram','YouTube':'youtube','WhatsApp':'whatsapp','Facebook':'facebook','Messenger':'messenger','Snapchat':'snapchat','X':'x','Telegram':'telegram','Discord':'discord','Reddit':'reddit','LinkedIn':'linkedin','Pinterest':'pinterest','Spotify':'spotify','Twitch':'twitch','Threads':'threads','Roblox':'roblox','TikTok':'tiktok'})[name]||'circle';}
 function cssId(name){return name.toLowerCase().replace(/[^a-z0-9]+/g,'-');}
 let authPreviewApp=null;
+function isProviderReady(name){return name==='YouTube'||(name==='Spotify'&&spotifyReady());}
 function openAuthModal(name){
-  if(name!=='YouTube') return;
+  if(!isProviderReady(name))return;
   authPreviewApp=name;
-  document.getElementById('authTitle').textContent='Connect YouTube';
-  document.getElementById('authIntro').textContent='Digital Shield is requesting read-only YouTube profile/channel access.';
-  const permissions=document.getElementById('permissionList');
-  permissions.innerHTML=['Basic account/channel identity','Authorized channel profile information'].map(x=>`<li>${escapeHtml(x)}</li>`).join('');
-  const primary=document.getElementById('authPrimaryBtn');
-  document.getElementById('authNotice').textContent='You will be sent to Google for the actual YouTube permission screen. Digital Shield stores only derived analysis signals from the approved connection.';
-  primary.textContent='Continue with Google →';
-  primary.onclick=beginYouTubeOAuth;
+  const primary=document.getElementById('authPrimaryBtn'),permissions=document.getElementById('permissionList'),notice=document.getElementById('authNotice');
+  if(name==='Spotify'){
+    document.getElementById('authTitle').textContent='Connect Spotify';
+    document.getElementById('authIntro').textContent='Digital Shield is requesting read-only Spotify profile and playlist access.';
+    permissions.innerHTML=['Basic Spotify profile','Follower count','Playlist visibility and counts'].map(x=>'<li>'+escapeHtml(x)+'</li>').join('');
+    notice.textContent='You will be sent to Spotify for the official permission screen. No Spotify password is shared with Digital Shield.';
+    primary.textContent='Continue with Spotify →';primary.onclick=beginSpotifyOAuth;
+  }else{
+    document.getElementById('authTitle').textContent='Connect YouTube';
+    document.getElementById('authIntro').textContent='Digital Shield is requesting read-only YouTube profile/channel access.';
+    permissions.innerHTML=['Basic account/channel identity','Authorized channel profile information'].map(x=>'<li>'+escapeHtml(x)+'</li>').join('');
+    notice.textContent='You will be sent to Google for the actual YouTube permission screen. Digital Shield stores only derived analysis signals from the approved connection.';
+    primary.textContent='Continue with Google →';primary.onclick=beginYouTubeOAuth;
+  }
   document.getElementById('authModal').classList.add('show');
 }
 function closeAuthModal(){document.getElementById('authModal').classList.remove('show');}
@@ -687,7 +690,9 @@ function renderReport({selected,signals=[],signalError=null}){
       const s=r.signals||{};
       const detail=r.app_name==='YouTube'
         ? `<small style="display:block;color:var(--muted);font-size:11px">${escapeHtml(s.channel_title||'YouTube channel authorized')} · ${Number(s.video_count||0).toLocaleString()} videos · ${Number(s.view_count||0).toLocaleString()} views · subscribers ${s.subscriber_count_public?'visible':'hidden'}</small>`
-        : `<small style="display:block;color:var(--muted);font-size:11px">${risk} exposure · authorized signals only</small>`;
+        : r.app_name==='Spotify'
+          ? `<small style="display:block;color:var(--muted);font-size:11px">${escapeHtml(s.display_name||'Spotify profile')} · ${Number(s.follower_count||0).toLocaleString()} followers · ${Number(s.public_playlist_count||0).toLocaleString()} public playlists · ${Number(s.playlist_count||0).toLocaleString()} playlists available</small>`
+          : `<small style="display:block;color:var(--muted);font-size:11px">${risk} exposure · authorized signals only</small>`;
       return `<div class="usage-row"><span><strong>${escapeHtml(r.app_name)}</strong>${detail}</span><div class="usagebar"><i style="width:${n}%"></i></div><b>${n}/100</b></div>`;
     }).join('');
   }else platformBox.innerHTML='<div class="finding"><b>Waiting for connected accounts<span>Platform-level results will appear here after authorization.</span></b></div>';
@@ -697,15 +702,14 @@ function renderReport({selected,signals=[],signalError=null}){
 function escapeHtml(value){return String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 document.querySelectorAll('.appitem').forEach(card=>{
   const checkbox=card.querySelector('input[type="checkbox"]');
-  const sync=()=>card.classList.toggle('selected', checkbox.checked);
-  sync();
-  checkbox.addEventListener('change', sync);
-  card.addEventListener('click',(e)=>{
-    if(e.target===checkbox) return;
-    checkbox.checked=!checkbox.checked;
-    sync();
-  });
+  const sync=()=>{card.classList.toggle('selected',checkbox.checked);card.classList.toggle('ready',isProviderReady(card.dataset.app));};
+  sync();checkbox.addEventListener('change',()=>{sync();updateAppSelectionCount();});
+  card.addEventListener('click',(e)=>{if(e.target===checkbox)return;checkbox.checked=!checkbox.checked;sync();updateAppSelectionCount();});
 });
+function updateAppSelectionCount(){const selected=document.querySelectorAll('.appitem input:checked').length;const el=document.getElementById('appSelectionCount');if(el)el.textContent=selected+' selected';}
+const appSearch=document.getElementById('appSearch');
+if(appSearch)appSearch.addEventListener('input',()=>{const q=appSearch.value.trim().toLowerCase();document.querySelectorAll('.appitem').forEach(card=>card.classList.toggle('hidden',Boolean(q)&&!card.dataset.app.toLowerCase().includes(q)));});
+updateAppSelectionCount();
 </script>
 </div></div></body>
 </html>
