@@ -318,13 +318,42 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
 });
 
 (function handleOAuthReturn(){
-  const status=new URLSearchParams(location.search).get('oauth');
-  if(!status) return;
-  const messages={youtube_success:'YouTube connected. Authorized profile signals are ready for analysis.',youtube_denied:'YouTube authorization was cancelled.',youtube_error:'YouTube authorization could not be completed.',youtube_no_channel:'No YouTube channel was available for this account.'};
-  setTimeout(()=>{if(messages[status]) alert(messages[status]);},300);
-  history.replaceState({},document.title,location.pathname);
-})();
+  const params = new URLSearchParams(location.search);
+  const status = params.get('oauth');
+  const message = params.get('message');
 
+  if (!status) return;
+
+  const messages = {
+    youtube_success:
+      'YouTube connected successfully. Your authorized profile signals are ready for analysis.',
+
+    youtube_cancelled:
+      'YouTube authorization was cancelled.',
+
+    youtube_denied:
+      'YouTube authorization was cancelled.',
+
+    youtube_no_channel:
+      'No YouTube channel was found for this Google account.',
+
+    youtube_error:
+      message ||
+      'YouTube authorization failed. Please try connecting again.'
+  };
+
+  setTimeout(() => {
+    if (messages[status]) {
+      alert(messages[status]);
+    }
+  }, 300);
+
+  history.replaceState(
+    {},
+    document.title,
+    location.pathname
+  );
+})();
 async function realSignUp(email, password) {
   const { data, error } = await supabaseClient.auth.signUp({ email, password });
   if (error) throw error;
