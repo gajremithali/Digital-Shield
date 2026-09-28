@@ -6,7 +6,7 @@
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
 <title>Digital Shield — Digital Footprint Awareness</title>
 <meta content="Mossy Hollow · #D4DE95 · #BAC095 · #3D4127" name="theme"/>
-<meta content="A privacy-first digital footprint awareness prototype for young people." name="description"/>
+<meta content="A privacy-first digital footprint awareness experience for young people." name="description"/>
 <style>
 :root{--theme-primary:#D4DE95;--theme-secondary:#BAC095;--theme-light:#EEF2C9;--theme-dark:#3D4127;--bg:#D4DE95;--panel:#BAC095;--panel2:#EEF2C9;--text:#3D4127;--muted:#636B2F;--line:#636B2F;--accent:#3D4127;--accent2:#636B2F;--danger:#8f4e46;--warn:#8a6a2e;--good:#64785a;}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 80% 0%,#3D4127 0,transparent 32%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.5}button,input{font:inherit}button{cursor:pointer}
@@ -188,10 +188,10 @@ body {
 </div>
 </section>
 </main>
-<div class="footer">Digital Shield • Educational prototype • Demo data only</div>
+<div class="footer">Digital Shield • Privacy-first digital footprint awareness</div>
 </div>
 <div class="app" id="app">
-<header class="nav appnav"><div class="brand">DIGITAL <span>SHIELD</span></div><button class="btn small" onclick="showLanding()">Exit demo</button></header>
+<header class="nav appnav"><div class="brand">DIGITAL <span>SHIELD</span></div><button class="btn small" onclick="showLanding()">Sign out</button></header>
 <div class="appwrap">
 <div class="progress"><div class="step on"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
 <div class="screen active" id="loginScreen">
@@ -208,7 +208,7 @@ body {
 <div class="center">
 <div class="eyebrow">STEP 1 · CONSENT</div><h2 class="section-title">Your data. Your control.</h2>
 <div class="panel">
-<p>Before continuing, Digital Shield explains what this prototype is designed to access.</p>
+<p>Before continuing, Digital Shield explains exactly what this scan is designed to access.</p>
 <ul>
 <li>Only information and activity you explicitly authorize should be analyzed.</li>
 <li>Passwords and private messages are not required for this experience.</li>
@@ -224,29 +224,29 @@ body {
 <div class="screen" id="appsScreen">
 <div class="center">
 <div class="eyebrow">STEP 2 · SELECT</div><h2 class="section-title">Choose your digital platforms.</h2>
-<p class="section-sub">Select the social platforms you want to analyze. Digital Shield will request authorization from each supported platform before accessing permitted profile data.</p>
+<p class="section-sub">Select the platforms you want to analyze. Only a platform that has a live authorization flow can contribute data to your report.</p>
 <div class="apps">
-<label class="appitem" data-app="Instagram"><img alt="Instagram" class="appicon" src="https://cdn.simpleicons.org/instagram"/><div class="appmeta"><div class="appname">Instagram</div><div class="tag">Profile authorization</div></div><input checked="" type="checkbox"/></label>
-<label class="appitem" data-app="YouTube"><img alt="YouTube" class="appicon" src="https://cdn.simpleicons.org/youtube"/><div class="appmeta"><div class="appname">YouTube</div><div class="tag">No profile API</div></div><input checked="" type="checkbox"/></label>
-<label class="appitem" data-app="WhatsApp"><img alt="WhatsApp" class="appicon" src="https://cdn.simpleicons.org/whatsapp"/><div class="appmeta"><div class="appname">WhatsApp</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Facebook"><img alt="Facebook" class="appicon" src="https://cdn.simpleicons.org/facebook"/><div class="appmeta"><div class="appname">Facebook</div><div class="tag">Profile authorization</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Messenger"><img alt="Messenger" class="appicon" src="https://cdn.simpleicons.org/messenger"/><div class="appmeta"><div class="appname">Messenger</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Snapchat"><img alt="Snapchat" class="appicon" src="https://cdn.simpleicons.org/snapchat"/><div class="appmeta"><div class="appname">Snapchat</div><div class="tag">Profile authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Instagram"><img alt="Instagram" class="appicon" src="https://cdn.simpleicons.org/instagram"/><div class="appmeta"><div class="appname">Instagram</div><div class="tag">Live authorization</div></div><input checked="" type="checkbox"/></label>
+<label class="appitem" data-app="YouTube"><img alt="YouTube" class="appicon" src="https://cdn.simpleicons.org/youtube"/><div class="appmeta"><div class="appname">YouTube</div><div class="tag">Not connected yet</div></div><input checked="" type="checkbox"/></label>
+<label class="appitem" data-app="WhatsApp"><img alt="WhatsApp" class="appicon" src="https://cdn.simpleicons.org/whatsapp"/><div class="appmeta"><div class="appname">WhatsApp</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Facebook"><img alt="Facebook" class="appicon" src="https://cdn.simpleicons.org/facebook"/><div class="appmeta"><div class="appname">Facebook</div><div class="tag">Live authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Messenger"><img alt="Messenger" class="appicon" src="https://cdn.simpleicons.org/messenger"/><div class="appmeta"><div class="appname">Messenger</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Snapchat"><img alt="Snapchat" class="appicon" src="https://cdn.simpleicons.org/snapchat"/><div class="appmeta"><div class="appname">Snapchat</div><div class="tag">Live authorization</div></div><input type="checkbox"/></label>
 
-<label class="appitem" data-app="X"><img alt="X" class="appicon" src="https://cdn.simpleicons.org/x"/><div class="appmeta"><div class="appname">X</div><div class="tag">Profile authorization</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Telegram"><img alt="Telegram" class="appicon" src="https://cdn.simpleicons.org/telegram"/><div class="appmeta"><div class="appname">Telegram</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Discord"><img alt="Discord" class="appicon" src="https://cdn.simpleicons.org/discord"/><div class="appmeta"><div class="appname">Discord</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Reddit"><img alt="Reddit" class="appicon" src="https://cdn.simpleicons.org/reddit"/><div class="appmeta"><div class="appname">Reddit</div><div class="tag">Profile authorization</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="LinkedIn"><img alt="LinkedIn" class="appicon" src="https://cdn.simpleicons.org/linkedin"/><div class="appmeta"><div class="appname">LinkedIn</div><div class="tag">Profile authorization</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Pinterest"><img alt="Pinterest" class="appicon" src="https://cdn.simpleicons.org/pinterest"/><div class="appmeta"><div class="appname">Pinterest</div><div class="tag">Profile authorization</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Spotify"><img alt="Spotify" class="appicon" src="https://cdn.simpleicons.org/spotify"/><div class="appmeta"><div class="appname">Spotify</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Twitch"><img alt="Twitch" class="appicon" src="https://cdn.simpleicons.org/twitch"/><div class="appmeta"><div class="appname">Twitch</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Threads"><img alt="Threads" class="appicon" src="https://cdn.simpleicons.org/threads"/><div class="appmeta"><div class="appname">Threads</div><div class="tag">Profile authorization</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Roblox"><img alt="Roblox" class="appicon" src="https://cdn.simpleicons.org/roblox"/><div class="appmeta"><div class="appname">Roblox</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Google Chrome"><img alt="Google Chrome" class="appicon" src="https://cdn.simpleicons.org/googlechrome"/><div class="appmeta"><div class="appname">Google Chrome</div><div class="tag">No profile API</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="TikTok"><img alt="TikTok" class="appicon" src="https://cdn.simpleicons.org/tiktok"/><div class="appmeta"><div class="appname">TikTok</div><div class="tag">Profile</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="X"><img alt="X" class="appicon" src="https://cdn.simpleicons.org/x"/><div class="appmeta"><div class="appname">X</div><div class="tag">Live authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Telegram"><img alt="Telegram" class="appicon" src="https://cdn.simpleicons.org/telegram"/><div class="appmeta"><div class="appname">Telegram</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Discord"><img alt="Discord" class="appicon" src="https://cdn.simpleicons.org/discord"/><div class="appmeta"><div class="appname">Discord</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Reddit"><img alt="Reddit" class="appicon" src="https://cdn.simpleicons.org/reddit"/><div class="appmeta"><div class="appname">Reddit</div><div class="tag">Live authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="LinkedIn"><img alt="LinkedIn" class="appicon" src="https://cdn.simpleicons.org/linkedin"/><div class="appmeta"><div class="appname">LinkedIn</div><div class="tag">Live authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Pinterest"><img alt="Pinterest" class="appicon" src="https://cdn.simpleicons.org/pinterest"/><div class="appmeta"><div class="appname">Pinterest</div><div class="tag">Live authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Spotify"><img alt="Spotify" class="appicon" src="https://cdn.simpleicons.org/spotify"/><div class="appmeta"><div class="appname">Spotify</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Twitch"><img alt="Twitch" class="appicon" src="https://cdn.simpleicons.org/twitch"/><div class="appmeta"><div class="appname">Twitch</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Threads"><img alt="Threads" class="appicon" src="https://cdn.simpleicons.org/threads"/><div class="appmeta"><div class="appname">Threads</div><div class="tag">Live authorization</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Roblox"><img alt="Roblox" class="appicon" src="https://cdn.simpleicons.org/roblox"/><div class="appmeta"><div class="appname">Roblox</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Google Chrome"><img alt="Google Chrome" class="appicon" src="https://cdn.simpleicons.org/googlechrome"/><div class="appmeta"><div class="appname">Google Chrome</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="TikTok"><img alt="TikTok" class="appicon" src="https://cdn.simpleicons.org/tiktok"/><div class="appmeta"><div class="appname">TikTok</div><div class="tag">Not connected yet</div></div><input type="checkbox"/></label>
 </div>
-<div class="notice">No passwords or private messages are collected. The next step requests only the permissions supported by each selected platform.</div>
+<div class="notice">No passwords or private messages are collected. Only platforms with an available authorization flow can be connected; unavailable platforms are excluded from scoring.</div>
 <button class="btn primary" onclick="prepareConnections()">Continue to secure connection →</button>
 </div>
 </div>
@@ -255,7 +255,7 @@ body {
 <div class="eyebrow">STEP 3 · CONNECT</div><h2 class="section-title">Authorize your selected platforms.</h2>
 <p class="section-sub">Digital Shield uses the platform's own authorization page. You choose what to allow; Digital Shield only receives the scopes the platform grants.</p>
 <div class="connect-grid" id="connectGrid"></div>
-<div class="notice">Some integrations require developer approval and credentials before live authorization can be enabled. Until then, the interface below remains a realistic preview and does not pretend that data was received.</div>
+<div class="notice">Only connected platforms are included in the analysis. If a platform is unavailable, Digital Shield will clearly leave it unscored rather than inventing data.</div>
 <button class="btn primary" onclick="beginAnalysis()">Continue to analysis →</button>
 </div></div>
 <div class="screen" id="scanScreen">
@@ -264,12 +264,12 @@ body {
 </div>
 </div>
 <div class="screen" id="reportScreen">
-<div class="eyebrow">STEP 4 · YOUR REPORT <span style="float:right;font-size:10px;letter-spacing:.08em;opacity:.7">SOCIAL PROFILE ANALYSIS</span></div><h2 class="section-title">Your digital footprint, decoded.</h2><div class="notice" style="display:inline-block;margin:8px 0 18px">PROJECT DEMO · CONNECTED SIGNALS ARE SIMULATED UNTIL LIVE PLATFORM APIs ARE CONFIGURED</div>
+<div class="eyebrow">STEP 4 · YOUR REPORT <span style="float:right;font-size:10px;letter-spacing:.08em;opacity:.7">SOCIAL PROFILE ANALYSIS</span></div><h2 class="section-title">Your digital footprint, decoded.</h2><div class="notice" style="display:inline-block;margin:8px 0 18px">AUTHORIZED DATA ONLY · NO SCREEN-TIME DATA</div>
 <p class="section-sub">This report shows only signals Digital Shield actually has permission to use. Nothing is invented when a signal is unavailable.</p>
 <div class="reportgrid">
 <div class="panel riskcard">
 <div class="bigscore" id="reportScore">—</div><div class="risklabel" id="reportRiskLabel">AWAITING AUTHORIZED SIGNALS</div>
-<p id="reportSummary" style="color:var(--muted)">Select platforms now; profile and phone-usage signals will be added when the corresponding authorized connection is available.</p>
+<p id="reportSummary" style="color:var(--muted)">Your report is built from authorized platform signals only. Device screen-time is not used.</p>
 <div class="notice" id="coverageNotice">Data coverage: app selection only.</div>
 </div>
 <div class="panel"><h3>Exposure breakdown</h3><div class="bars" id="exposureBars">
@@ -298,8 +298,8 @@ body {
 <h2 id="authTitle" style="margin:10px 0 4px;color:#3D4127">Connect account</h2>
 <p id="authIntro" style="color:var(--muted);font-size:13px;margin-top:0">You are about to authorize Digital Shield.</p>
 <ul class="permission-list" id="permissionList"></ul>
-<div class="notice" id="authNotice">This is the authorization preview. Live platform credentials must be configured before a real token can be issued.</div>
-<div class="modal-actions"><button class="btn" onclick="closeAuthModal()">Cancel</button><button class="btn primary" id="authPrimaryBtn" onclick="simulateAuthorization()">Approve in preview</button></div>
+<div class="notice" id="authNotice">Authorization is handled by the platform. Digital Shield receives only the data the approved scope permits.</div>
+<div class="modal-actions"><button class="btn" onclick="closeAuthModal()">Cancel</button><button class="btn primary" id="authPrimaryBtn">Connect securely</button></div>
 </div></div>
 <div class="screen" id="adminScreen">
 <div class="admin-shell">
@@ -548,16 +548,29 @@ async function goApps(){
   if(error){ alert('Could not save your consent: ' + error.message); return; }
   showScreen('appsScreen',3);
 }
-function prepareConnections(){
+async function prepareConnections(){
   const selected=[...document.querySelectorAll('.appitem input:checked')].map(i=>i.closest('.appitem')?.dataset.app).filter(Boolean);
   if(!selected.length){alert('Select at least one app to include in the scan.');return;}
   window.digitalShieldSelectedApps=selected;
+  const user=window.digitalShieldAuth?.session?.user;
+  const {data:authorizedRows}=user
+    ? await supabaseClient.from('social_signals').select('app_name').eq('user_id',user.id).in('app_name',selected)
+    : {data:[]};
+  const authorized=new Set((authorizedRows||[]).map(r=>r.app_name));
   const grid=document.getElementById('connectGrid');
-  const liveCandidates=new Set(['Instagram','YouTube','Facebook','X','Reddit','LinkedIn','Pinterest','Threads','TikTok']);
   grid.innerHTML=selected.map(name=>{
-    const live=liveCandidates.has(name);
-    const note=name==='YouTube'?'Channel/profile data where the approved YouTube scope permits it':name==='TikTok'?'Basic profile/public-video data only when approved scopes are available':'Profile information available only through the platform approved API scopes';
-    return `<div class="connect-card" data-connect-app="${escapeHtml(name)}"><img alt="${escapeHtml(name)}" class="appicon" src="https://cdn.simpleicons.org/${iconSlug(name)}"/><div class="connect-info"><strong>${escapeHtml(name)}</strong><span>${escapeHtml(note)}</span><em class="connect-status" id="status-${cssId(name)}">Authorization required</em></div><button class="connect-btn" onclick="openAuthModal(decodeURIComponent('${name.replace(' ','%20')}'))">Connect</button></div>`;
+    const live=name==='YouTube';
+    const isAuthorized=authorized.has(name);
+    const note=name==='YouTube'
+      ? 'Read-only channel/profile signals through YouTube OAuth'
+      : 'Live authorization is not configured for this platform yet';
+    const status=isAuthorized?'Authorized · ready to scan':live?'Authorization required':'Unavailable';
+    const button=isAuthorized
+      ? `<button class="connect-btn" disabled style="opacity:.7">Connected</button>`
+      : live
+        ? `<button class="connect-btn" onclick="openAuthModal('${name}')">Connect</button>`
+        : `<button class="connect-btn" disabled style="opacity:.55">Unavailable</button>`;
+    return `<div class="connect-card" data-connect-app="${escapeHtml(name)}"><img alt="${escapeHtml(name)}" class="appicon" src="https://cdn.simpleicons.org/${iconSlug(name)}"/><div class="connect-info"><strong>${escapeHtml(name)}</strong><span>${escapeHtml(note)}</span><em class="connect-status" id="status-${cssId(name)}">${escapeHtml(status)}</em></div>${button}</div>`;
   }).join('');
   showScreen('connectScreen',3);
 }
@@ -565,22 +578,16 @@ function iconSlug(name){return ({'Google Chrome':'googlechrome','Instagram':'ins
 function cssId(name){return name.toLowerCase().replace(/[^a-z0-9]+/g,'-');}
 let authPreviewApp=null;
 function openAuthModal(name){
+  if(name!=='YouTube') return;
   authPreviewApp=name;
-  document.getElementById('authTitle').textContent=`Connect ${name}`;
-  document.getElementById('authIntro').textContent=`Digital Shield is requesting the minimum supported profile permissions for ${name}.`;
+  document.getElementById('authTitle').textContent='Connect YouTube';
+  document.getElementById('authIntro').textContent='Digital Shield is requesting read-only YouTube profile/channel access.';
   const permissions=document.getElementById('permissionList');
-  const items=name==='YouTube'?['Basic account/channel identity','Authorized channel profile information']:name==='TikTok'?['Basic profile information','Public video information where approved']:['Basic profile information','Public profile signals exposed through the approved API'];
-  permissions.innerHTML=items.map(x=>`<li>${escapeHtml(x)}</li>`).join('');
+  permissions.innerHTML=['Basic account/channel identity','Authorized channel profile information'].map(x=>`<li>${escapeHtml(x)}</li>`).join('');
   const primary=document.getElementById('authPrimaryBtn');
-  if(name==='YouTube'){
-    document.getElementById('authNotice').textContent='You will be sent to Google for the actual YouTube permission screen. Digital Shield requests read-only access and stores only derived analysis signals.';
-    primary.textContent='Continue with Google →';
-    primary.onclick=beginYouTubeOAuth;
-  } else {
-    document.getElementById('authNotice').textContent=`Prototype connection: one tap is enough for this project demo. In production, this button is replaced by the platform's official authorization page.`;
-    primary.textContent='Approve in preview';
-    primary.onclick=simulateAuthorization;
-  }
+  document.getElementById('authNotice').textContent='You will be sent to Google for the actual YouTube permission screen. Digital Shield stores only derived analysis signals from the approved connection.';
+  primary.textContent='Continue with Google →';
+  primary.onclick=beginYouTubeOAuth;
   document.getElementById('authModal').classList.add('show');
 }
 function closeAuthModal(){document.getElementById('authModal').classList.remove('show');}
@@ -607,32 +614,6 @@ async function beginYouTubeOAuth(){
     document.getElementById('authNotice').textContent=err?.message||'Could not start YouTube authorization.';
   }
 }
-async function simulateAuthorization(){
-  if(!authPreviewApp)return;
-  const app=authPreviewApp;
-  const id='status-'+cssId(app);
-  const el=document.getElementById(id);
-  if(el){el.textContent='Connected · ready to scan';el.style.background='#dfe7ad';}
-  const card=document.querySelector(`[data-connect-app="${CSS.escape(app)}"]`);
-  const btn=card?.querySelector('.connect-btn'); if(btn){btn.textContent='Connected';btn.disabled=true;btn.style.opacity='.7';}
-  const user=window.digitalShieldAuth?.session?.user;
-  if(user){
-    const seed={
-      Instagram:{public_profile:true,contact_visible:false,location_visible:true,external_link:true,bio_sensitive:false,public_activity:true,weak_privacy_settings:true},
-      YouTube:{public_profile:true,contact_visible:false,location_visible:false,external_link:true,bio_sensitive:false,public_activity:true,weak_privacy_settings:false},
-      Facebook:{public_profile:true,contact_visible:true,location_visible:true,external_link:false,bio_sensitive:false,public_activity:true,weak_privacy_settings:true},
-      Reddit:{public_profile:true,contact_visible:false,location_visible:false,external_link:true,bio_sensitive:true,public_activity:true,weak_privacy_settings:false},
-      LinkedIn:{public_profile:true,contact_visible:false,location_visible:false,external_link:true,bio_sensitive:false,public_activity:true,weak_privacy_settings:false},
-      X:{public_profile:true,contact_visible:false,location_visible:false,external_link:true,bio_sensitive:false,public_activity:true,weak_privacy_settings:true},
-      Pinterest:{public_profile:true,contact_visible:false,location_visible:false,external_link:true,bio_sensitive:false,public_activity:true,weak_privacy_settings:false},
-      Threads:{public_profile:true,contact_visible:false,location_visible:false,external_link:true,bio_sensitive:false,public_activity:true,weak_privacy_settings:true},
-      TikTok:{public_profile:true,contact_visible:false,location_visible:false,external_link:true,bio_sensitive:false,public_activity:true,weak_privacy_settings:true}
-    };
-    const signals=seed[app]||{public_profile:true,contact_visible:false,location_visible:false,external_link:false,bio_sensitive:false,public_activity:true,weak_privacy_settings:false};
-    await supabaseClient.from('social_signals').upsert({user_id:user.id,app_name:app,signals,source:'prototype_authorization',collected_at:new Date().toISOString()},{onConflict:'user_id,app_name'});
-  }
-  closeAuthModal();
-}
 async function beginAnalysis(){
   const user=window.digitalShieldAuth?.session?.user;
   if(!user){alert('Your session has expired. Please sign in again.');showScreen('loginScreen',1);return;}
@@ -640,10 +621,23 @@ async function beginAnalysis(){
   if(!selected.length){showScreen('appsScreen',3);return;}
   const scanButton=document.querySelector('#connectScreen .btn.primary');
   if(scanButton){scanButton.disabled=true;scanButton.textContent='Preparing secure analysis…';}
+  const {data:authorizedRows,error:authorizedError}=await supabaseClient.from('social_signals')
+    .select('app_name')
+    .eq('user_id',user.id)
+    .in('app_name',selected);
+  if(authorizedError){if(scanButton){scanButton.disabled=false;scanButton.textContent='Continue to analysis →';}alert('Could not verify authorized connections: '+authorizedError.message);return;}
+  const authorizedNames=[...new Set((authorizedRows||[]).map(r=>r.app_name))];
+  if(!authorizedNames.length){
+    if(scanButton){scanButton.disabled=false;scanButton.textContent='Continue to analysis →';}
+    alert('Connect at least one supported platform before starting the analysis.');
+    return;
+  }
   const now=new Date().toISOString();
-  const connections=selected.map(app_name=>({user_id:user.id,app_name,permission_status:'authorization_preview',connected_at:now}));
-  const {error}=await supabaseClient.from('app_connections').insert(connections);
-  if(error){if(scanButton){scanButton.disabled=false;scanButton.textContent='Continue to analysis →';}alert('Could not save connection state: '+error.message);return;}
+  for(const app_name of authorizedNames){
+    const {data:existing}=await supabaseClient.from('app_connections').select('id').eq('user_id',user.id).eq('app_name',app_name).limit(1).maybeSingle();
+    if(existing) await supabaseClient.from('app_connections').update({permission_status:'authorized',connected_at:now}).eq('id',existing.id);
+    else await supabaseClient.from('app_connections').insert({user_id:user.id,app_name,permission_status:'authorized',connected_at:now});
+  }
   showScreen('scanScreen',4);
   const lines=['Validating selected permissions…','Checking authorized profile signals…','Separating unavailable data…','Building your privacy report…'];
   let i=0;const el=document.getElementById('scanline');el.textContent=lines[0];
@@ -686,7 +680,17 @@ function renderReport({selected,signals=[],signalError=null}){
   const barKeys=[['Profile exposure',['public_profile','external_link']],['Personal info',['contact_visible','location_visible','bio_sensitive']],['Privacy settings',['weak_privacy_settings']],['Public activity',['public_activity']],['Account security',['weak_privacy_settings']]];
   bars.forEach((row,idx)=>{const keys=barKeys[idx][1];const vals=signals.flatMap(r=>keys.map(k=>r.signals?.[k]===true?1:0));const pct=vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length*100):0;row.querySelector('.fill').style.width=pct+'%';row.querySelector('b').textContent=vals.length?pct+'%':'—';row.classList.toggle('mutedbar',!vals.length);});
   findings.innerHTML=signals.length?signals.map(r=>{const labels=signalLabels(r.signals||{});return `<div class="finding"><b>${escapeHtml(r.app_name)}<span>${labels.length?escapeHtml(labels.join(' · ')):'No flagged exposure signals'}</span></b></div>`}).join(''):`<div class="finding"><b>No connected platform signals<span>Nothing is scored until an authorized source supplies profile data.</span></b></div>`;
-  if(signals.length){platformBox.innerHTML=signals.map(r=>{const n=appSignalScore(r.signals||{});const risk=n>=70?'High':n>=40?'Moderate':'Low';return `<div class="usage-row"><span><strong>${escapeHtml(r.app_name)}</strong><small style="display:block;color:var(--muted);font-size:11px">${risk} exposure</small></span><div class="usagebar"><i style="width:${n}%"></i></div><b>${n}/100</b></div>`}).join('');}else platformBox.innerHTML='<div class="finding"><b>Waiting for connected accounts<span>Platform-level results will appear here after authorization.</span></b></div>';
+  if(signals.length){
+    platformBox.innerHTML=signals.map(r=>{
+      const n=appSignalScore(r.signals||{});
+      const risk=n>=70?'High':n>=40?'Moderate':'Low';
+      const s=r.signals||{};
+      const detail=r.app_name==='YouTube'
+        ? `<small style="display:block;color:var(--muted);font-size:11px">${escapeHtml(s.channel_title||'YouTube channel authorized')} · ${Number(s.video_count||0).toLocaleString()} videos · ${Number(s.view_count||0).toLocaleString()} views · subscribers ${s.subscriber_count_public?'visible':'hidden'}</small>`
+        : `<small style="display:block;color:var(--muted);font-size:11px">${risk} exposure · authorized signals only</small>`;
+      return `<div class="usage-row"><span><strong>${escapeHtml(r.app_name)}</strong>${detail}</span><div class="usagebar"><i style="width:${n}%"></i></div><b>${n}/100</b></div>`;
+    }).join('');
+  }else platformBox.innerHTML='<div class="finding"><b>Waiting for connected accounts<span>Platform-level results will appear here after authorization.</span></b></div>';
   document.getElementById('recommendations').innerHTML=signals.length?`<div class="rec"><strong>01 · Reduce public profile exposure</strong><p>Review public contact details, location information and external links that are not necessary.</p></div><div class="rec"><strong>02 · Review older public activity</strong><p>Remove or limit posts that reveal routines, locations or unnecessary personal information.</p></div><div class="rec"><strong>03 · Tighten privacy settings</strong><p>Use the platform's privacy controls to limit who can discover and interact with your profile.</p></div>`:`<div class="rec"><strong>01 · Connect a supported account</strong><p>Authorize a selected platform so Digital Shield can inspect only the profile signals it permits.</p></div><div class="rec"><strong>02 · Review public information</strong><p>Until signals are available, check what a stranger can see on each selected profile.</p></div><div class="rec"><strong>03 · Keep private data private</strong><p>Digital Shield does not ask for passwords, private messages or private app databases.</p></div>`;
 }
 
