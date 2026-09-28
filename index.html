@@ -227,7 +227,7 @@ body {
 <p class="section-sub">Select the platforms you want to analyze. Only platforms with a verified authorization flow can contribute data to your report.</p>
 <div class="app-toolbar"><div><strong>Choose platforms</strong><span id="appSelectionCount">1 selected</span></div><input id="appSearch" type="search" placeholder="Search platforms…" aria-label="Search platforms"/></div>
 <div class="apps">
-<label class="appitem" data-app="Instagram"><img alt="Instagram" class="appicon" src="https://cdn.simpleicons.org/instagram"/><div class="appmeta"><div class="appname">Instagram</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Instagram"><img alt="Instagram" class="appicon" src="https://cdn.simpleicons.org/instagram"/><div class="appmeta"><div class="appname">Instagram</div><div class="tag">Ready · Instagram Login</div></div><input type="checkbox"/></label>
 <label class="appitem" data-app="YouTube"><img alt="YouTube" class="appicon" src="https://cdn.simpleicons.org/youtube"/><div class="appmeta"><div class="appname">YouTube</div><div class="tag">Ready · Google OAuth</div></div><input checked="" type="checkbox"/></label>
 <label class="appitem" data-app="WhatsApp"><img alt="WhatsApp" class="appicon" src="https://cdn.simpleicons.org/whatsapp"/><div class="appmeta"><div class="appname">WhatsApp</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
 <label class="appitem" data-app="Facebook"><img alt="Facebook" class="appicon" src="https://cdn.simpleicons.org/facebook"/><div class="appmeta"><div class="appname">Facebook</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
@@ -315,6 +315,8 @@ body {
 const SUPABASE_URL = 'https://zmfbphdkrxovpckgwpgh.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Ld88tEQq_qiEzDRuLNY4gQ_lvepSw3U';
 const SPOTIFY_CLIENT_ID = '';
+const INSTAGRAM_APP_ID = '1618889489631028';
+const INSTAGRAM_REDIRECT_URI = 'https://zmfbphdkrxovpckgwpgh.supabase.co/functions/v1/instagram-callback';
 const SPOTIFY_REDIRECT_URI = window.location.origin + window.location.pathname;
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
@@ -338,6 +340,14 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
     }
     return;
   }
+  if(status==='instagram_success'){
+    history.replaceState({},document.title,location.pathname);
+    alert('Instagram connected successfully. Your authorized profile signals are ready for analysis.');
+    const {data}=await supabaseClient.auth.getSession(), landingEl=document.getElementById('landing'), appEl=document.getElementById('app');
+    if(data?.session?.user){window.digitalShieldAuth={event:'SIGNED_IN',session:data.session};landingEl.style.display='none';appEl.classList.add('active');showScreen('connectScreen',3);await prepareConnections();}
+    else{alert('Your session could not be restored. Please sign in again.');landingEl.style.display='none';appEl.classList.add('active');showScreen('loginScreen',1);}
+    return;
+  }
   if(!status)return;
   history.replaceState({},document.title,location.pathname);
   if(status==='youtube_success'){
@@ -347,7 +357,7 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
     else{alert('Your session could not be restored. Please sign in again.');landingEl.style.display='none';appEl.classList.add('active');showScreen('loginScreen',1);}
     return;
   }
-  const messages={youtube_cancelled:'YouTube authorization was cancelled.',youtube_denied:'YouTube authorization was cancelled.',youtube_no_channel:'No YouTube channel was found for this Google account.',youtube_error:message||'YouTube authorization failed. Please try connecting again.'};
+  const messages={instagram_cancelled:'Instagram authorization was cancelled.',instagram_denied:'Instagram authorization was cancelled.',instagram_error:message||'Instagram authorization failed. Please try connecting again.',youtube_cancelled:'YouTube authorization was cancelled.',youtube_denied:'YouTube authorization was cancelled.',youtube_no_channel:'No YouTube channel was found for this Google account.',youtube_error:message||'YouTube authorization failed. Please try connecting again.'};
   if(messages[status])alert(messages[status]);
 })();
 function spotifyReady(){return Boolean(SPOTIFY_CLIENT_ID);}
@@ -568,7 +578,9 @@ async function prepareConnections(){
     const isAuthorized=authorized.has(name);
     const note=name==='YouTube'
       ? 'Read-only channel/profile signals through YouTube OAuth'
-      : 'Setup required is not configured for this platform yet';
+      : name==='Instagram'
+        ? 'Basic professional profile signals through Instagram Login'
+        : 'Setup required is not configured for this platform yet';
     const status=isAuthorized?'Authorized · ready to scan':live?'Authorization required':'Setup required';
     const button=isAuthorized
       ? `<button class="connect-btn" disabled style="opacity:.7">Connected</button>`
@@ -582,12 +594,18 @@ async function prepareConnections(){
 function iconSlug(name){return ({'Google Chrome':'googlechrome','Instagram':'instagram','YouTube':'youtube','WhatsApp':'whatsapp','Facebook':'facebook','Messenger':'messenger','Snapchat':'snapchat','X':'x','Telegram':'telegram','Discord':'discord','Reddit':'reddit','LinkedIn':'linkedin','Pinterest':'pinterest','Spotify':'spotify','Twitch':'twitch','Threads':'threads','Roblox':'roblox','TikTok':'tiktok'})[name]||'circle';}
 function cssId(name){return name.toLowerCase().replace(/[^a-z0-9]+/g,'-');}
 let authPreviewApp=null;
-function isProviderReady(name){return name==='YouTube'||(name==='Spotify'&&spotifyReady());}
+function isProviderReady(name){return name==='YouTube'||name==='Instagram'||(name==='Spotify'&&spotifyReady());}
 function openAuthModal(name){
   if(!isProviderReady(name))return;
   authPreviewApp=name;
   const primary=document.getElementById('authPrimaryBtn'),permissions=document.getElementById('permissionList'),notice=document.getElementById('authNotice');
-  if(name==='Spotify'){
+  if(name==='Instagram'){
+    document.getElementById('authTitle').textContent='Connect Instagram';
+    document.getElementById('authIntro').textContent='Digital Shield is requesting basic read-only profile access through Instagram Login.';
+    permissions.innerHTML=['Basic Instagram professional profile','Public profile metadata permitted by Instagram'].map(x=>'<li>'+escapeHtml(x)+'</li>').join('');
+    notice.textContent='You will be sent to Instagram for the official permission screen. Digital Shield never receives your Instagram password.';
+    primary.textContent='Continue with Instagram →';primary.onclick=beginInstagramOAuth;
+  }else if(name==='Spotify'){
     document.getElementById('authTitle').textContent='Connect Spotify';
     document.getElementById('authIntro').textContent='Digital Shield is requesting read-only Spotify profile and playlist access.';
     permissions.innerHTML=['Basic Spotify profile','Follower count','Playlist visibility and counts'].map(x=>'<li>'+escapeHtml(x)+'</li>').join('');
@@ -603,6 +621,27 @@ function openAuthModal(name){
   document.getElementById('authModal').classList.add('show');
 }
 function closeAuthModal(){document.getElementById('authModal').classList.remove('show');}
+async function beginInstagramOAuth(){
+  const primary=document.getElementById('authPrimaryBtn');
+  if(primary){primary.disabled=true;primary.textContent='Opening secure Instagram authorization…';}
+  try{
+    const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
+    if(sessionError) throw sessionError;
+    const session=sessionData?.session;
+    if(!session?.access_token) throw new Error('Your Digital Shield login session has expired. Please log in again.');
+    const {data,error}=await supabaseClient.functions.invoke('instagram-start',{
+      headers:{ Authorization:`Bearer ${session.access_token}` }
+    });
+    if(error) throw error;
+    if(!data?.url) throw new Error(data?.error||'Instagram authorization is not configured yet.');
+    window.location.href=data.url;
+  }catch(err){
+    console.error('instagram-start error:',err);
+    if(primary){primary.disabled=false;primary.textContent='Continue with Instagram →';}
+    document.getElementById('authNotice').textContent=err?.message||'Could not start Instagram authorization.';
+  }
+}
+
 async function beginYouTubeOAuth(){
   const primary=document.getElementById('authPrimaryBtn');
   if(primary){primary.disabled=true;primary.textContent='Opening secure Google authorization…';}
@@ -699,6 +738,8 @@ function renderReport({selected,signals=[],signalError=null}){
       const s=r.signals||{};
       const detail=r.app_name==='YouTube'
         ? `<small style="display:block;color:var(--muted);font-size:11px">${escapeHtml(s.channel_title||'YouTube channel authorized')} · ${Number(s.video_count||0).toLocaleString()} videos · ${Number(s.view_count||0).toLocaleString()} views · subscribers ${s.subscriber_count_public?'visible':'hidden'}</small>`
+        : r.app_name==='Instagram'
+          ? `<small style="display:block;color:var(--muted);font-size:11px">${escapeHtml(s.username||'Instagram professional profile')} · ${Number(s.media_count||0).toLocaleString()} public media · followers ${Number(s.follower_count||0).toLocaleString()}</small>`
         : r.app_name==='Spotify'
           ? `<small style="display:block;color:var(--muted);font-size:11px">${escapeHtml(s.display_name||'Spotify profile')} · ${Number(s.follower_count||0).toLocaleString()} followers · ${Number(s.public_playlist_count||0).toLocaleString()} public playlists · ${Number(s.playlist_count||0).toLocaleString()} playlists available</small>`
           : `<small style="display:block;color:var(--muted);font-size:11px">${risk} exposure · authorized signals only</small>`;
