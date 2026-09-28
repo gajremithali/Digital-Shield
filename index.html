@@ -373,8 +373,17 @@ async function completeSpotifyOAuth(code,state){
   const savedState=sessionStorage.getItem('ds_spotify_state'),verifier=sessionStorage.getItem('ds_spotify_verifier'),started=Number(sessionStorage.getItem('ds_spotify_started_at')||0);
   if(!savedState||state!==savedState)throw new Error('Spotify authorization state could not be verified.');
   if(!verifier||started&&Date.now()-started>10*60*1000)throw new Error('Spotify authorization session expired. Please connect again.');
-  const token=await spotifyTokenFromCode(code,verifier),profile=await spotifyApi(token.access_token,'/me'),playlists=await spotifyApi(token.access_token,'/me/playlists?limit=50'),items=Array.isArray(playlists?.items)?playlists.items:[];
-  const signals={public_profile:true,contact_visible:false,location_visible:false,external_link:Boolean(profile?.external_urls?.spotify),bio_sensitive:false,public_activity:Number(playlists?.total||0)>0,weak_privacy_settings:false,display_name:profile?.display_name||'Spotify profile',follower_count:Number(profile?.followers?.total||0),playlist_count:Number(playlists?.total||0),public_playlist_count:items.filter(p=>p?.public===true).length};
+  const token=await spotifyTokenFromCode(code,verifier),profile=await spotifyApi(token.access_token,'/me');
+  let playlistTotal=0,publicPlaylistCount=0,offset=0;
+  do{
+    const page=await spotifyApi(token.access_token,'/me/playlists?limit=50&offset='+offset);
+    const items=Array.isArray(page?.items)?page.items:[];
+    playlistTotal=Number(page?.total||playlistTotal);
+    publicPlaylistCount+=items.filter(p=>p?.public===true).length;
+    offset+=items.length;
+    if(!items.length || offset>=playlistTotal)break;
+  }while(offset<200);
+  const signals={public_profile:true,contact_visible:false,location_visible:false,external_link:Boolean(profile?.external_urls?.spotify),bio_sensitive:false,public_activity:playlistTotal>0,weak_privacy_settings:false,display_name:profile?.display_name||'Spotify profile',follower_count:Number(profile?.followers?.total||0),playlist_count:playlistTotal,public_playlist_count:publicPlaylistCount};
   const {data:sessionData}=await supabaseClient.auth.getSession(),user=sessionData?.session?.user;if(!user)throw new Error('Your Digital Shield login session has expired.');
   const {error:deleteError}=await supabaseClient.from('social_signals').delete().eq('user_id',user.id).eq('app_name','Spotify');if(deleteError)throw deleteError;
   const {error:signalError}=await supabaseClient.from('social_signals').insert({user_id:user.id,app_name:'Spotify',signals,source:'spotify_api',collected_at:new Date().toISOString()});if(signalError)throw signalError;
