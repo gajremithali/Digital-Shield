@@ -264,12 +264,12 @@ body {
 </div>
 </div>
 <div class="screen" id="reportScreen">
-<div class="eyebrow">STEP 4 · YOUR REPORT <span style="float:right;font-size:10px;letter-spacing:.08em;opacity:.7">SOCIAL PROFILE ANALYSIS</span></div><h2 class="section-title">Your digital footprint, decoded.</h2><div class="notice" style="display:inline-block;margin:8px 0 18px">AUTHORIZED DATA ONLY · NO SCREEN-TIME DATA</div>
+<div class="eyebrow">STEP 4 · YOUR REPORT <span style="float:right;font-size:10px;letter-spacing:.08em;opacity:.7">SOCIAL PROFILE ANALYSIS</span></div><h2 class="section-title">Your digital footprint, decoded.</h2>
 <p class="section-sub">This report shows only signals Digital Shield actually has permission to use. Nothing is invented when a signal is unavailable.</p>
 <div class="reportgrid">
 <div class="panel riskcard">
 <div class="bigscore" id="reportScore">—</div><div class="risklabel" id="reportRiskLabel">AWAITING AUTHORIZED SIGNALS</div>
-<p id="reportSummary" style="color:var(--muted)">Your report is built from authorized platform signals only. Device screen-time is not used.</p>
+<p id="reportSummary" style="color:var(--muted)">Your report is built from authorized platform signals only.</p>
 <div class="notice" id="coverageNotice">Data coverage: app selection only.</div>
 </div>
 <div class="panel"><h3>Exposure breakdown</h3><div class="bars" id="exposureBars">
@@ -284,7 +284,7 @@ body {
 <div class="finding"><b>Waiting for public-activity signals<span>No public activity has been inspected yet.</span></b></div>
 <div class="finding"><b>Waiting for account-security signals<span>No security signal has been supplied yet.</span></b></div>
 </div></div>
-<div class="panel" style="margin-top:16px"><h3>📊 Platform findings</h3><p style="color:var(--muted);font-size:13px">A platform is scored only from the profile signals Digital Shield has received for that platform. Device screen-time is not part of this report.</p>
+<div class="panel" style="margin-top:16px"><h3>📊 Platform findings</h3><p style="color:var(--muted);font-size:13px">A platform is scored only from the profile signals Digital Shield has received for that platform.</p>
 <div class="usage" id="usageList"><div class="finding"><b>Waiting for authorized profile data<span>Connect a supported social account to populate platform findings.</span></b></div></div></div>
 <div class="panel" style="margin-top:16px"><h3>🎯 Your action plan</h3><div class="recommend" id="recommendations">
 <div class="rec"><strong>01 · Review public details</strong><p>When profile data becomes available, review details that do not need to be public.</p></div>
@@ -674,7 +674,7 @@ function renderReport({selected,signals=[],signalError=null}){
   const exposureScore=calculateExposureScore(signals);
   if(exposureScore!==null){score.textContent=String(exposureScore);label.textContent=exposureScore>=70?'HIGH EXPOSURE':exposureScore>=40?'MODERATE EXPOSURE':'LOW EXPOSURE';label.style.color=exposureScore>=70?'var(--danger)':exposureScore>=40?'var(--warn)':'var(--good)';}
   else {score.textContent='—';label.textContent='AWAITING AUTHORIZED SIGNALS';label.style.color='var(--muted)';}
-  if(exposureScore!==null){notice.textContent=`Data coverage: ${signals.length} connected platform signal record${signals.length===1?'':'s'} · ${selected.length} selected app${selected.length===1?'':'s'}.`;summary.textContent='Your exposure score is calculated from the connected social-profile signals available to Digital Shield. Device screen-time is not used.';}
+  if(exposureScore!==null){notice.textContent=`Data coverage: ${signals.length} connected platform signal record${signals.length===1?'':'s'} · ${selected.length} selected app${selected.length===1?'':'s'}.`;summary.textContent='Your exposure score is calculated from the connected social-profile signals available to Digital Shield.';}
   else {notice.textContent=`Data coverage: ${selected.length} selected app${selected.length===1?'':'s'} · waiting for authorized profile signals.`;summary.textContent='Your selection is saved. Connect supported social accounts to calculate an exposure score from the signals those platforms permit.';}
   const bars=document.querySelectorAll('#exposureBars .barrow');
   const barKeys=[['Profile exposure',['public_profile','external_link']],['Personal info',['contact_visible','location_visible','bio_sensitive']],['Privacy settings',['weak_privacy_settings']],['Public activity',['public_activity']],['Account security',['weak_privacy_settings']]];
