@@ -317,17 +317,58 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
   auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
 });
 
-(function handleOAuthReturn(){
+(async function handleOAuthReturn(){
   const params = new URLSearchParams(location.search);
   const status = params.get('oauth');
   const message = params.get('message');
 
   if (!status) return;
 
-  const messages = {
-    youtube_success:
-      'YouTube connected successfully. Your authorized profile signals are ready for analysis.',
+  // Remove OAuth parameters from the URL immediately.
+  history.replaceState(
+    {},
+    document.title,
+    location.pathname
+  );
 
+  if (status === 'youtube_success') {
+    alert(
+      'YouTube connected successfully. Your authorized profile signals are ready for analysis.'
+    );
+
+    // Restore the authenticated application after OAuth redirect.
+    const { data } = await supabaseClient.auth.getSession();
+
+    if (data?.session?.user) {
+      window.digitalShieldAuth = {
+        event: 'SIGNED_IN',
+        session: data.session
+      };
+
+      landing.style.display = 'none';
+      app.classList.add('active');
+
+      // Return directly to the connection screen.
+      showScreen('connectScreen', 3);
+
+      // Rebuild the connection cards.
+      if (typeof prepareConnections === 'function') {
+        prepareConnections();
+      }
+    } else {
+      alert(
+        'Your session could not be restored. Please sign in again.'
+      );
+
+      landing.style.display = 'none';
+      app.classList.add('active');
+      showScreen('loginScreen', 1);
+    }
+
+    return;
+  }
+
+  const messages = {
     youtube_cancelled:
       'YouTube authorization was cancelled.',
 
@@ -342,17 +383,9 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
       'YouTube authorization failed. Please try connecting again.'
   };
 
-  setTimeout(() => {
-    if (messages[status]) {
-      alert(messages[status]);
-    }
-  }, 300);
-
-  history.replaceState(
-    {},
-    document.title,
-    location.pathname
-  );
+  if (messages[status]) {
+    alert(messages[status]);
+  }
 })();
 async function realSignUp(email, password) {
   const { data, error } = await supabaseClient.auth.signUp({ email, password });
