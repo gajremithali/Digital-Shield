@@ -131,6 +131,77 @@ body {
 }
 .footer { border-color:#8C965866; color:#4F582B; }
 
+
+/* Digital Shield v2 report — visual audit dashboard */
+.report-v2{margin-top:24px}
+.report-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:stretch}
+.report-score-card{position:relative;overflow:hidden;padding:28px;border-radius:28px;background:linear-gradient(135deg,#3D4127 0%,#596331 58%,#BAC095 150%);color:#F9FBE9;border:1px solid #3D4127;box-shadow:0 24px 60px #3D412722}
+.report-score-card:after{content:"";position:absolute;width:220px;height:220px;border:1px solid #EEF2C955;border-radius:50%;right:-75px;top:-80px}
+.report-score-top{display:flex;justify-content:space-between;gap:12px;align-items:center;position:relative;z-index:1}
+.report-kicker{font-size:11px;letter-spacing:.14em;font-weight:900;color:#D4DE95}
+.report-date{font-size:11px;color:#EEF2C9aa}
+.report-score-main{display:flex;align-items:flex-end;gap:14px;margin:28px 0 14px;position:relative;z-index:1}
+.report-score-main .bigscore{font-size:94px;line-height:.82;color:#F9FBE9}
+.report-score-denom{font-size:14px;color:#D4DE95;padding-bottom:7px}
+.report-risk-chip{display:inline-flex;padding:7px 10px;border-radius:999px;background:#EEF2C91c;border:1px solid #EEF2C955;font-size:11px;font-weight:900;letter-spacing:.06em}
+.report-score-copy{max-width:570px;color:#EEF2C9d9;font-size:13px;margin:15px 0 0;position:relative;z-index:1}
+.report-coverage{margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1}
+.report-coverage span{font-size:10px;padding:6px 9px;border-radius:999px;background:#EEF2C912;border:1px solid #EEF2C944;color:#EEF2C9}
+.report-snapshot{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.report-stat{padding:20px;border:1px solid #8C9658;border-radius:20px;background:#F9FBE9;box-shadow:0 10px 30px #3D41270c}
+.report-stat small{display:block;color:#4F582B;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em}
+.report-stat strong{display:block;font-size:30px;line-height:1.1;margin:8px 0 4px;color:#3D4127}
+.report-stat span{font-size:11px;color:#4F582B}
+.report-section{margin-top:18px;padding:23px;border:1px solid #8C9658;border-radius:22px;background:#F9FBE9;box-shadow:0 10px 35px #3D41270a}
+.report-section-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;margin-bottom:17px}
+.report-section-head h3{margin:0;color:#3D4127;font-size:18px}
+.report-section-head p{margin:4px 0 0;color:#4F582B;font-size:12px}
+.report-badge{font-size:10px;font-weight:900;padding:6px 9px;border-radius:999px;background:#E5E9B8;border:1px solid #8C9658;color:#3D4127;white-space:nowrap}
+.exposure-layout{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+.exposure-row{display:grid;grid-template-columns:145px 1fr 45px;gap:10px;align-items:center;margin:13px 0;font-size:12px}
+.exposure-row .bar{height:10px}
+.exposure-row b{text-align:right;color:#3D4127}
+.exposure-note{padding:15px;border-radius:16px;background:#EEF2C9;border:1px solid #8C965866;font-size:12px;color:#4F582B}
+.exposure-note strong{display:block;color:#3D4127;margin-bottom:5px}
+.footprint-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.footprint-item{padding:17px;border:1px solid #8C965866;border-radius:17px;background:#EEF2C9}
+.footprint-item .mini-icon{font-size:20px}
+.footprint-item strong{display:block;color:#3D4127;margin-top:8px}
+.footprint-item p{font-size:11px;color:#4F582B;margin:4px 0 0}
+.footprint-value{font-size:22px;font-weight:900;color:#3D4127;margin-top:7px}
+.platform-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.platform-card{padding:17px;border:1px solid #8C965866;border-radius:18px;background:#EEF2C9}
+.platform-card-head{display:flex;align-items:center;gap:10px}
+.platform-card-head img{width:34px;height:34px;background:#fff;padding:5px;border-radius:9px}
+.platform-card-head strong{color:#3D4127}
+.platform-card-head span{display:block;color:#4F582B;font-size:10px;margin-top:2px}
+.platform-risk{margin-left:auto;font-size:10px;font-weight:900;padding:5px 8px;border-radius:999px;background:#F9FBE9;border:1px solid #8C9658}
+.platform-bar{height:7px;background:#D4DE95;border-radius:10px;overflow:hidden;margin:13px 0 8px}
+.platform-bar i{display:block;height:100%;border-radius:10px;background:linear-gradient(90deg,#3D4127,#BAC095)}
+.platform-detail{font-size:11px;color:#4F582B;line-height:1.55}
+.data-list{display:grid;gap:9px}
+.data-row{display:flex;justify-content:space-between;gap:18px;padding:10px 0;border-bottom:1px solid #8C965833;font-size:12px}
+.data-row:last-child{border-bottom:0}
+.data-row span{color:#4F582B}
+.data-row b{color:#3D4127;text-align:right}
+.timeline{position:relative;padding-left:22px}
+.timeline:before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:2px;background:#BAC095}
+.timeline-item{position:relative;padding:0 0 16px 16px}
+.timeline-item:before{content:"";position:absolute;left:-1px;top:5px;width:10px;height:10px;border-radius:50%;background:#3D4127;border:3px solid #D4DE95}
+.timeline-item strong{font-size:12px;color:#3D4127}
+.timeline-item p{margin:2px 0 0;font-size:11px;color:#4F582B}
+.recommend-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.report-rec{padding:17px;border-radius:18px;border:1px solid #8C9658;background:#E5E9B8}
+.report-rec .num{font-size:10px;font-weight:900;color:#636B2F}
+.report-rec strong{display:block;color:#3D4127;margin:6px 0}
+.report-rec p{font-size:11px;color:#4F582B;margin:0}
+.limited-box{padding:17px;border-radius:17px;border:1px dashed #8C9658;background:#EEF2C9}
+.limited-box strong{display:block;color:#3D4127;margin-bottom:4px}
+.limited-box p{margin:0;color:#4F582B;font-size:11px;line-height:1.6}
+.report-empty{padding:24px;text-align:center;border:1px dashed #8C9658;border-radius:16px;background:#EEF2C9;color:#4F582B;font-size:12px}
+@media(max-width:850px){.report-hero,.exposure-layout{grid-template-columns:1fr}.footprint-grid{grid-template-columns:1fr 1fr}.platform-grid{grid-template-columns:1fr}.recommend-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.report-snapshot,.footprint-grid{grid-template-columns:1fr}.report-score-main .bigscore{font-size:76px}.exposure-row{grid-template-columns:110px 1fr 40px}.report-section{padding:17px}}
+
 .admin-shell{max-width:1120px;margin:0 auto;padding:26px 0 50px}.admin-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:22px}.admin-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}.admin-kpi{padding:18px;border:1px solid var(--line);border-radius:16px;background:#BAC095}.admin-kpi .num{font-size:30px;font-weight:800;color:#3D4127}.admin-kpi .label{font-size:12px;color:#3D4127;margin-top:5px}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.admin-card{padding:20px;border:1px solid var(--line);border-radius:16px;background:#BAC095}.admin-card h3{margin:0 0 14px;color:#3D4127}.admin-table{width:100%;border-collapse:collapse;font-size:13px}.admin-table th,.admin-table td{text-align:left;padding:9px 7px;border-bottom:1px solid rgba(61,65,39,.18);color:#3D4127}.admin-table th{font-size:11px;text-transform:uppercase;letter-spacing:.06em}.admin-badge{display:inline-flex;align-items:center;padding:10px 12px;border-radius:999px;background:#D4DE95;border:1px solid #636B2F;color:#3D4127;font-size:11px;font-weight:800}.admin-actions{display:flex;gap:10px;flex-wrap:wrap}.admin-loading{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:#EEF2C9;color:#3D4127;margin-bottom:16px}.admin-error{padding:14px;border:1px solid #8b3a3a;border-radius:12px;background:#f5d9d9;color:#6b2020}@media(max-width:850px){.admin-kpis{grid-template-columns:repeat(2,1fr)}.admin-grid{grid-template-columns:1fr}}@media(max-width:520px){.admin-kpis{grid-template-columns:1fr}}
 <style>
 .data-pill{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:#E5E9B8;border:1px solid #8C9658;font-size:11px;font-weight:800;color:#3D4127}.mutedbar{opacity:.45}.report-muted{color:#4F582B}
@@ -265,35 +336,94 @@ body {
 </div>
 </div>
 <div class="screen" id="reportScreen">
-<div class="eyebrow">STEP 4 · YOUR REPORT <span style="float:right;font-size:10px;letter-spacing:.08em;opacity:.7">SOCIAL PROFILE ANALYSIS</span></div><h2 class="section-title">Your digital footprint, decoded.</h2>
-<p class="section-sub">This report shows only signals Digital Shield actually has permission to use. Nothing is invented when a signal is unavailable.</p>
-<div class="reportgrid">
-<div class="panel riskcard">
-<div class="bigscore" id="reportScore">—</div><div class="risklabel" id="reportRiskLabel">AWAITING AUTHORIZED SIGNALS</div>
-<p id="reportSummary" style="color:var(--muted)">Your report is built from authorized platform signals only.</p>
-<div class="notice" id="coverageNotice">Data coverage: app selection only.</div>
+<div class="eyebrow">STEP 4 · DIGITAL FOOTPRINT AUDIT <span style="float:right;font-size:10px;letter-spacing:.08em;opacity:.7">AUTHORIZED DATA ONLY</span></div>
+<h2 class="section-title">Your digital trail, mapped clearly.</h2>
+<p class="section-sub">A visual audit of the footprint signals Digital Shield can legitimately access. Available data is shown in detail; unavailable private data is never guessed.</p>
+
+<div class="report-v2">
+  <div class="report-hero">
+    <div class="report-score-card">
+      <div class="report-score-top"><span class="report-kicker">OVERALL EXPOSURE</span><span class="report-date" id="reportGeneratedAt">LIVE ANALYSIS</span></div>
+      <div class="report-score-main"><div class="bigscore" id="reportScore">—</div><div class="report-score-denom">/ 100<br>exposure</div></div>
+      <div class="report-risk-chip" id="reportRiskLabel">AWAITING AUTHORIZED SIGNALS</div>
+      <p class="report-score-copy" id="reportSummary">Your report is built from authorized platform signals only.</p>
+      <div class="report-coverage" id="reportCoverage"><span>Waiting for data</span></div>
+    </div>
+    <div class="report-snapshot">
+      <div class="report-stat"><small>Connected apps</small><strong id="metricApps">—</strong><span>authorized sources included</span></div>
+      <div class="report-stat"><small>Footprint signals</small><strong id="metricSignals">—</strong><span>signals actually received</span></div>
+      <div class="report-stat"><small>Public content</small><strong id="metricContent">—</strong><span>items reported by connected platforms</span></div>
+      <div class="report-stat"><small>Data span</small><strong id="metricSpan">—</strong><span>earliest → latest available activity</span></div>
+    </div>
+  </div>
+
+  <section class="report-section">
+    <div class="report-section-head"><div><h3>01 · Exposure map</h3><p>Which parts of your digital identity are easiest to discover?</p></div><span class="report-badge">RISK MODEL</span></div>
+    <div class="exposure-layout">
+      <div id="exposureMap">
+        <div class="exposure-row"><span>Profile exposure</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
+        <div class="exposure-row"><span>Personal information</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
+        <div class="exposure-row"><span>Privacy controls</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
+        <div class="exposure-row"><span>Public activity</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
+        <div class="exposure-row"><span>External links</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
+      </div>
+      <div class="exposure-note" id="exposureInterpretation"><strong>What this means</strong>Connect a supported account to generate an evidence-based exposure interpretation.</div>
+    </div>
+  </section>
+
+  <section class="report-section">
+    <div class="report-section-head"><div><h3>02 · Footprint snapshot</h3><p>The visible traces that contribute to your public digital identity.</p></div><span class="report-badge">DISCOVER</span></div>
+    <div class="footprint-grid" id="footprintGrid">
+      <div class="footprint-item"><div class="mini-icon">👤</div><strong>Profile identity</strong><div class="footprint-value">—</div><p>Public identity signals</p></div>
+      <div class="footprint-item"><div class="mini-icon">🎬</div><strong>Content</strong><div class="footprint-value">—</div><p>Public content detected</p></div>
+      <div class="footprint-item"><div class="mini-icon">🔗</div><strong>External links</strong><div class="footprint-value">—</div><p>Links leaving the platform</p></div>
+    </div>
+  </section>
+
+  <section class="report-section">
+    <div class="report-section-head"><div><h3>03 · Content & activity footprint</h3><p>Available content, engagement and time-span evidence—not private watch history.</p></div><span class="report-badge">ACTIVITY</span></div>
+    <div class="data-list" id="activityData">
+      <div class="data-row"><span>Uploaded/public content</span><b>—</b></div>
+      <div class="data-row"><span>Engagement signals</span><b>—</b></div>
+      <div class="data-row"><span>Subscriptions / follows</span><b>—</b></div>
+      <div class="data-row"><span>Earliest available activity</span><b>—</b></div>
+      <div class="data-row"><span>Latest available activity</span><b>—</b></div>
+    </div>
+    <div class="timeline" id="activityTimeline" style="margin-top:18px"></div>
+  </section>
+
+  <section class="report-section">
+    <div class="report-section-head"><div><h3>04 · Interest footprint</h3><p>Broad topics inferred only from content metadata that the connected API provides.</p></div><span class="report-badge">INFERENCE</span></div>
+    <div class="footprint-grid" id="interestGrid">
+      <div class="footprint-item"><div class="mini-icon">🧭</div><strong>Interest profile</strong><div class="footprint-value">Limited</div><p>More authorized content metadata is required for topic inference.</p></div>
+    </div>
+  </section>
+
+  <section class="report-section">
+    <div class="report-section-head"><div><h3>05 · Platform findings</h3><p>Per-platform evidence and exposure contribution.</p></div><span class="report-badge">SOURCE BREAKDOWN</span></div>
+    <div class="platform-grid" id="platformGrid"></div>
+  </section>
+
+  <section class="report-section">
+    <div class="report-section-head"><div><h3>06 · What a stranger could learn</h3><p>Translate technical signals into real-world digital-footprint consequences.</p></div><span class="report-badge">AWARENESS</span></div>
+    <div class="footprint-grid" id="strangerGrid"></div>
+  </section>
+
+  <section class="report-section">
+    <div class="report-section-head"><div><h3>07 · Your action plan</h3><p>Practical improvements based on the evidence detected in this scan.</p></div><span class="report-badge">PERSONALIZED</span></div>
+    <div class="recommend-grid" id="recommendations"></div>
+  </section>
+
+  <section class="report-section">
+    <div class="report-section-head"><div><h3>Data boundaries</h3><p>Transparency about what this scan can and cannot see.</p></div><span class="report-badge">PRIVACY</span></div>
+    <div class="limited-box" id="dataBoundaries">
+      <strong>Watch history & exact personal screen time</strong>
+      <p>These are not claimed unless an authorized source actually supplies them. YouTube's current API explicitly does not allow watch-history playlist retrieval, so Digital Shield will show this as unavailable rather than inventing a timeline.</p>
+    </div>
+  </section>
 </div>
-<div class="panel"><h3>Exposure breakdown</h3><div class="bars" id="exposureBars">
-<div class="barrow"><span>Profile exposure</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
-<div class="barrow"><span>Personal info</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
-<div class="barrow"><span>Privacy settings</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
-<div class="barrow"><span>Public activity</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
-<div class="barrow"><span>Account security</span><div class="bar"><div class="fill" style="width:0%"></div></div><b>—</b></div>
-</div></div></div>
-<div class="panel" style="margin-top:16px"><h3>🔎 Exposure signals</h3><div id="findingsList">
-<div class="finding"><b>Waiting for profile authorization<span>No profile-level exposure has been measured yet.</span></b></div>
-<div class="finding"><b>Waiting for public-activity signals<span>No public activity has been inspected yet.</span></b></div>
-<div class="finding"><b>Waiting for account-security signals<span>No security signal has been supplied yet.</span></b></div>
-</div></div>
-<div class="panel" style="margin-top:16px"><h3>📊 Platform findings</h3><p style="color:var(--muted);font-size:13px">A platform is scored only from the profile signals Digital Shield has received for that platform.</p>
-<div class="usage" id="usageList"><div class="finding"><b>Waiting for authorized profile data<span>Connect a supported social account to populate platform findings.</span></b></div></div></div>
-<div class="panel" style="margin-top:16px"><h3>🎯 Your action plan</h3><div class="recommend" id="recommendations">
-<div class="rec"><strong>01 · Review public details</strong><p>When profile data becomes available, review details that do not need to be public.</p></div>
-<div class="rec"><strong>02 · Check older posts</strong><p>Look for public content that reveals locations, routines or unnecessary personal details.</p></div>
-<div class="rec"><strong>03 · Authorize social accounts</strong><p>Authorize the selected social platforms so Digital Shield can analyze permitted profile signals.</p></div>
-</div></div>
-<div class="panel" style="margin-top:16px"><h3>🛡️ Data status</h3><p style="color:var(--muted);font-size:13px;margin-bottom:0">Digital Shield does not claim to have inspected private messages, passwords or private app databases. The report grows only when an authorized source supplies a signal.</p></div>
-</div><div class="auth-modal" id="authModal">
+</div>
+<div class="auth-modal" id="authModal">
 <div class="auth-card">
 <div class="auth-brand">DIGITAL SHIELD</div>
 <h2 id="authTitle" style="margin:10px 0 4px;color:#3D4127">Connect account</h2>
@@ -721,32 +851,127 @@ function signalLabels(sig){
   const labels=[]; if(sig.public_profile) labels.push('public profile'); if(sig.contact_visible) labels.push('contact visible'); if(sig.location_visible) labels.push('location visible'); if(sig.external_link) labels.push('external link'); if(sig.bio_sensitive) labels.push('sensitive bio'); if(sig.public_activity) labels.push('public activity'); if(sig.weak_privacy_settings) labels.push('privacy settings to review'); return labels;
 }
 function renderReport({selected,signals=[],signalError=null}){
-  const score=document.getElementById('reportScore'), label=document.getElementById('reportRiskLabel'), summary=document.getElementById('reportSummary'), notice=document.getElementById('coverageNotice'), findings=document.getElementById('findingsList'), platformBox=document.getElementById('usageList');
-  const exposureScore=calculateExposureScore(signals);
-  if(exposureScore!==null){score.textContent=String(exposureScore);label.textContent=exposureScore>=70?'HIGH EXPOSURE':exposureScore>=40?'MODERATE EXPOSURE':'LOW EXPOSURE';label.style.color=exposureScore>=70?'var(--danger)':exposureScore>=40?'var(--warn)':'var(--good)';}
-  else {score.textContent='—';label.textContent='AWAITING AUTHORIZED SIGNALS';label.style.color='var(--muted)';}
-  if(exposureScore!==null){notice.textContent=`Data coverage: ${signals.length} connected platform signal record${signals.length===1?'':'s'} · ${selected.length} selected app${selected.length===1?'':'s'}.`;summary.textContent='Your exposure score is calculated from the connected social-profile signals available to Digital Shield.';}
-  else {notice.textContent=`Data coverage: ${selected.length} selected app${selected.length===1?'':'s'} · waiting for authorized profile signals.`;summary.textContent='Your selection is saved. Connect supported social accounts to calculate an exposure score from the signals those platforms permit.';}
-  const bars=document.querySelectorAll('#exposureBars .barrow');
-  const barKeys=[['Profile exposure',['public_profile','external_link']],['Personal info',['contact_visible','location_visible','bio_sensitive']],['Privacy settings',['weak_privacy_settings']],['Public activity',['public_activity']],['Account security',['weak_privacy_settings']]];
-  bars.forEach((row,idx)=>{const keys=barKeys[idx][1];const vals=signals.flatMap(r=>keys.map(k=>r.signals?.[k]===true?1:0));const pct=vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length*100):0;row.querySelector('.fill').style.width=pct+'%';row.querySelector('b').textContent=vals.length?pct+'%':'—';row.classList.toggle('mutedbar',!vals.length);});
-  findings.innerHTML=signals.length?signals.map(r=>{const labels=signalLabels(r.signals||{});return `<div class="finding"><b>${escapeHtml(r.app_name)}<span>${labels.length?escapeHtml(labels.join(' · ')):'No flagged exposure signals'}</span></b></div>`}).join(''):`<div class="finding"><b>No connected platform signals<span>Nothing is scored until an authorized source supplies profile data.</span></b></div>`;
-  if(signals.length){
-    platformBox.innerHTML=signals.map(r=>{
-      const n=appSignalScore(r.signals||{});
-      const risk=n>=70?'High':n>=40?'Moderate':'Low';
-      const s=r.signals||{};
-      const detail=r.app_name==='YouTube'
-        ? `<small style="display:block;color:var(--muted);font-size:11px">${escapeHtml(s.channel_title||'YouTube channel authorized')} · ${Number(s.video_count||0).toLocaleString()} videos · ${Number(s.view_count||0).toLocaleString()} views · subscribers ${s.subscriber_count_public?'visible':'hidden'}</small>`
+  const latest=new Map();
+  (signals||[]).forEach(r=>{if(!latest.has(r.app_name)) latest.set(r.app_name,r);});
+  const rows=[...latest.values()];
+  const all=rows.map(r=>r.signals||{});
+  const n=(key)=>all.reduce((sum,s)=>sum+(Number(s[key])||0),0);
+  const boolCount=(key)=>all.filter(s=>s[key]===true).length;
+  const firstDefined=(keys)=>{for(const s of all){for(const k of keys){if(s[k]!==undefined&&s[k]!==null&&s[k]!=='')return s[k];}}return null;};
+  const nums=(keys)=>all.flatMap(s=>keys.map(k=>Number(s[k])||0)).filter(v=>v>0);
+  const totalContent=rows.reduce((sum,r)=>sum+Number((r.signals||{}).video_count||(r.signals||{}).media_count||(r.signals||{}).public_content_count||0),0);
+  const exposureKeys={public_profile:18,contact_visible:18,location_visible:12,external_link:10,bio_sensitive:12,public_activity:12,weak_privacy_settings:18};
+  let riskTotal=0,riskMax=0;
+  rows.forEach(r=>{for(const [k,w] of Object.entries(exposureKeys)){riskMax+=w;if(r.signals?.[k]===true)riskTotal+=w;}});
+  const exposureScore=riskMax?Math.round(riskTotal/riskMax*100):null;
+  const scoreEl=document.getElementById('reportScore'),label=document.getElementById('reportRiskLabel');
+  if(exposureScore!==null){
+    scoreEl.textContent=String(exposureScore);
+    label.textContent=exposureScore>=70?'HIGH EXPOSURE':exposureScore>=40?'MODERATE EXPOSURE':'LOW EXPOSURE';
+  }else{scoreEl.textContent='—';label.textContent='AWAITING AUTHORIZED SIGNALS';}
+  document.getElementById('reportGeneratedAt').textContent='ANALYZED · '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  document.getElementById('reportSummary').textContent=exposureScore===null
+    ? 'Connect a supported platform to turn authorized signals into an evidence-based digital-footprint audit.'
+    : exposureScore>=70?'Several public-facing signals increase discoverability. Review the highest-impact items below first.'
+    : exposureScore>=40?'Your footprint has a moderate public surface. A few targeted privacy changes can reduce unnecessary exposure.'
+    :'Your currently detected public footprint is relatively limited. Keep reviewing new public activity as it changes.';
+  document.getElementById('reportCoverage').innerHTML=rows.length
+    ? rows.map(r=>'<span>'+escapeHtml(r.app_name)+' · '+escapeHtml(r.source||'authorized source')+'</span>').join('')
+    : '<span>No authorized source data yet</span>';
+  document.getElementById('metricApps').textContent=rows.length;
+  const signalCount=all.reduce((sum,s)=>sum+Object.keys(s).length,0);
+  document.getElementById('metricSignals').textContent=signalCount||'—';
+  document.getElementById('metricContent').textContent=totalContent?totalContent.toLocaleString():'—';
+
+  const dates=all.flatMap(s=>[s.earliest_activity,s.latest_activity,s.first_activity_at,s.last_activity_at,s.channel_created_at,s.oldest_content_at,s.newest_content_at]).filter(Boolean).map(x=>new Date(x)).filter(d=>!isNaN(d));
+  let spanText='—';
+  if(dates.length){const min=new Date(Math.min(...dates)),max=new Date(Math.max(...dates));const days=Math.max(0,Math.round((max-min)/86400000));spanText=days<1?'Less than 1 day':days<30?days+' days':days<365?Math.round(days/30)+' months':(days/365).toFixed(1)+' years';}
+  document.getElementById('metricSpan').textContent=spanText;
+
+  const categories=[
+    ['Profile exposure',['public_profile','external_link']],
+    ['Personal information',['contact_visible','location_visible','bio_sensitive']],
+    ['Privacy controls',['weak_privacy_settings']],
+    ['Public activity',['public_activity']],
+    ['External links',['external_link']]
+  ];
+  const exposureMap=document.getElementById('exposureMap');
+  [...exposureMap.querySelectorAll('.exposure-row')].forEach((row,i)=>{
+    const keys=categories[i][1], available=rows.length?rows.length*keys.length:0;
+    const flagged=keys.reduce((sum,k)=>sum+boolCount(k),0);
+    const pct=available?Math.round(flagged/available*100):0;
+    row.querySelector('.fill').style.width=pct+'%';
+    row.querySelector('b').textContent=available?pct+'%':'—';
+  });
+  document.getElementById('exposureInterpretation').innerHTML=rows.length
+    ? '<strong>What this means</strong>'+((boolCount('contact_visible')||boolCount('location_visible'))?'Personal details are among the clearest exposure points detected. ':'')+((boolCount('public_activity'))?'Public activity increases the amount of behavioral context visible to others. ':'')+((boolCount('external_link'))?'External links expand the footprint beyond the connected platform. ':'')+(exposureScore<40?'Your current detected exposure is relatively contained.':'Review the highest-scoring categories before changing lower-impact settings.') 
+    : '<strong>What this means</strong>Connect an authorized platform first. The map stays empty until evidence is available.';
+
+  const profileNames=rows.map(r=>firstDefined(['channel_title','username','display_name'])).filter(Boolean);
+  document.getElementById('footprintGrid').innerHTML=[
+    ['👤','Profile identity',profileNames.length?profileNames[0]:'Not available',profileNames.length+' connected identity signal'+(profileNames.length===1?'':'s')],
+    ['🎬','Content',totalContent?totalContent.toLocaleString():'—',totalContent?'public content items reported':'No content count supplied'],
+    ['🔗','External links',boolCount('external_link')?'Detected':'Not detected',boolCount('external_link')?'Review linked destinations':'No external-link signal detected'],
+    ['👥','Audience',nums(['follower_count','subscriber_count']).reduce((a,b)=>a+b,0)?nums(['follower_count','subscriber_count']).reduce((a,b)=>a+b,0).toLocaleString():'—','visible audience signal where supplied'],
+    ['📚','Collections',nums(['playlist_count','public_playlist_count']).reduce((a,b)=>a+b,0)?nums(['playlist_count','public_playlist_count']).reduce((a,b)=>a+b,0).toLocaleString():'—','playlists / collections available'],
+    ['🧩','Privacy flags',Object.values(exposureKeys).reduce((x,w)=>x+w,0)&&riskTotal?String(riskTotal):'0','weighted exposure points detected']
+  ].map(x=>'<div class="footprint-item"><div class="mini-icon">'+x[0]+'</div><strong>'+escapeHtml(x[1])+'</strong><div class="footprint-value">'+escapeHtml(x[2])+'</div><p>'+escapeHtml(x[3])+'</p></div>').join('');
+
+  const likes=n('like_count')+n('likes'),comments=n('comment_count')+n('comments'),shares=n('share_count')+n('shares'),subs=n('subscription_count')+n('subscriptions_count');
+  const earliest=dates.length?new Date(Math.min(...dates)).toLocaleDateString():firstDefined(['earliest_activity'])||'Not supplied';
+  const latest=dates.length?new Date(Math.max(...dates)).toLocaleDateString():firstDefined(['latest_activity'])||'Not supplied';
+  document.getElementById('activityData').innerHTML=[
+    ['Uploaded / public content',totalContent?totalContent.toLocaleString():'Not supplied'],
+    ['Engagement signals',(likes+comments+shares)?(likes+comments+shares).toLocaleString():'Not supplied'],
+    ['Subscriptions / follows',subs?subs.toLocaleString():'Not supplied'],
+    ['Earliest available activity',earliest],
+    ['Latest available activity',latest]
+  ].map(x=>'<div class="data-row"><span>'+escapeHtml(x[0])+'</span><b>'+escapeHtml(x[1])+'</b></div>').join('');
+
+  const timelineEvents=[];
+  rows.forEach(r=>{const s=r.signals||{};[['Profile connected',s.collected_at||r.collected_at],['Earliest content',s.earliest_activity||s.oldest_content_at],['Latest content',s.latest_activity||s.newest_content_at]].forEach(e=>{if(e[1])timelineEvents.push([e[0],e[1],r.app_name]);});});
+  document.getElementById('activityTimeline').innerHTML=timelineEvents.length
+    ? timelineEvents.sort((a,b)=>new Date(a[1])-new Date(b[1])).slice(0,8).map(e=>'<div class="timeline-item"><strong>'+escapeHtml(e[0])+' · '+escapeHtml(e[2])+'</strong><p>'+new Date(e[1]).toLocaleString()+'</p></div>').join('')
+    : '<div class="report-empty">No reliable activity timestamps were supplied by the authorized sources yet.</div>';
+
+  const topicSource=all.flatMap(s=>Array.isArray(s.top_topics)?s.top_topics:Array.isArray(s.topics)?s.topics:[]);
+  const topics=[...new Set(topicSource.map(t=>typeof t==='string'?t:(t?.name||t?.topic)).filter(Boolean))].slice(0,6);
+  document.getElementById('interestGrid').innerHTML=topics.length
+    ? topics.map((t,i)=>'<div class="footprint-item"><div class="mini-icon">🧭</div><strong>'+escapeHtml(t)+'</strong><div class="footprint-value">'+(i<3?'Observed':'Detected')+'</div><p>Derived from authorized content metadata</p></div>').join('')
+    : '<div class="footprint-item"><div class="mini-icon">🧭</div><strong>Interest profile</strong><div class="footprint-value">Limited</div><p>Topic inference will appear only when authorized content metadata supplies reliable categories.</p></div>';
+
+  document.getElementById('platformGrid').innerHTML=rows.length?rows.map(r=>{
+    const s=r.signals||{};let p=0,d=0;for(const [k,w] of Object.entries(exposureKeys)){d+=w;if(s[k]===true)p+=w;}const pct=d?Math.round(p/d*100):0;
+    const detail=r.app_name==='YouTube'
+      ? ((s.channel_title||'YouTube channel')+' · '+(Number(s.video_count||0).toLocaleString())+' videos · '+(Number(s.view_count||0).toLocaleString())+' views')
+      : r.app_name==='Spotify'
+        ? ((s.display_name||'Spotify profile')+' · '+(Number(s.playlist_count||0).toLocaleString())+' playlists · '+(Number(s.follower_count||0).toLocaleString())+' followers')
         : r.app_name==='Instagram'
-          ? `<small style="display:block;color:var(--muted);font-size:11px">${escapeHtml(s.username||'Instagram professional profile')} · ${Number(s.media_count||0).toLocaleString()} public media · followers ${Number(s.follower_count||0).toLocaleString()}</small>`
-        : r.app_name==='Spotify'
-          ? `<small style="display:block;color:var(--muted);font-size:11px">${escapeHtml(s.display_name||'Spotify profile')} · ${Number(s.follower_count||0).toLocaleString()} followers · ${Number(s.public_playlist_count||0).toLocaleString()} public playlists · ${Number(s.playlist_count||0).toLocaleString()} playlists available</small>`
-          : `<small style="display:block;color:var(--muted);font-size:11px">${risk} exposure · authorized signals only</small>`;
-      return `<div class="usage-row"><span><strong>${escapeHtml(r.app_name)}</strong>${detail}</span><div class="usagebar"><i style="width:${n}%"></i></div><b>${n}/100</b></div>`;
-    }).join('');
-  }else platformBox.innerHTML='<div class="finding"><b>Waiting for connected accounts<span>Platform-level results will appear here after authorization.</span></b></div>';
-  document.getElementById('recommendations').innerHTML=signals.length?`<div class="rec"><strong>01 · Reduce public profile exposure</strong><p>Review public contact details, location information and external links that are not necessary.</p></div><div class="rec"><strong>02 · Review older public activity</strong><p>Remove or limit posts that reveal routines, locations or unnecessary personal information.</p></div><div class="rec"><strong>03 · Tighten privacy settings</strong><p>Use the platform's privacy controls to limit who can discover and interact with your profile.</p></div>`:`<div class="rec"><strong>01 · Connect a supported account</strong><p>Authorize a selected platform so Digital Shield can inspect only the profile signals it permits.</p></div><div class="rec"><strong>02 · Review public information</strong><p>Until signals are available, check what a stranger can see on each selected profile.</p></div><div class="rec"><strong>03 · Keep private data private</strong><p>Digital Shield does not ask for passwords, private messages or private app databases.</p></div>`;
+          ? ((s.username||'Instagram profile')+' · '+(Number(s.media_count||0).toLocaleString())+' public media · '+(Number(s.follower_count||0).toLocaleString())+' followers')
+          : 'Authorized '+(r.source||'platform')+' signals';
+    return '<div class="platform-card"><div class="platform-card-head"><img src="https://cdn.simpleicons.org/'+iconSlug(r.app_name)+'" alt=""><div><strong>'+escapeHtml(r.app_name)+'</strong><span>'+escapeHtml(r.source||'authorized source')+'</span></div><em class="platform-risk">'+(pct>=70?'HIGH':pct>=40?'MODERATE':'LOW')+'</em></div><div class="platform-bar"><i style="width:'+pct+'%"></i></div><div class="platform-detail">'+escapeHtml(detail)+'</div></div>';
+  }).join(''):'<div class="report-empty">No authorized platforms have supplied signals yet.</div>';
+
+  const strangerItems=[
+    ['🔎','Discoverability',boolCount('public_profile')?'Your profile identity is publicly discoverable.':'No public-profile signal was supplied.'],
+    ['🧭','Behavior clues',boolCount('public_activity')?'Public activity can reveal interests, routines or recurring behavior.':'No public-activity signal was supplied.'],
+    ['🔗','Connected footprint',boolCount('external_link')?'External links can connect this identity to other services.':'No external-link signal was detected.'],
+    ['📍','Location clues',boolCount('location_visible')?'A location signal was detected and should be reviewed.':'No location signal was detected.'],
+    ['☎️','Contact clues',boolCount('contact_visible')?'Contact information appears exposed in an authorized signal.':'No contact-visible signal was detected.'],
+    ['🧠','Interest clues',topics.length?topics.slice(0,2).join(' · '):'Insufficient authorized topic data']
+  ];
+  document.getElementById('strangerGrid').innerHTML=strangerItems.map(x=>'<div class="footprint-item"><div class="mini-icon">'+x[0]+'</div><strong>'+escapeHtml(x[1])+'</strong><p>'+escapeHtml(x[2])+'</p></div>').join('');
+
+  const recs=[];
+  if(boolCount('contact_visible'))recs.push(['01','Hide unnecessary contact details','Remove phone/email details that do not need to be public.']);
+  if(boolCount('location_visible'))recs.push(['02','Review location exposure','Remove location information from profiles or public content where possible.']);
+  if(boolCount('external_link'))recs.push(['03','Audit linked accounts','Check whether every external link still needs to connect this identity.']);
+  if(boolCount('public_activity'))recs.push(['04','Review older activity','Audit older public posts, videos and activity for routines or personal details.']);
+  if(boolCount('bio_sensitive'))recs.push(['05','Clean sensitive profile text','Rewrite public profile text that reveals unnecessary personal information.']);
+  if(!recs.length)recs.push(['01','Keep public exposure intentional','Review what a stranger can see before adding new public profile details.'],['02','Audit older content','Look for location, routine and personal-information clues in older public posts.'],['03','Recheck after changes','Run another Digital Shield scan after updating your privacy settings.']);
+  document.getElementById('recommendations').innerHTML=recs.slice(0,6).map(x=>'<div class="report-rec"><div class="num">'+x[0]+'</div><strong>'+escapeHtml(x[1])+'</strong><p>'+escapeHtml(x[2])+'</p></div>').join('');
+
+  document.getElementById('dataBoundaries').innerHTML='<strong>Watch history & exact personal screen time</strong><p>YouTube’s current API does not permit Digital Shield to retrieve a user’s watch-history playlist. Exact personal screen-time data is also not claimed unless a platform explicitly supplies it. We show unavailable data as unavailable rather than inventing numbers. Public content statistics, subscriptions, playlists, profile metadata and other permitted signals can still be analyzed when the connected API supplies them.</p>';
 }
 
 function escapeHtml(value){return String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
