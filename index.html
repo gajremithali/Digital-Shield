@@ -301,7 +301,7 @@ body {
 <label class="appitem" data-app="Instagram"><img alt="Instagram" class="appicon" src="https://cdn.simpleicons.org/instagram"/><div class="appmeta"><div class="appname">Instagram</div><div class="tag">Ready · Instagram Login</div></div><input type="checkbox"/></label>
 <label class="appitem" data-app="YouTube"><img alt="YouTube" class="appicon" src="https://cdn.simpleicons.org/youtube"/><div class="appmeta"><div class="appname">YouTube</div><div class="tag">Ready · Google OAuth</div></div><input checked="" type="checkbox"/></label>
 <label class="appitem" data-app="WhatsApp"><img alt="WhatsApp" class="appicon" src="https://cdn.simpleicons.org/whatsapp"/><div class="appmeta"><div class="appname">WhatsApp</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
-<label class="appitem" data-app="Facebook"><img alt="Facebook" class="appicon" src="https://cdn.simpleicons.org/facebook"/><div class="appmeta"><div class="appname">Facebook</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
+<label class="appitem" data-app="Facebook"><img alt="Facebook" class="appicon" src="https://cdn.simpleicons.org/facebook"/><div class="appmeta"><div class="appname">Facebook</div><div class="tag">Ready · Safety Review</div></div><input type="checkbox"/></label>
 <label class="appitem" data-app="Messenger"><img alt="Messenger" class="appicon" src="https://cdn.simpleicons.org/messenger"/><div class="appmeta"><div class="appname">Messenger</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
 <label class="appitem" data-app="Snapchat"><img alt="Snapchat" class="appicon" src="https://cdn.simpleicons.org/snapchat"/><div class="appmeta"><div class="appname">Snapchat</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
 
@@ -795,11 +795,16 @@ async function prepareConnections(){
       ? 'Read-only channel/profile signals through YouTube OAuth'
       : name==='Instagram'
         ? 'Professional account: official Instagram Login · Personal account: privacy-safe review mode'
-        : 'Setup required is not configured for this platform yet';
+        : name==='Facebook'
+          ? 'Privacy-focused Safety Review · no password or scraping'
+          : 'Setup required is not configured for this platform yet';
     const status=isAuthorized?'Authorized · ready to scan':live?'Authorization required':'Setup required';
     const manualInstagram=name==='Instagram' && sessionStorage.getItem('ds_instagram_personal_mode')==='1';
+  const manualFacebook=name==='Facebook' && sessionStorage.getItem('ds_facebook_review_mode')==='1';
   const button=manualInstagram
       ? '<div class="connect-actions"><span class="connected-label">Personal review mode</span><button class="connect-btn disconnect-btn" onclick="disconnectPersonalInstagram()">Remove</button></div>'
+      : manualFacebook
+        ? '<div class="connect-actions"><span class="connected-label">Safety review mode</span><button class="connect-btn disconnect-btn" onclick="disconnectFacebookSafetyReview()">Remove</button></div>'
       : isAuthorized
         ? '<div class="connect-actions"><span class="connected-label">Connected</span><button class="connect-btn disconnect-btn" onclick="disconnectApp(\''+escapeHtml(name)+'\')">Disconnect</button></div>'
         : live
@@ -833,7 +838,7 @@ async function disconnectApp(name){
 function iconSlug(name){return ({'Google Chrome':'googlechrome','Instagram':'instagram','YouTube':'youtube','WhatsApp':'whatsapp','Facebook':'facebook','Messenger':'messenger','Snapchat':'snapchat','X':'x','Telegram':'telegram','Discord':'discord','Reddit':'reddit','LinkedIn':'linkedin','Pinterest':'pinterest','Spotify':'spotify','Twitch':'twitch','Threads':'threads','Roblox':'roblox','TikTok':'tiktok'})[name]||'circle';}
 function cssId(name){return name.toLowerCase().replace(/[^a-z0-9]+/g,'-');}
 let authPreviewApp=null;
-function isProviderReady(name){return name==='YouTube'||name==='Instagram'||(name==='Spotify'&&spotifyReady());}
+function isProviderReady(name){return name==='YouTube'||name==='Instagram'||name==='Facebook'||(name==='Spotify'&&spotifyReady());}
 function openAuthModal(name){
   if(!isProviderReady(name))return;
   authPreviewApp=name;
@@ -853,6 +858,12 @@ function openAuthModal(name){
       personal.onclick=beginPersonalInstagramMode;
       actions.insertBefore(personal,primary);
     }
+  }else if(name==='Facebook'){
+    document.getElementById('authTitle').textContent='Review Facebook';
+    document.getElementById('authIntro').textContent='Digital Shield can provide a privacy-focused Facebook safety review without requesting your Facebook password.';
+    permissions.innerHTML=['No Facebook password required','No private Facebook content is collected','Public-profile privacy guidance and exposure review'].map(x=>'<li>'+escapeHtml(x)+'</li>').join('');
+    notice.textContent='Automatic Facebook data access is not enabled in this build. Digital Shield will not invent Facebook data or use scraping. The review uses only confirmed platform limitations and privacy guidance.';
+    primary.textContent='Start Safety Review →';primary.onclick=beginFacebookSafetyReview;
   }else if(name==='Spotify'){
     document.getElementById('authTitle').textContent='Connect Spotify';
     document.getElementById('authIntro').textContent='Digital Shield is requesting read-only Spotify profile and playlist access.';
@@ -879,6 +890,18 @@ function beginPersonalInstagramMode(){
 function disconnectPersonalInstagram(){
   sessionStorage.removeItem('ds_instagram_personal_mode');
   sessionStorage.removeItem('ds_instagram_personal_source');
+  prepareConnections();
+}
+function beginFacebookSafetyReview(){
+  sessionStorage.setItem('ds_facebook_review_mode','1');
+  sessionStorage.setItem('ds_facebook_review_source','manual_review');
+  closeAuthModal();
+  alert('Facebook Safety Review enabled. Digital Shield will not ask for your Facebook password, scrape Facebook, or invent profile data. Your report will include a privacy-focused Facebook review instead.');
+  prepareConnections();
+}
+function disconnectFacebookSafetyReview(){
+  sessionStorage.removeItem('ds_facebook_review_mode');
+  sessionStorage.removeItem('ds_facebook_review_source');
   prepareConnections();
 }
 async function beginInstagramOAuth(){
@@ -943,7 +966,9 @@ async function beginAnalysis(){
   if(authorizedError){if(scanButton){scanButton.disabled=false;scanButton.textContent='Continue to analysis →';}alert('Could not verify authorized connections: '+authorizedError.message);return;}
   const authorizedNames=[...new Set((authorizedRows||[]).map(r=>r.app_name))];
   const personalInstagram=sessionStorage.getItem('ds_instagram_personal_mode')==='1' && selected.includes('Instagram');
+  const facebookReview=sessionStorage.getItem('ds_facebook_review_mode')==='1' && selected.includes('Facebook');
   if(personalInstagram && !authorizedNames.includes('Instagram')) authorizedNames.push('Instagram');
+  if(facebookReview && !authorizedNames.includes('Facebook')) authorizedNames.push('Facebook');
   if(!authorizedNames.length){
     if(scanButton){scanButton.disabled=false;scanButton.textContent='Continue to analysis →';}
     alert('Connect at least one supported platform before starting the analysis.');
@@ -951,7 +976,7 @@ async function beginAnalysis(){
   }
   const now=new Date().toISOString();
   for(const app_name of authorizedNames){
-    if(app_name==='Instagram' && personalInstagram) continue;
+    if((app_name==='Instagram' && personalInstagram) || (app_name==='Facebook' && facebookReview)) continue;
     const {data:existing}=await supabaseClient.from('app_connections').select('id').eq('user_id',user.id).eq('app_name',app_name).limit(1).maybeSingle();
     if(existing) await supabaseClient.from('app_connections').update({permission_status:'authorized',connected_at:now}).eq('id',existing.id);
     else await supabaseClient.from('app_connections').insert({user_id:user.id,app_name,permission_status:'authorized',connected_at:now});
@@ -978,6 +1003,14 @@ async function loadRealReport(userId, selected){
       signals:{account_type:'Personal',api_access:false,manual_review:true,public_profile:null,contact_visible:null,location_visible:null,external_link:null,bio_sensitive:null,public_activity:null,weak_privacy_settings:null}
     });
   }
+  if(sessionStorage.getItem('ds_facebook_review_mode')==='1' && selected.includes('Facebook') && !signals.some(r=>r.app_name==='Facebook')){
+    signals.push({
+      app_name:'Facebook',
+      source:'facebook_manual_review',
+      collected_at:new Date().toISOString(),
+      signals:{account_type:'Facebook account',api_access:false,manual_review:true,public_profile:null,contact_visible:null,location_visible:null,external_link:null,bio_sensitive:null,public_activity:null,weak_privacy_settings:null}
+    });
+  }
   renderReport({selected,signals,signalError:signalResult.error?.message||null});
 }
 
@@ -1001,6 +1034,7 @@ function renderReport({selected,signals=[],signalError=null}){
   (signals||[]).forEach(r=>{if(!latest.has(r.app_name)) latest.set(r.app_name,r);});
   const rows=[...latest.values()];
   const personalInstagram=rows.some(r=>r.source==='instagram_personal_manual');
+  const facebookReview=rows.some(r=>r.source==='facebook_manual_review');
   const all=rows.map(r=>r.signals||{});
   const n=(key)=>all.reduce((sum,s)=>sum+(Number(s[key])||0),0);
   const boolCount=(key)=>all.filter(s=>s[key]===true).length;
@@ -1009,7 +1043,7 @@ function renderReport({selected,signals=[],signalError=null}){
   const totalContent=rows.reduce((sum,r)=>sum+Number((r.signals||{}).video_count||(r.signals||{}).media_count||(r.signals||{}).public_content_count||0),0);
   const exposureKeys={public_profile:18,contact_visible:18,location_visible:12,external_link:10,bio_sensitive:12,public_activity:12,weak_privacy_settings:18};
   let riskTotal=0,riskMax=0;
-  rows.filter(r=>r.source!=='instagram_personal_manual').forEach(r=>{for(const [k,w] of Object.entries(exposureKeys)){riskMax+=w;if(r.signals?.[k]===true)riskTotal+=w;}});
+  rows.filter(r=>r.source!=='instagram_personal_manual' && r.source!=='facebook_manual_review').forEach(r=>{for(const [k,w] of Object.entries(exposureKeys)){riskMax+=w;if(r.signals?.[k]===true)riskTotal+=w;}});
   const exposureScore=riskMax?Math.round(riskTotal/riskMax*100):null;
   const scoreEl=document.getElementById('reportScore'),label=document.getElementById('reportRiskLabel');
   if(exposureScore!==null){
@@ -1017,7 +1051,7 @@ function renderReport({selected,signals=[],signalError=null}){
     label.textContent=exposureScore>=70?'HIGH EXPOSURE':exposureScore>=40?'MODERATE EXPOSURE':'LOW EXPOSURE';
   }else{scoreEl.textContent='—';label.textContent='AWAITING AUTHORIZED SIGNALS';}
   document.getElementById('reportGeneratedAt').textContent='ANALYZED · '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-  document.getElementById('reportSummary').textContent=personalInstagram && exposureScore===null
+  document.getElementById('reportSummary').textContent=(personalInstagram || facebookReview) && exposureScore===null
     ? 'Instagram Personal account mode is active. Meta does not provide official API access to consumer accounts, so this report does not invent profile data or a risk score. Use the Personal Safety Review below for privacy guidance.'
     : exposureScore===null
     ? 'Connect a supported platform to turn authorized signals into an evidence-based digital-footprint audit.'
@@ -1128,7 +1162,14 @@ function renderReport({selected,signals=[],signalError=null}){
       anchor.insertAdjacentHTML('beforebegin','<section id="personalInstagramReview" class="report-section"><div class="report-section-head"><div><h3>00 · Instagram Personal Safety Review</h3><p>Your Personal account is supported without forcing a conversion to Business or Creator.</p></div><span class="report-badge">PERSONAL MODE</span></div><div class="footprint-grid"><div class="footprint-item"><div class="mini-icon">📱</div><strong>Account type</strong><div class="footprint-value">Personal</div><p>Consumer Instagram account</p></div><div class="footprint-item"><div class="mini-icon">🚫</div><strong>Official API access</strong><div class="footprint-value">Unavailable</div><p>Meta\'s current Instagram APIs do not provide consumer-account access.</p></div><div class="footprint-item"><div class="mini-icon">🔐</div><strong>Password requested</strong><div class="footprint-value">Never</div><p>Digital Shield does not ask for your Instagram password.</p></div></div><div class="limited-box" style="margin-top:16px"><strong>Why there is no Instagram risk score</strong><p>Instagram ended the Basic Display API that previously allowed third-party consumer-account connections. Current official Instagram API access is for professional Business and Creator accounts. Digital Shield therefore leaves Personal accounts unscored instead of fabricating data or using scraping/login workarounds.</p></div><div class="recommend-grid" style="margin-top:16px"><div class="report-rec"><div class="num">01</div><strong>Check profile visibility</strong><p>Review whether your account is public and whether that matches what you intend strangers to see.</p></div><div class="report-rec"><div class="num">02</div><strong>Audit old posts</strong><p>Look for location clues, school/work details, routines, contact details or other information you no longer want public.</p></div><div class="report-rec"><div class="num">03</div><strong>Review tagged content</strong><p>Check photos and posts involving you and remove or hide anything that exposes unnecessary personal information.</p></div></div></section>');
     }
   }
-    renderEnhancedReport({rows,all,exposureScore,topics,totalContent,dates,firstDefined,boolCount});
+  if(facebookReview){
+    const root=document.querySelector('.report-v2');
+    const anchor=root?.querySelector('.report-section');
+    if(root && anchor && !document.getElementById('facebookSafetyReview')){
+      anchor.insertAdjacentHTML('beforebegin','<section id="facebookSafetyReview" class="report-section"><div class="report-section-head"><div><h3>00 · Facebook Safety Review</h3><p>A privacy-first review for Facebook without requesting your password or pretending to have access to private account data.</p></div><span class="report-badge">SAFETY REVIEW</span></div><div class="footprint-grid"><div class="footprint-item"><div class="mini-icon">📘</div><strong>Account</strong><div class="footprint-value">Facebook</div><p>Selected for privacy review</p></div><div class="footprint-item"><div class="mini-icon">🔐</div><strong>Password requested</strong><div class="footprint-value">Never</div><p>Digital Shield does not ask for your Facebook password.</p></div><div class="footprint-item"><div class="mini-icon">📊</div><strong>Automatic data</strong><div class="footprint-value">Unavailable</div><p>No Facebook profile data is claimed unless an approved API connection supplies it.</p></div></div><div class="limited-box" style="margin-top:16px"><strong>What to review on Facebook</strong><p>Check profile visibility, public posts, tagged content, contact details, location clues, external links, audience settings and older activity. Meta\'s Graph API can provide public-profile fields with the appropriate user access, while broader Facebook data requires additional permissions and may require app review. Digital Shield therefore does not fabricate a Facebook risk score in Safety Review mode.</p></div><div class="recommend-grid" style="margin-top:16px"><div class="report-rec"><div class="num">01</div><strong>Review profile visibility</strong><p>Check what a person who is not your friend can see on your profile.</p></div><div class="report-rec"><div class="num">02</div><strong>Audit public posts</strong><p>Look for routines, school/work details, locations and other personal clues in older public content.</p></div><div class="report-rec"><div class="num">03</div><strong>Check tagged content</strong><p>Review photos and posts involving you and remove or hide anything that exposes unnecessary information.</p></div></div></section>');
+    }
+  }
+  renderEnhancedReport({rows,all,exposureScore,topics,totalContent,dates,firstDefined,boolCount});
 }
 
 function renderEnhancedReport(ctx){
