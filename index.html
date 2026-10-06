@@ -206,7 +206,7 @@ body {
 <style>
 .data-pill{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:#E5E9B8;border:1px solid #8C9658;font-size:11px;font-weight:800;color:#3D4127}.mutedbar{opacity:.45}.report-muted{color:#4F582B}
 
-.connect-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:24px 0}.connect-card{border:1px solid var(--line);background:#fffaf0;border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px}.connect-card .appicon{width:42px;height:42px;flex-basis:42px}.connect-info{flex:1;min-width:0}.connect-info strong{display:block;color:var(--text)}.connect-info span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.connect-status{font-size:11px;color:#68703a;background:#eef2c9;padding:5px 8px;border-radius:999px;margin-top:7px;display:inline-block}.connect-btn{white-space:nowrap;padding:9px 13px;border-radius:10px;border:1px solid var(--line);background:#fff;font-weight:700;color:var(--text)}.connect-btn:hover{background:#eef2c9}.auth-modal{position:fixed;inset:0;background:rgba(24,27,15,.58);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}.auth-modal.show{display:flex}.auth-card{max-width:480px;width:100%;background:#fffaf0;border-radius:22px;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.28)}.auth-brand{font-weight:800;color:#3D4127;letter-spacing:.04em}.permission-list{margin:18px 0;padding:0;list-style:none}.permission-list li{padding:10px 0;border-top:1px solid var(--line);font-size:13px}.permission-list li:before{content:'✓';margin-right:9px;color:#636B2F;font-weight:800}.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}@media(max-width:700px){.connect-grid{grid-template-columns:1fr}.connect-card{align-items:flex-start;flex-wrap:wrap}.connect-btn{width:100%}}
+.connect-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:24px 0}.connect-card{border:1px solid var(--line);background:#fffaf0;border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px}.connect-card .appicon{width:42px;height:42px;flex-basis:42px}.connect-info{flex:1;min-width:0}.connect-info strong{display:block;color:var(--text)}.connect-info span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.connect-status{font-size:11px;color:#68703a;background:#eef2c9;padding:5px 8px;border-radius:999px;margin-top:7px;display:inline-block}.connect-btn{white-space:nowrap;padding:9px 13px;border-radius:10px;border:1px solid var(--line);background:#fff;font-weight:700;color:var(--text)}.connect-btn:hover{background:#eef2c9}.connect-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.connected-label{font-size:11px;font-weight:800;color:#3D4127;background:#E5E9B8;border:1px solid #8C9658;padding:7px 9px;border-radius:999px}.disconnect-btn{background:#F9FBE9;border-color:#8f4e46;color:#7a3f38}.disconnect-btn:hover{background:#f5d9d9}.auth-modal{position:fixed;inset:0;background:rgba(24,27,15,.58);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}.auth-modal.show{display:flex}.auth-card{max-width:480px;width:100%;background:#fffaf0;border-radius:22px;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.28)}.auth-brand{font-weight:800;color:#3D4127;letter-spacing:.04em}.permission-list{margin:18px 0;padding:0;list-style:none}.permission-list li{padding:10px 0;border-top:1px solid var(--line);font-size:13px}.permission-list li:before{content:'✓';margin-right:9px;color:#636B2F;font-weight:800}.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}@media(max-width:700px){.connect-grid{grid-template-columns:1fr}.connect-card{align-items:flex-start;flex-wrap:wrap}.connect-btn{width:100%}}
 .app-toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:20px 0 10px;padding:14px 16px;border:1px solid #8C9658;border-radius:16px;background:#F9FBE9}.app-toolbar>div{display:flex;align-items:center;gap:10px}.app-toolbar strong{font-size:13px}.app-toolbar span{font-size:11px;color:#4F582B;background:#E5E9B8;border:1px solid #8C9658;padding:5px 8px;border-radius:999px}.app-toolbar input{width:min(260px,48vw);padding:10px 12px;border:1px solid #8C9658;border-radius:10px;background:#EEF2C9;color:#3D4127;outline:none}.app-toolbar input:focus{border-color:#3D4127}.appitem.hidden{display:none}.appitem.unavailable{opacity:.58;cursor:not-allowed}.appitem.unavailable .tag{color:#6b6f45;font-weight:700}.appitem .tag{min-height:16px}.appitem.ready{border-color:#64785a}.appitem.ready .tag{color:#53683f;font-weight:700}.connect-card.ready{border-color:#64785a}</style></style>
 </head>
 <body>
@@ -713,13 +713,34 @@ async function prepareConnections(){
         : 'Setup required is not configured for this platform yet';
     const status=isAuthorized?'Authorized · ready to scan':live?'Authorization required':'Setup required';
     const button=isAuthorized
-      ? `<button class="connect-btn" disabled style="opacity:.7">Connected</button>`
+      ? '<div class="connect-actions"><span class="connected-label">Connected</span><button class="connect-btn disconnect-btn" onclick="disconnectApp(\''+escapeHtml(name)+'\')">Disconnect</button></div>'
       : live
-        ? `<button class="connect-btn" onclick="openAuthModal('${name}')">Connect</button>`
-        : `<button class="connect-btn" disabled style="opacity:.55">Unavailable</button>`;
-    return `<div class="connect-card" data-connect-app="${escapeHtml(name)}"><img alt="${escapeHtml(name)}" class="appicon" src="https://cdn.simpleicons.org/${iconSlug(name)}"/><div class="connect-info"><strong>${escapeHtml(name)}</strong><span>${escapeHtml(note)}</span><em class="connect-status" id="status-${cssId(name)}">${escapeHtml(status)}</em></div>${button}</div>`;
+        ? '<button class="connect-btn" onclick="openAuthModal(\''+escapeHtml(name)+'\')">Connect</button>'
+        : '<button class="connect-btn" disabled style="opacity:.55">Unavailable</button>';
+    return '<div class="connect-card" data-connect-app="'+escapeHtml(name)+'"><img alt="'+escapeHtml(name)+'" class="appicon" src="https://cdn.simpleicons.org/'+iconSlug(name)+'"/><div class="connect-info"><strong>'+escapeHtml(name)+'</strong><span>'+escapeHtml(note)+'</span><em class="connect-status" id="status-'+cssId(name)+'">'+escapeHtml(status)+'</em></div>'+button+'</div>';
   }).join('');
   showScreen('connectScreen',3);
+}
+async function disconnectApp(name){
+  const user=window.digitalShieldAuth?.session?.user;
+  if(!user){alert('Your Digital Shield login session has expired. Please sign in again.');return;}
+  const confirmed=window.confirm('Disconnect '+name+'?\n\nDigital Shield will stop using this app connection and remove the stored authorized signals for this app. Your other connected apps will not be affected.\n\nYou can connect '+name+' again later whenever you choose.');
+  if(!confirmed)return;
+  const card=document.querySelector('[data-connect-app="'+cssId(name)+'"]');
+  const button=card?.querySelector('.disconnect-btn');
+  if(button){button.disabled=true;button.textContent='Disconnecting…';}
+  try{
+    const {error:signalError}=await supabaseClient.from('social_signals').delete().eq('user_id',user.id).eq('app_name',name);
+    if(signalError)throw signalError;
+    const {error:connectionError}=await supabaseClient.from('app_connections').delete().eq('user_id',user.id).eq('app_name',name);
+    if(connectionError)throw connectionError;
+    alert(name+' has been disconnected from Digital Shield. You can reconnect it whenever you choose.');
+    prepareConnections();
+  }catch(error){
+    console.error('disconnect error:',error);
+    alert('Could not disconnect '+name+'. Please try again.');
+    if(button){button.disabled=false;button.textContent='Disconnect';}
+  }
 }
 function iconSlug(name){return ({'Google Chrome':'googlechrome','Instagram':'instagram','YouTube':'youtube','WhatsApp':'whatsapp','Facebook':'facebook','Messenger':'messenger','Snapchat':'snapchat','X':'x','Telegram':'telegram','Discord':'discord','Reddit':'reddit','LinkedIn':'linkedin','Pinterest':'pinterest','Spotify':'spotify','Twitch':'twitch','Threads':'threads','Roblox':'roblox','TikTok':'tiktok'})[name]||'circle';}
 function cssId(name){return name.toLowerCase().replace(/[^a-z0-9]+/g,'-');}
