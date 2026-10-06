@@ -786,14 +786,17 @@ async function prepareConnections(){
     const note=name==='YouTube'
       ? 'Read-only channel/profile signals through YouTube OAuth'
       : name==='Instagram'
-        ? 'Basic professional profile signals through Instagram Login'
+        ? 'Professional account: official Instagram Login · Personal account: privacy-safe review mode'
         : 'Setup required is not configured for this platform yet';
     const status=isAuthorized?'Authorized · ready to scan':live?'Authorization required':'Setup required';
-    const button=isAuthorized
-      ? '<div class="connect-actions"><span class="connected-label">Connected</span><button class="connect-btn disconnect-btn" onclick="disconnectApp(\''+escapeHtml(name)+'\')">Disconnect</button></div>'
-      : live
-        ? '<button class="connect-btn" onclick="openAuthModal(\''+escapeHtml(name)+'\')">Connect</button>'
-        : '<button class="connect-btn" disabled style="opacity:.55">Unavailable</button>';
+    const manualInstagram=name==='Instagram' && sessionStorage.getItem('ds_instagram_personal_mode')==='1';
+  const button=manualInstagram
+      ? '<div class="connect-actions"><span class="connected-label">Personal review mode</span><button class="connect-btn disconnect-btn" onclick="disconnectPersonalInstagram()">Remove</button></div>'
+      : isAuthorized
+        ? '<div class="connect-actions"><span class="connected-label">Connected</span><button class="connect-btn disconnect-btn" onclick="disconnectApp(\''+escapeHtml(name)+'\')">Disconnect</button></div>'
+        : live
+          ? '<button class="connect-btn" onclick="openAuthModal(\''+escapeHtml(name)+'\')">Choose account type</button>'
+          : '<button class="connect-btn" disabled style="opacity:.55">Unavailable</button>';
     return '<div class="connect-card" data-connect-app="'+escapeHtml(name)+'"><img alt="'+escapeHtml(name)+'" class="appicon" src="https://cdn.simpleicons.org/'+iconSlug(name)+'"/><div class="connect-info"><strong>'+escapeHtml(name)+'</strong><span>'+escapeHtml(note)+'</span><em class="connect-status" id="status-'+cssId(name)+'">'+escapeHtml(status)+'</em></div>'+button+'</div>';
   }).join('');
   showScreen('connectScreen',3);
@@ -832,7 +835,14 @@ function openAuthModal(name){
     document.getElementById('authIntro').textContent='Digital Shield is requesting basic read-only profile access through Instagram Login.';
     permissions.innerHTML=['Basic Instagram professional profile','Public profile metadata permitted by Instagram'].map(x=>'<li>'+escapeHtml(x)+'</li>').join('');
     notice.textContent='You will be sent to Instagram for the official permission screen. Digital Shield never receives your Instagram password.';
-    primary.textContent='Continue with Instagram →';primary.onclick=beginInstagramOAuth;
+    primary.textContent='Connect Professional →';primary.onclick=beginInstagramOAuth;
+    const actions=document.querySelector('.modal-actions');
+    if(actions && !document.getElementById('personalInstagramBtn')){
+      const personal=document.createElement('button');
+      personal.id='personalInstagramBtn'; personal.className='btn'; personal.textContent='Use Personal mode';
+      personal.onclick=beginPersonalInstagramMode;
+      actions.insertBefore(personal,primary);
+    }
   }else if(name==='Spotify'){
     document.getElementById('authTitle').textContent='Connect Spotify';
     document.getElementById('authIntro').textContent='Digital Shield is requesting read-only Spotify profile and playlist access.';
@@ -849,6 +859,18 @@ function openAuthModal(name){
   document.getElementById('authModal').classList.add('show');
 }
 function closeAuthModal(){document.getElementById('authModal').classList.remove('show');}
+function beginPersonalInstagramMode(){
+  sessionStorage.setItem('ds_instagram_personal_mode','1');
+  sessionStorage.setItem('ds_instagram_personal_source','manual_review');
+  closeAuthModal();
+  alert('Personal Instagram mode enabled. Meta does not provide official API access to consumer accounts, so Digital Shield will not ask for your Instagram password or pretend it can fetch private profile data. Your report will include a Personal Safety Review instead.');
+  prepareConnections();
+}
+function disconnectPersonalInstagram(){
+  sessionStorage.removeItem('ds_instagram_personal_mode');
+  sessionStorage.removeItem('ds_instagram_personal_source');
+  prepareConnections();
+}
 async function beginInstagramOAuth(){
   const primary=document.getElementById('authPrimaryBtn');
   if(primary){primary.disabled=true;primary.textContent='Opening secure Instagram authorization…';}
@@ -867,7 +889,7 @@ async function beginInstagramOAuth(){
     window.location.href=data.url;
   }catch(err){
     console.error('instagram-start error:',err);
-    if(primary){primary.disabled=false;primary.textContent='Continue with Instagram →';}
+    if(primary){primary.disabled=false;primary.textContent='Connect Professional →';}
     document.getElementById('authNotice').textContent=err?.message||'Could not start Instagram authorization.';
   }
 }
@@ -910,6 +932,8 @@ async function beginAnalysis(){
     .in('app_name',selected);
   if(authorizedError){if(scanButton){scanButton.disabled=false;scanButton.textContent='Continue to analysis →';}alert('Could not verify authorized connections: '+authorizedError.message);return;}
   const authorizedNames=[...new Set((authorizedRows||[]).map(r=>r.app_name))];
+  const personalInstagram=sessionStorage.getItem('ds_instagram_personal_mode')==='1' && selected.includes('Instagram');
+  if(personalInstagram && !authorizedNames.includes('Instagram')) authorizedNames.push('Instagram');
   if(!authorizedNames.length){
     if(scanButton){scanButton.disabled=false;scanButton.textContent='Continue to analysis →';}
     alert('Connect at least one supported platform before starting the analysis.');
@@ -917,6 +941,7 @@ async function beginAnalysis(){
   }
   const now=new Date().toISOString();
   for(const app_name of authorizedNames){
+    if(app_name==='Instagram' && personalInstagram) continue;
     const {data:existing}=await supabaseClient.from('app_connections').select('id').eq('user_id',user.id).eq('app_name',app_name).limit(1).maybeSingle();
     if(existing) await supabaseClient.from('app_connections').update({permission_status:'authorized',connected_at:now}).eq('id',existing.id);
     else await supabaseClient.from('app_connections').insert({user_id:user.id,app_name,permission_status:'authorized',connected_at:now});
@@ -934,7 +959,16 @@ async function loadRealReport(userId, selected){
     .eq('user_id',userId)
     .in('app_name',selected)
     .order('collected_at',{ascending:false});
-  renderReport({selected,signals:signalResult.data||[],signalError:signalResult.error?.message||null});
+  const signals=signalResult.data||[];
+  if(sessionStorage.getItem('ds_instagram_personal_mode')==='1' && selected.includes('Instagram') && !signals.some(r=>r.app_name==='Instagram')){
+    signals.push({
+      app_name:'Instagram',
+      source:'instagram_personal_manual',
+      collected_at:new Date().toISOString(),
+      signals:{account_type:'Personal',api_access:false,manual_review:true,public_profile:null,contact_visible:null,location_visible:null,external_link:null,bio_sensitive:null,public_activity:null,weak_privacy_settings:null}
+    });
+  }
+  renderReport({selected,signals,signalError:signalResult.error?.message||null});
 }
 
 function calculateExposureScore(rows){
@@ -956,6 +990,7 @@ function renderReport({selected,signals=[],signalError=null}){
   const latest=new Map();
   (signals||[]).forEach(r=>{if(!latest.has(r.app_name)) latest.set(r.app_name,r);});
   const rows=[...latest.values()];
+  const personalInstagram=rows.some(r=>r.source==='instagram_personal_manual');
   const all=rows.map(r=>r.signals||{});
   const n=(key)=>all.reduce((sum,s)=>sum+(Number(s[key])||0),0);
   const boolCount=(key)=>all.filter(s=>s[key]===true).length;
@@ -964,7 +999,7 @@ function renderReport({selected,signals=[],signalError=null}){
   const totalContent=rows.reduce((sum,r)=>sum+Number((r.signals||{}).video_count||(r.signals||{}).media_count||(r.signals||{}).public_content_count||0),0);
   const exposureKeys={public_profile:18,contact_visible:18,location_visible:12,external_link:10,bio_sensitive:12,public_activity:12,weak_privacy_settings:18};
   let riskTotal=0,riskMax=0;
-  rows.forEach(r=>{for(const [k,w] of Object.entries(exposureKeys)){riskMax+=w;if(r.signals?.[k]===true)riskTotal+=w;}});
+  rows.filter(r=>r.source!=='instagram_personal_manual').forEach(r=>{for(const [k,w] of Object.entries(exposureKeys)){riskMax+=w;if(r.signals?.[k]===true)riskTotal+=w;}});
   const exposureScore=riskMax?Math.round(riskTotal/riskMax*100):null;
   const scoreEl=document.getElementById('reportScore'),label=document.getElementById('reportRiskLabel');
   if(exposureScore!==null){
@@ -972,7 +1007,9 @@ function renderReport({selected,signals=[],signalError=null}){
     label.textContent=exposureScore>=70?'HIGH EXPOSURE':exposureScore>=40?'MODERATE EXPOSURE':'LOW EXPOSURE';
   }else{scoreEl.textContent='—';label.textContent='AWAITING AUTHORIZED SIGNALS';}
   document.getElementById('reportGeneratedAt').textContent='ANALYZED · '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-  document.getElementById('reportSummary').textContent=exposureScore===null
+  document.getElementById('reportSummary').textContent=personalInstagram && exposureScore===null
+    ? 'Instagram Personal account mode is active. Meta does not provide official API access to consumer accounts, so this report does not invent profile data or a risk score. Use the Personal Safety Review below for privacy guidance.'
+    : exposureScore===null
     ? 'Connect a supported platform to turn authorized signals into an evidence-based digital-footprint audit.'
     : exposureScore>=70?'Several public-facing signals increase discoverability. Review the highest-impact items below first.'
     : exposureScore>=40?'Your footprint has a moderate public surface. A few targeted privacy changes can reduce unnecessary exposure.'
@@ -1074,7 +1111,14 @@ function renderReport({selected,signals=[],signalError=null}){
   document.getElementById('recommendations').innerHTML=recs.slice(0,6).map(x=>'<div class="report-rec"><div class="num">'+x[0]+'</div><strong>'+escapeHtml(x[1])+'</strong><p>'+escapeHtml(x[2])+'</p></div>').join('');
 
   document.getElementById('dataBoundaries').innerHTML='<strong>Watch history & exact personal screen time</strong><p>YouTube’s current API does not permit Digital Shield to retrieve a user’s watch-history playlist. Exact personal screen-time data is also not claimed unless a platform explicitly supplies it. We show unavailable data as unavailable rather than inventing numbers. Public content statistics, subscriptions, playlists, profile metadata and other permitted signals can still be analyzed when the connected API supplies them.</p>';
-  renderEnhancedReport({rows,all,exposureScore,topics,totalContent,dates,firstDefined,boolCount});
+  if(personalInstagram){
+    const root=document.querySelector('.report-v2');
+    const anchor=root?.querySelector('.report-section');
+    if(root && anchor && !document.getElementById('personalInstagramReview')){
+      anchor.insertAdjacentHTML('beforebegin','<section id="personalInstagramReview" class="report-section"><div class="report-section-head"><div><h3>00 · Instagram Personal Safety Review</h3><p>Your Personal account is supported without forcing a conversion to Business or Creator.</p></div><span class="report-badge">PERSONAL MODE</span></div><div class="footprint-grid"><div class="footprint-item"><div class="mini-icon">📱</div><strong>Account type</strong><div class="footprint-value">Personal</div><p>Consumer Instagram account</p></div><div class="footprint-item"><div class="mini-icon">🚫</div><strong>Official API access</strong><div class="footprint-value">Unavailable</div><p>Meta\'s current Instagram APIs do not provide consumer-account access.</p></div><div class="footprint-item"><div class="mini-icon">🔐</div><strong>Password requested</strong><div class="footprint-value">Never</div><p>Digital Shield does not ask for your Instagram password.</p></div></div><div class="limited-box" style="margin-top:16px"><strong>Why there is no Instagram risk score</strong><p>Instagram ended the Basic Display API that previously allowed third-party consumer-account connections. Current official Instagram API access is for professional Business and Creator accounts. Digital Shield therefore leaves Personal accounts unscored instead of fabricating data or using scraping/login workarounds.</p></div><div class="recommend-grid" style="margin-top:16px"><div class="report-rec"><div class="num">01</div><strong>Check profile visibility</strong><p>Review whether your account is public and whether that matches what you intend strangers to see.</p></div><div class="report-rec"><div class="num">02</div><strong>Audit old posts</strong><p>Look for location clues, school/work details, routines, contact details or other information you no longer want public.</p></div><div class="report-rec"><div class="num">03</div><strong>Review tagged content</strong><p>Check photos and posts involving you and remove or hide anything that exposes unnecessary personal information.</p></div></div></section>');
+    }
+  }
+    renderEnhancedReport({rows,all,exposureScore,topics,totalContent,dates,firstDefined,boolCount});
 }
 
 function renderEnhancedReport(ctx){
