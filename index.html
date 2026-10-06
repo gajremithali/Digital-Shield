@@ -453,43 +453,118 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
 });
 
 (async function handleOAuthReturn(){
-  const params=new URLSearchParams(location.search), status=params.get('oauth'), message=params.get('message');
+  const params=new URLSearchParams(location.search);
+  const status=params.get('oauth');
+  const instagramStatus=params.get('instagram');
+  const message=params.get('message');
+
+  function restoreOAuthContext(){
+    try{
+      const saved=JSON.parse(sessionStorage.getItem('ds_oauth_selected_apps')||'[]');
+      if(Array.isArray(saved)&&saved.length){
+        document.querySelectorAll('.appitem input[type="checkbox"]').forEach(input=>{
+          const appName=input.closest('.appitem')?.dataset.app;
+          input.checked=saved.includes(appName);
+          input.closest('.appitem')?.classList.toggle('selected',input.checked);
+        });
+        window.digitalShieldSelectedApps=saved;
+        updateAppSelectionCount();
+      }
+    }catch(e){
+      console.warn('Could not restore OAuth app selection:',e);
+    }
+    sessionStorage.removeItem('ds_oauth_selected_apps');
+    sessionStorage.removeItem('ds_oauth_started');
+  }
+
+  async function returnToConnectScreen(){
+    const {data}=await supabaseClient.auth.getSession();
+    const landingEl=document.getElementById('landing');
+    const appEl=document.getElementById('app');
+
+    if(data?.session?.user){
+      window.digitalShieldAuth={event:'SIGNED_IN',session:data.session};
+      landingEl.style.display='none';
+      appEl.classList.add('active');
+      restoreOAuthContext();
+      await prepareConnections();
+    }else{
+      alert('Your Digital Shield session could not be restored. Please sign in again.');
+      landingEl.style.display='none';
+      appEl.classList.add('active');
+      showScreen('loginScreen',1);
+    }
+  }
+
   if(status==='spotify_callback'){
     const code=params.get('code'), state=params.get('state');
     history.replaceState({},document.title,location.pathname);
     try{
       await completeSpotifyOAuth(code,state);
       alert('Spotify connected successfully. Your authorized profile signals are ready for analysis.');
-      const {data}=await supabaseClient.auth.getSession(), landingEl=document.getElementById('landing'), appEl=document.getElementById('app');
-      if(data?.session?.user){window.digitalShieldAuth={event:'SIGNED_IN',session:data.session};landingEl.style.display='none';appEl.classList.add('active');showScreen('connectScreen',3);await prepareConnections();}
-      else{alert('Your Digital Shield session could not be restored. Please sign in again.');landingEl.style.display='none';appEl.classList.add('active');showScreen('loginScreen',1);}
+      await returnToConnectScreen();
     }catch(err){
-      console.error('Spotify OAuth error:',err); alert(err?.message||'Spotify authorization failed. Please try again.');
-      const landingEl=document.getElementById('landing'), appEl=document.getElementById('app'); landingEl.style.display='none';appEl.classList.add('active');showScreen('connectScreen',3);
-      if(window.digitalShieldAuth?.session?.user) await prepareConnections();
+      console.error('Spotify OAuth error:',err);
+      alert(err?.message||'Spotify authorization failed. Please try again.');
+      await returnToConnectScreen();
     }
     return;
   }
+
+  if(instagramStatus==='success'){
+    history.replaceState({},document.title,location.pathname);
+    alert('Instagram connected successfully. Your authorized profile signals are ready for analysis.');
+    await returnToConnectScreen();
+    return;
+  }
+
   if(status==='instagram_success'){
     history.replaceState({},document.title,location.pathname);
     alert('Instagram connected successfully. Your authorized profile signals are ready for analysis.');
-    const {data}=await supabaseClient.auth.getSession(), landingEl=document.getElementById('landing'), appEl=document.getElementById('app');
-    if(data?.session?.user){window.digitalShieldAuth={event:'SIGNED_IN',session:data.session};landingEl.style.display='none';appEl.classList.add('active');showScreen('connectScreen',3);await prepareConnections();}
-    else{alert('Your session could not be restored. Please sign in again.');landingEl.style.display='none';appEl.classList.add('active');showScreen('loginScreen',1);}
+    await returnToConnectScreen();
     return;
   }
-  if(!status)return;
-  history.replaceState({},document.title,location.pathname);
+
   if(status==='youtube_success'){
+    history.replaceState({},document.title,location.pathname);
     alert('YouTube connected successfully. Your authorized profile signals are ready for analysis.');
-    const {data}=await supabaseClient.auth.getSession(), landingEl=document.getElementById('landing'), appEl=document.getElementById('app');
-    if(data?.session?.user){window.digitalShieldAuth={event:'SIGNED_IN',session:data.session};landingEl.style.display='none';appEl.classList.add('active');showScreen('connectScreen',3);await prepareConnections();}
-    else{alert('Your session could not be restored. Please sign in again.');landingEl.style.display='none';appEl.classList.add('active');showScreen('loginScreen',1);}
+    await returnToConnectScreen();
     return;
   }
-  const messages={instagram_cancelled:'Instagram authorization was cancelled.',instagram_denied:'Instagram authorization was cancelled.',instagram_error:message||'Instagram authorization failed. Please try connecting again.',youtube_cancelled:'YouTube authorization was cancelled.',youtube_denied:'YouTube authorization was cancelled.',youtube_no_channel:'No YouTube channel was found for this Google account.',youtube_error:message||'YouTube authorization failed. Please try connecting again.'};
-  if(messages[status])alert(messages[status]);
-})();
+
+  if(instagramStatus==='error'){
+    history.replaceState({},document.title,location.pathname);
+    alert(message||'Instagram authorization failed. Please try connecting again.');
+    await returnToConnectScreen();
+    return;
+  }
+
+  if(status==='instagram_error'){
+    history.replaceState({},document.title,location.pathname);
+    alert(message||'Instagram authorization failed. Please try connecting again.');
+    await returnToConnectScreen();
+    return;
+  }
+
+  if(!status)return;
+
+  history.replaceState({},document.title,location.pathname);
+
+  const messages={
+    instagram_cancelled:'Instagram authorization was cancelled.',
+    instagram_denied:'Instagram authorization was cancelled.',
+    instagram_error:message||'Instagram authorization failed. Please try connecting again.',
+    youtube_cancelled:'YouTube authorization was cancelled.',
+    youtube_denied:'YouTube authorization was cancelled.',
+    youtube_no_channel:'No YouTube channel was found for this Google account.',
+    youtube_error:message||'YouTube authorization failed. Please try connecting again.'
+  };
+
+  if(messages[status]){
+    alert(messages[status]);
+    await returnToConnectScreen();
+  }
+}
 function spotifyReady(){return Boolean(SPOTIFY_CLIENT_ID);}
 function spotifyRandom(length=64){const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';const bytes=crypto.getRandomValues(new Uint8Array(length));return [...bytes].map(b=>chars[b%chars.length]).join('');}
 function spotifyBase64Url(buffer){return btoa(String.fromCharCode(...new Uint8Array(buffer))).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');}
@@ -787,6 +862,8 @@ async function beginInstagramOAuth(){
     });
     if(error) throw error;
     if(!data?.url) throw new Error(data?.error||'Instagram authorization is not configured yet.');
+    sessionStorage.setItem('ds_oauth_selected_apps',JSON.stringify(window.digitalShieldSelectedApps||[authPreviewApp]));
+    sessionStorage.setItem('ds_oauth_started','Instagram');
     window.location.href=data.url;
   }catch(err){
     console.error('instagram-start error:',err);
@@ -811,6 +888,8 @@ async function beginYouTubeOAuth(){
     });
     if(error) throw error;
     if(!data?.url) throw new Error(data?.error||'YouTube authorization is not configured yet.');
+    sessionStorage.setItem('ds_oauth_selected_apps',JSON.stringify(window.digitalShieldSelectedApps||[authPreviewApp]));
+    sessionStorage.setItem('ds_oauth_started','YouTube');
     window.location.href=data.url;
   }catch(err){
     console.error('youtube-start error:',err);
