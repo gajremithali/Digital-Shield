@@ -830,6 +830,8 @@ function openAuthModal(name){
   if(!isProviderReady(name))return;
   authPreviewApp=name;
   const primary=document.getElementById('authPrimaryBtn'),permissions=document.getElementById('permissionList'),notice=document.getElementById('authNotice');
+  const personalBtn=document.getElementById('personalInstagramBtn');
+  if(personalBtn) personalBtn.remove();
   if(name==='Instagram'){
     document.getElementById('authTitle').textContent='Connect Instagram';
     document.getElementById('authIntro').textContent='Digital Shield is requesting basic read-only profile access through Instagram Login.';
