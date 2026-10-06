@@ -647,7 +647,9 @@ async function login(){
   const button = document.querySelector('#loginScreen .btn.primary');
   if(button){ button.disabled = true; button.textContent = 'Signing in…'; }
   try{
-    await realSignIn(email, password);
+    const data = await realSignIn(email, password);
+    if(!data?.session?.user) throw new Error('Sign-in succeeded but no active session was returned.');
+    window.digitalShieldAuth = { event:'SIGNED_IN', session:data.session };
     await openAfterLogin();
   }catch(err){
     alert(err?.message || 'Login failed. If you are new, click Create account.');
