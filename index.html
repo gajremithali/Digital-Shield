@@ -564,7 +564,7 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
     alert(messages[status]);
     await returnToConnectScreen();
   }
-}
+})();
 function spotifyReady(){return Boolean(SPOTIFY_CLIENT_ID);}
 function spotifyRandom(length=64){const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';const bytes=crypto.getRandomValues(new Uint8Array(length));return [...bytes].map(b=>chars[b%chars.length]).join('');}
 function spotifyBase64Url(buffer){return btoa(String.fromCharCode(...new Uint8Array(buffer))).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');}
