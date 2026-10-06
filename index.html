@@ -546,7 +546,15 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
     return;
   }
 
-  if(!status)return;
+  if(!status){
+    // Some OAuth callback deployments can return to the site without the status query parameter.
+    // If we started an OAuth flow, restore the authenticated app instead of showing the home/login screen.
+    const started=sessionStorage.getItem('ds_oauth_started');
+    if(started){
+      await returnToConnectScreen();
+    }
+    return;
+  }
 
   history.replaceState({},document.title,location.pathname);
 
