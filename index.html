@@ -695,7 +695,7 @@ async function goApps(){
   if(error){ alert('Could not save your consent: ' + error.message); return; }
   showScreen('appsScreen',3);
 }
-async async function prepareConnections(){
+async function prepareConnections(){
   const selected=[...document.querySelectorAll('.appitem input:checked')].map(i=>i.closest('.appitem')?.dataset.app).filter(Boolean);
   if(!selected.length){alert('Select at least one app to include in the scan.');return;}
   window.digitalShieldSelectedApps=selected;
