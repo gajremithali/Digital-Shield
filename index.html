@@ -942,13 +942,13 @@ function renderReport({selected,signals=[],signalError=null}){
 
   const likes=n('like_count')+n('likes'),comments=n('comment_count')+n('comments'),shares=n('share_count')+n('shares'),subs=n('subscription_count')+n('subscriptions_count');
   const earliest=dates.length?new Date(Math.min(...dates)).toLocaleDateString():firstDefined(['earliest_activity'])||'Not supplied';
-  const latest=dates.length?new Date(Math.max(...dates)).toLocaleDateString():firstDefined(['latest_activity'])||'Not supplied';
+  const latestDateText=dates.length?new Date(Math.max(...dates)).toLocaleDateString():firstDefined(['latest_activity'])||'Not supplied';
   document.getElementById('activityData').innerHTML=[
     ['Uploaded / public content',totalContent?totalContent.toLocaleString():'Not supplied'],
     ['Engagement signals',(likes+comments+shares)?(likes+comments+shares).toLocaleString():'Not supplied'],
     ['Subscriptions / follows',subs?subs.toLocaleString():'Not supplied'],
     ['Earliest available activity',earliest],
-    ['Latest available activity',latest]
+    ['Latest available activity',latestDateText]
   ].map(x=>'<div class="data-row"><span>'+escapeHtml(x[0])+'</span><b>'+escapeHtml(x[1])+'</b></div>').join('');
 
   const timelineEvents=[];
