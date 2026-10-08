@@ -818,7 +818,7 @@ async function prepareConnections(){
   const button=manualInstagram
       ? '<div class="connect-actions"><span class="connected-label">Personal review mode</span><button class="connect-btn disconnect-btn" onclick="disconnectPersonalInstagram()">Remove</button></div>'
       : manualFacebook
-        ? '<div class="connect-actions"><span class="connected-label">Connected</span><button class="connect-btn disconnect-btn" onclick="disconnectApp('Facebook')">Disconnect</button></div>'
+        ? '<div class="connect-actions"><span class="connected-label">Connected</span><button class="connect-btn disconnect-btn" onclick="disconnectApp(\'Facebook\')">Disconnect</button></div>'
       : isAuthorized
         ? '<div class="connect-actions"><span class="connected-label">Connected</span><button class="connect-btn disconnect-btn" onclick="disconnectApp(\''+escapeHtml(name)+'\')">Disconnect</button></div>'
         : live
