@@ -319,7 +319,7 @@ body {
 <label class="appitem" data-app="TikTok"><img alt="TikTok" class="appicon" src="https://cdn.simpleicons.org/tiktok"/><div class="appmeta"><div class="appname">TikTok</div><div class="tag">Setup required</div></div><input type="checkbox"/></label>
 </div>
 <div class="notice">No passwords or private messages are collected. Only platforms with an available authorization flow can be connected; unavailable platforms are excluded from scoring.</div>
-<button class="btn primary" onclick="prepareConnections()">Continue to secure connection →</button>
+<div class="navigation-actions" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px"><button class="btn" onclick="showScreen('consentScreen',2)">← Back</button><button class="btn primary" onclick="prepareConnections()">Continue to secure connection →</button></div>
 </div>
 </div>
 <div class="screen" id="connectScreen">
@@ -328,7 +328,7 @@ body {
 <p class="section-sub">Digital Shield uses the platform's own authorization page. You choose what to allow; Digital Shield only receives the scopes the platform grants.</p>
 <div class="connect-grid" id="connectGrid"></div>
 <div class="notice">Only connected platforms are included in the analysis. If a platform is unavailable, Digital Shield will clearly leave it unscored rather than inventing data.</div>
-<button class="btn primary" onclick="beginAnalysis()">Continue to analysis →</button>
+<div class="navigation-actions" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px"><button class="btn" onclick="editSelectedApps()">← Edit selected apps</button><button class="btn primary" onclick="beginAnalysis()">Continue to analysis →</button></div>
 </div></div>
 <div class="screen" id="scanScreen">
 <div class="center panel scanbox">
@@ -421,6 +421,7 @@ body {
       <p>The report shows only the information available from your connected apps.</p>
     </div>
   </section>
+  <div class="navigation-actions" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:24px 0"><button class="btn" onclick="returnToConnections()">← Back to connections</button><button class="btn primary" onclick="editSelectedApps()">Edit selected apps</button></div>
 </div>
 </div>
 <div class="auth-modal" id="authModal">
@@ -741,7 +742,27 @@ async function showLanding(){
       try{ await realSignOut(); }catch(e){}
       app.classList.remove('active');landing.style.display='block'
     }
-function showScreen(id,n){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.step').forEach((x,i)=>x.classList.toggle('on',i<n))}
+function showScreen(id,n){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.step').forEach((x,i)=>x.classList.toggle('on',i<n));window.digitalShieldCurrentScreen=id}
+function editSelectedApps(){
+  const selected=window.digitalShieldSelectedApps||[];
+  document.querySelectorAll('.appitem input[type="checkbox"]').forEach(input=>{
+    const name=input.closest('.appitem')?.dataset.app;
+    if(!input.disabled) input.checked=selected.includes(name);
+    input.closest('.appitem')?.classList.toggle('selected',!!input.checked);
+  });
+  updateAppSelectionCount();
+  showScreen('appsScreen',3);
+}
+async function returnToConnections(){
+  const selected=window.digitalShieldSelectedApps||[];
+  document.querySelectorAll('.appitem input[type="checkbox"]').forEach(input=>{
+    const name=input.closest('.appitem')?.dataset.app;
+    if(!input.disabled) input.checked=selected.includes(name);
+    input.closest('.appitem')?.classList.toggle('selected',!!input.checked);
+  });
+  updateAppSelectionCount();
+  await prepareConnections();
+}
 async function login(){
   const email = document.getElementById('email')?.value?.trim();
   const password = document.querySelector('#loginScreen input[type="password"]')?.value || '';
