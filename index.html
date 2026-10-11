@@ -484,11 +484,39 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
   }
 
   async function returnToConnectScreen(){
-    const {data}=await supabaseClient.auth.getSession();
+    // OAuth providers redirect back in a new page load. Give Supabase Auth
+    // time to initialize and hydrate its persisted session before declaring
+    // the user signed out.
+    let session=null;
+    let sessionError=null;
+    for(let attempt=0;attempt<8;attempt++){
+      const result=await supabaseClient.auth.getSession();
+      session=result?.data?.session||null;
+      sessionError=result?.error||null;
+      if(session?.user) break;
+      await new Promise(resolve=>setTimeout(resolve,250));
+    }
+
+    // One refresh attempt can recover a valid persisted session whose access
+    // token expired during the external authorization flow.
+    if(!session?.user){
+      try{
+        const refreshed=await supabaseClient.auth.refreshSession();
+        if(!refreshed.error && refreshed.data?.session?.user){
+          session=refreshed.data.session;
+          sessionError=null;
+        }else if(refreshed.error){
+          sessionError=refreshed.error;
+        }
+      }catch(refreshError){
+        sessionError=refreshError;
+      }
+    }
+
     const landingEl=document.getElementById('landing');
     const appEl=document.getElementById('app');
 
-    if(data?.session?.user){
+    if(session?.user){
       window.digitalShieldAuth={event:'SIGNED_IN',session:data.session};
       landingEl.style.display='none';
       appEl.classList.add('active');
