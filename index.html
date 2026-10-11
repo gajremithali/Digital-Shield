@@ -1094,12 +1094,12 @@ function calculateExposureScore(rows){
   const latest=new Map(); rows.forEach(r=>{if(!latest.has(r.app_name)) latest.set(r.app_name,r);});
   const weights={public_profile:18,contact_visible:18,location_visible:12,external_link:10,bio_sensitive:12,public_activity:12,weak_privacy_settings:18};
   let total=0,max=0;
-  for(const r of latest.values()){const sig=r.signals||{};for(const [k,w] of Object.entries(weights)){max+=w;if(sig[k]===true) total+=w;}}
+  for(const r of latest.values()){const sig=r.signals||{};for(const [k,w] of Object.entries(weights)){if(sig[k]===true||sig[k]===false){max+=w;if(sig[k]===true) total+=w;}}}
   return max?Math.round(total/max*100):null;
 }
 function appSignalScore(sig){
   const weights={public_profile:18,contact_visible:18,location_visible:12,external_link:10,bio_sensitive:12,public_activity:12,weak_privacy_settings:18};
-  let n=0,d=0;for(const [k,w] of Object.entries(weights)){d+=w;if(sig?.[k]===true)n+=w;}return d?Math.round(n/d*100):0;
+  let n=0,d=0;for(const [k,w] of Object.entries(weights)){if(sig?.[k]===true||sig?.[k]===false){d+=w;if(sig[k]===true)n+=w;}}return d?Math.round(n/d*100):null;
 }
 function signalLabels(sig){
   const labels=[]; if(sig.public_profile) labels.push('public profile'); if(sig.contact_visible) labels.push('contact visible'); if(sig.location_visible) labels.push('location visible'); if(sig.external_link) labels.push('external link'); if(sig.bio_sensitive) labels.push('sensitive bio'); if(sig.public_activity) labels.push('public activity'); if(sig.weak_privacy_settings) labels.push('privacy settings to review'); return labels;
@@ -1118,7 +1118,7 @@ function renderReport({selected,signals=[],signalError=null}){
   const totalContent=rows.reduce((sum,r)=>sum+Number((r.signals||{}).video_count||(r.signals||{}).media_count||(r.signals||{}).public_content_count||0),0);
   const exposureKeys={public_profile:18,contact_visible:18,location_visible:12,external_link:10,bio_sensitive:12,public_activity:12,weak_privacy_settings:18};
   let riskTotal=0,riskMax=0;
-  rows.filter(r=>r.source!=='instagram_personal_manual').forEach(r=>{for(const [k,w] of Object.entries(exposureKeys)){riskMax+=w;if(r.signals?.[k]===true)riskTotal+=w;}});
+  rows.filter(r=>r.source!=='instagram_personal_manual').forEach(r=>{for(const [k,w] of Object.entries(exposureKeys)){const v=r.signals?.[k];if(v===true||v===false){riskMax+=w;if(v===true)riskTotal+=w;}}});
   const exposureScore=riskMax?Math.round(riskTotal/riskMax*100):null;
   const scoreEl=document.getElementById('reportScore'),label=document.getElementById('reportRiskLabel');
   if(exposureScore!==null){
@@ -1199,24 +1199,25 @@ function renderReport({selected,signals=[],signalError=null}){
     : '<div class="footprint-item"><div class="mini-icon">🧭</div><strong>Interest profile</strong><div class="footprint-value">Limited</div><p>Topic inference will appear only when authorized content metadata supplies reliable categories.</p></div>';
 
   document.getElementById('platformGrid').innerHTML=rows.length?rows.map(r=>{
-    const s=r.signals||{};let p=0,d=0;for(const [k,w] of Object.entries(exposureKeys)){d+=w;if(s[k]===true)p+=w;}const pct=d?Math.round(p/d*100):0;
+    const s=r.signals||{};let p=0,d=0;for(const [k,w] of Object.entries(exposureKeys)){if(s[k]===true||s[k]===false){d+=w;if(s[k]===true)p+=w;}}const pct=d?Math.round(p/d*100):null;
     const detail=r.app_name==='YouTube'
       ? ((s.channel_title||'YouTube channel')+' · '+(Number(s.video_count||0).toLocaleString())+' videos · '+(Number(s.view_count||0).toLocaleString())+' views')
       : r.app_name==='Spotify'
         ? ((s.display_name||'Spotify profile')+' · '+(Number(s.playlist_count||0).toLocaleString())+' playlists · '+(Number(s.follower_count||0).toLocaleString())+' followers')
         : r.app_name==='Instagram'
-          ? ((s.username||'Instagram profile')+' · '+(Number(s.media_count||0).toLocaleString())+' public media · '+(Number(s.follower_count||0).toLocaleString())+' followers')
+          ? ((s.username||'Instagram profile')+' · '+(s.media_count===null||s.media_count===undefined?'Not returned':Number(s.media_count).toLocaleString())+' public media · '+(s.follower_count===null||s.follower_count===undefined?'Not returned':Number(s.follower_count).toLocaleString())+' followers · '+(s.following_count===null||s.following_count===undefined?'Not returned':Number(s.following_count).toLocaleString())+' following')
           : 'Authorized '+(r.source||'platform')+' signals';
-    return '<div class="platform-card"><div class="platform-card-head"><img src="https://cdn.simpleicons.org/'+iconSlug(r.app_name)+'" alt=""><div><strong>'+escapeHtml(r.app_name)+'</strong><span>'+escapeHtml(r.source||'authorized source')+'</span></div><em class="platform-risk">'+(pct>=70?'HIGH':pct>=40?'MODERATE':'LOW')+'</em></div><div class="platform-bar"><i style="width:'+pct+'%"></i></div><div class="platform-detail">'+escapeHtml(detail)+'</div></div>';
+    return '<div class="platform-card"><div class="platform-card-head"><img src="https://cdn.simpleicons.org/'+iconSlug(r.app_name)+'" alt=""><div><strong>'+escapeHtml(r.app_name)+'</strong><span>'+escapeHtml(r.source||'authorized source')+'</span></div><em class="platform-risk">'+(pct===null?'NOT ASSESSED':pct>=70?'HIGH':pct>=40?'MODERATE':'LOW')+'</em></div><div class="platform-bar"><i style="width:'+(pct===null?0:pct)+'%"></i></div><div class="platform-detail">'+escapeHtml(detail)+'</div></div>';
   }).join(''):'<div class="report-empty">No authorized platforms have supplied signals yet.</div>';
 
+  const assessedText=(key,yes,no)=>all.some(sig=>sig[key]===true)?yes:all.some(sig=>sig[key]===false)?no:'Not assessed with available authorized data.';
   const strangerItems=[
-    ['🔎','Discoverability',boolCount('public_profile')?'Your profile identity is publicly discoverable.':'No public-profile signal was supplied.'],
-    ['🧭','Behavior clues',boolCount('public_activity')?'Public activity can reveal interests, routines or recurring behavior.':'No public-activity signal was supplied.'],
-    ['🔗','Connected footprint',boolCount('external_link')?'External links can connect this identity to other services.':'No external-link signal was detected.'],
-    ['📍','Location clues',boolCount('location_visible')?'A location signal was detected and should be reviewed.':'No location signal was detected.'],
-    ['☎️','Contact clues',boolCount('contact_visible')?'Contact information appears exposed in an authorized signal.':'No contact-visible signal was detected.'],
-    ['🧠','Interest clues',topics.length?topics.slice(0,2).join(' · '):'Insufficient authorized topic data']
+    ['🔎','Discoverability',assessedText('public_profile','Your profile identity is publicly discoverable.','No public-profile signal was found in checked fields.')],
+    ['🧭','Behavior clues',assessedText('public_activity','Public activity is present and may reveal interests or routines.','No public-activity signal was found in checked fields.')],
+    ['🔗','Connected footprint',assessedText('external_link','External links can connect this identity to other services.','No external profile link was supplied.')],
+    ['📍','Location clues',assessedText('location_visible','Potential location clues were found and should be reviewed.','No location clues were found in the checked text sample.')],
+    ['☎️','Contact clues',assessedText('contact_visible','Potential contact details were found and should be reviewed.','No contact details were found in the checked text sample.')],
+    ['🧠','Interest clues',topics.length?topics.slice(0,2).join(' · '):'Not enough authorized content metadata to infer topics']
   ];
   document.getElementById('strangerGrid').innerHTML=strangerItems.map(x=>'<div class="footprint-item"><div class="mini-icon">'+x[0]+'</div><strong>'+escapeHtml(x[1])+'</strong><p>'+escapeHtml(x[2])+'</p></div>').join('');
 
