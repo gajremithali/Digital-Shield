@@ -483,7 +483,7 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
     sessionStorage.removeItem('ds_oauth_started');
   }
 
-  async function returnToConnectScreen(){
+  async function returnToConnectScreen(openReportAfterReturn=false){
     // OAuth providers redirect back in a new page load. Give Supabase Auth
     // time to initialize and hydrate its persisted session before declaring
     // the user signed out.
@@ -517,11 +517,18 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
     const appEl=document.getElementById('app');
 
     if(session?.user){
-      window.digitalShieldAuth={event:'SIGNED_IN',session:data.session};
+      window.digitalShieldAuth={event:'SIGNED_IN',session};
       landingEl.style.display='none';
       appEl.classList.add('active');
       restoreOAuthContext();
-      await prepareConnections();
+      if(openReportAfterReturn){
+        const selected=window.digitalShieldSelectedApps?.length ? window.digitalShieldSelectedApps : ['Instagram'];
+        window.digitalShieldSelectedApps=selected;
+        await loadRealReport(session.user.id, selected);
+        showScreen('reportScreen',4);
+      }else{
+        await prepareConnections();
+      }
     }else{
       alert('Your Digital Shield session could not be restored. Please sign in again.');
       landingEl.style.display='none';
@@ -547,8 +554,7 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
 
   if(instagramStatus==='success'){
     history.replaceState({},document.title,location.pathname);
-    alert('Instagram connected successfully. Your authorized profile signals are ready for analysis.');
-    await returnToConnectScreen();
+    await returnToConnectScreen(true);
     return;
   }
 
