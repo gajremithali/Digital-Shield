@@ -343,6 +343,31 @@ body{background:var(--ds-bg)!important;color:var(--ds-ink)!important;transition:
 #ds-proceed{border:0;background:var(--ds-ink);color:var(--ds-bg);padding:14px 22px;border-radius:99px;font-size:12px;font-weight:700;cursor:pointer}
 @media(max-width:560px){#ds-theme-gate{align-items:flex-start;padding:24px 18px}.ds-gate-title{margin:28px 0}.ds-gate-options{gap:8px}.ds-theme-choice{padding:9px 11px}.ds-gate-bottom{align-items:flex-start;flex-direction:column}#ds-proceed{width:100%}}
 </style>
+
+<style id="digital-shield-live-theme-picker">
+:root{--ds-bg:#f4f2e9;--ds-panel:#fbfaf4;--ds-panel2:#e8e7dc;--ds-ink:#20231a;--ds-muted:#686b5d;--ds-line:rgba(32,35,26,.2);--ds-accent:#718345;--ds-pop:#dcb52f}
+html,body{overflow-x:hidden!important}
+body,#landing,#landing .nav,#landing main,#landing section,#landing .card,#landing .editorial-thumb,#landing .btn,#landing .editorial-cta,#landing footer{transition:background-color .8s ease,color .8s ease,border-color .8s ease}
+body{background:var(--ds-bg)!important;color:var(--ds-ink)!important}
+#landing{background:var(--ds-bg)!important;color:var(--ds-ink)!important}
+#landing .nav{color:var(--ds-ink)!important;border-color:var(--ds-line)!important}
+#landing .brand,#landing .navlinks,#landing .navlinks a,#landing .nav>.btn{color:var(--ds-ink)!important}
+#landing .nav>.btn{border-color:var(--ds-ink)!important;background:transparent!important}
+#landing .editorial-hero,#landing #features,#landing #how,#landing #privacy{background:var(--ds-bg)!important;color:var(--ds-ink)!important;border-color:var(--ds-line)!important}
+#landing .editorial-hero h1,#landing .section-title,#landing .card h3{color:var(--ds-ink)!important}
+#landing .editorial-hero .gradient{color:var(--ds-accent)!important;-webkit-text-fill-color:var(--ds-accent)!important}
+#landing .editorial-side-note,#landing .editorial-caption,#landing .section-sub,#landing .card p,#landing .thumb-caption{color:var(--ds-muted)!important}
+#landing .editorial-thumb,#landing .card{background:var(--ds-panel)!important;border-color:var(--ds-line)!important}
+#landing .thumb-top,#landing .card .icon{background:var(--ds-pop)!important;color:var(--ds-ink)!important}
+#landing .editorial-cta{background:var(--ds-ink)!important;color:var(--ds-bg)!important;border-color:var(--ds-ink)!important}
+#landing .editorial-square{background:var(--ds-pop)!important}
+#ds-theme-dock{position:fixed;z-index:9998;right:20px;bottom:18px;display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid var(--ds-line);border-radius:999px;background:var(--ds-panel);color:var(--ds-ink);box-shadow:0 8px 28px rgba(0,0,0,.09);transition:background-color .8s ease,color .8s ease,border-color .8s ease;max-width:calc(100vw - 24px)}
+#ds-theme-dock .ds-dock-label{font-size:10px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;margin:0 3px}
+.ds-swatch{width:22px;height:22px;flex:0 0 22px;border-radius:50%;border:2px solid rgba(0,0,0,.13);cursor:pointer;position:relative;padding:0}
+.ds-swatch[aria-pressed="true"]{outline:2px solid var(--ds-ink);outline-offset:2px}
+.ds-swatch:focus-visible{outline:2px solid var(--ds-accent);outline-offset:3px}
+@media(max-width:560px){#ds-theme-dock{right:12px;bottom:12px;left:12px;justify-content:center;gap:9px;padding:10px 8px}#ds-theme-dock .ds-dock-label{font-size:9px}.ds-swatch{width:20px;height:20px;flex-basis:20px}}
+</style>
 </head>
 <body>
 <div id="landing">
@@ -1433,32 +1458,38 @@ updateAppSelectionCount();
   {name:"Forest",bg:"#0d342b",panel:"#1b493e",panel2:"#24594b",ink:"#f2f0e5",muted:"#c0d0c4",line:"rgba(242,240,229,.24)",accent:"#d6df9c",pop:"#e4a86e"},
   {name:"Dusty rose",bg:"#ead8d9",panel:"#f4e8e7",panel2:"#dfc6ca",ink:"#34272b",muted:"#76646a",line:"rgba(52,39,43,.22)",accent:"#a75c72",pop:"#d7a84c"}
  ];
- let selected=0, demoTimer=null, demoIndex=0;
- function apply(i){
-  const t=themes[i],r=document.documentElement;
-  selected=i;
+ let selected=0, demoTimer=null, demoIndex=0, userPicked=false;
+ function apply(i,save){
+  selected=i;const t=themes[i],r=document.documentElement;
   const map={"--ds-bg":t.bg,"--ds-panel":t.panel,"--ds-panel2":t.panel2,"--ds-ink":t.ink,"--ds-muted":t.muted,"--ds-line":t.line,"--ds-accent":t.accent,"--ds-pop":t.pop,
    "--page-bg":t.bg,"--page-ink":t.ink,"--page-muted":t.muted,"--page-accent":t.accent,"--page-line":t.line,"--page-card":t.panel,"--page-pop":t.pop,
    "--bg":t.bg,"--panel":t.panel,"--panel2":t.panel2,"--text":t.ink,"--muted":t.muted,"--line":t.line,"--accent":t.accent,"--accent2":t.pop,"--theme-primary":t.bg,"--theme-secondary":t.panel,"--theme-light":t.panel2,"--theme-dark":t.ink};
   Object.keys(map).forEach(k=>r.style.setProperty(k,map[k]));
   document.body.dataset.theme="chosen-"+i;
-  document.querySelectorAll(".ds-theme-choice").forEach((b,j)=>b.setAttribute("aria-pressed",String(j===i)));
-  const label=document.getElementById("ds-preview-name");if(label)label.textContent=t.name;
-  document.documentElement.style.colorScheme=[2,3,4].includes(i)?"dark":"light";
+  document.querySelectorAll(".ds-swatch").forEach((b,j)=>b.setAttribute("aria-pressed",String(j===i)));
+  const label=document.getElementById("ds-dock-label");if(label)label.textContent=userPicked?t.name:"CHOOSE YOUR COLOUR";
+  r.style.colorScheme=[2,3,4].includes(i)?"dark":"light";
+  if(save){try{localStorage.setItem("digitalShieldTheme",String(i));}catch(e){}}
  }
  function init(){
-  if(!document.getElementById("ds-theme-gate")){
-   const gate=document.createElement("div");gate.id="ds-theme-gate";gate.setAttribute("role","dialog");gate.setAttribute("aria-modal","true");gate.setAttribute("aria-label","Preview and choose your website theme");
-   gate.innerHTML='<div class="ds-gate-inner"><div class="ds-gate-top"><span>DIGITAL SHIELD</span><span>Choose your atmosphere · <b id="ds-preview-name">Cream</b></span></div><h1 class="ds-gate-title">Your space.<br><em>Your colour.</em></h1><div class="ds-gate-preview"><div class="ds-gate-preview-copy">See what your<br><span>digital trail</span><br>says about you.</div></div><div class="ds-gate-options" aria-label="Choose a colour theme">'+themes.map((t,i)=>'<button type="button" class="ds-theme-choice" data-theme-choice="'+i+'" aria-pressed="'+(i===0)+'"><span class="ds-theme-dots"><i style="background:'+t.bg+'"></i><i style="background:'+t.accent+'"></i><i style="background:'+t.pop+'"></i></span>'+t.name+'</button>').join("")+'</div><div class="ds-gate-bottom"><span class="ds-gate-hint">Preview the palettes, choose one, then enter the site.</span><button id="ds-proceed" type="button">Use this theme & continue ↗</button></div></div>';
-   document.body.appendChild(gate);
-   gate.querySelectorAll("[data-theme-choice]").forEach(b=>b.addEventListener("click",()=>{if(demoTimer){clearInterval(demoTimer);demoTimer=null;}apply(Number(b.dataset.themeChoice));}));
-   document.getElementById("ds-proceed").addEventListener("click",()=>{if(demoTimer)clearInterval(demoTimer);apply(selected);gate.style.opacity="0";setTimeout(()=>{gate.hidden=true;document.documentElement.style.overflowY="auto";document.body.style.overflowY="auto";},450);});
+  // Remove the earlier full-screen gate; the user sees the actual site, not a separate interstitial.
+  const oldGate=document.getElementById("ds-theme-gate");if(oldGate)oldGate.remove();
+  if(!document.getElementById("ds-theme-dock")){
+   const dock=document.createElement("div");dock.id="ds-theme-dock";dock.setAttribute("aria-label","Choose website colours");
+   dock.innerHTML='<span class="ds-dock-label" id="ds-dock-label">COLOUR PREVIEW</span>'+themes.map((t,i)=>'<button type="button" class="ds-swatch" data-theme-choice="'+i+'" title="'+t.name+'" aria-label="Use '+t.name+' theme" aria-pressed="'+(i===0)+'" style="background:'+t.bg+';box-shadow:inset 0 0 0 5px '+t.accent+'"></button>').join("");
+   document.body.appendChild(dock);
+   dock.querySelectorAll("[data-theme-choice]").forEach(b=>b.addEventListener("click",()=>{
+    userPicked=true;if(demoTimer){clearInterval(demoTimer);demoTimer=null;}
+    apply(Number(b.dataset.themeChoice),true);
+   }));
   }
-  apply(0);
-  // Demonstrate the full-page palette shift first, then return to the first option for the user's choice.
-  if(!(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)){
-   demoTimer=setInterval(()=>{demoIndex=(demoIndex+1)%themes.length;apply(demoIndex);if(demoIndex===themes.length-1){clearInterval(demoTimer);demoTimer=null;apply(0);}},1800);
-  }
+  let saved=null;try{saved=localStorage.getItem("digitalShieldTheme");}catch(e){}
+  if(saved!==null&&Number.isInteger(Number(saved))&&Number(saved)>=0&&Number(saved)<themes.length){userPicked=true;apply(Number(saved),false);return;}
+  apply(0,false);
+  if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  // Show a brief live demonstration by recolouring the whole site, then settle on cream.
+  demoIndex=0;
+  demoTimer=setInterval(()=>{if(userPicked){clearInterval(demoTimer);demoTimer=null;return;}demoIndex++;if(demoIndex>=themes.length){clearInterval(demoTimer);demoTimer=null;apply(0,false);return;}apply(demoIndex,false);},1600);
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});else init();
 })();
