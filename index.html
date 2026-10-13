@@ -264,6 +264,47 @@ body[data-theme="indigo"] .editorial-thumb,body[data-theme="navy"] .editorial-th
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body,.nav,#features,#how,#privacy,.card{transition:none!important}.editorial-cta span,.card{transition:none!important}}
 </style>
 
+
+<style id="digital-shield-single-screen-fix">
+/* Single-screen editorial landing: no scroll or theme cycling on the homepage. */
+html,body{height:100%;overflow:hidden!important;scroll-behavior:auto!important}
+#landing{height:100svh;min-height:100svh;overflow:hidden;background:#f4f2e9;color:#171914}
+#landing .nav{height:74px;min-height:74px;border-bottom:1px solid rgba(40,45,30,.14)}
+#landing .navlinks{display:none!important}
+#landing main{height:calc(100svh - 74px);max-width:none;padding:0 clamp(18px,4vw,64px)!important;overflow:hidden}
+#landing .editorial-hero{height:100%;min-height:0;padding:0!important;display:flex;align-items:center;justify-content:center;overflow:hidden;border:0;background:#f4f2e9!important}
+#landing .editorial-copy{width:min(100%,1260px);padding:0 clamp(6px,5vw,78px);margin:0 auto}
+#landing .editorial-hero h1{font-family:"Arial", "Helvetica Neue", sans-serif;font-size:clamp(54px,9.1vw,136px);line-height:.88;letter-spacing:-.085em;font-weight:700;color:#20231a;max-width:1120px}
+#landing .editorial-hero .gradient{color:#687b3b!important;-webkit-text-fill-color:#687b3b!important;background:none!important}
+#landing .editorial-side-note{right:clamp(12px,4vw,60px);top:auto;bottom:18%;max-width:135px;color:#686d59}
+#landing .editorial-bottom{margin-top:clamp(28px,5vh,56px)}
+#landing .editorial-cta{border-color:#20231a;background:#20231a;color:#f8f6ed;padding:14px 20px}
+#landing .editorial-caption{color:#777b68}
+#landing .editorial-thumb{box-shadow:0 8px 28px rgba(20,24,14,.08)}
+#landing .thumb-left{top:7%;left:clamp(16px,10vw,150px)}
+#landing .thumb-right{right:clamp(14px,9vw,135px);bottom:5%}
+#landing .editorial-square{width:10px;height:10px}
+#landing main>#features,#landing main>#how,#landing main>#privacy{display:none!important}
+#landing #loginModal,#landing .modal{z-index:1000}
+@media(max-width:700px){
+ #landing .nav{height:64px;min-height:64px;padding:0 18px}
+ #landing main{height:calc(100svh - 64px);padding:0 18px!important}
+ #landing .editorial-copy{padding:0 4px}
+ #landing .editorial-hero h1{font-size:clamp(48px,12.5vw,82px);line-height:.92;letter-spacing:-.075em}
+ #landing .thumb-left{top:5%;left:8%;width:104px}
+ #landing .thumb-right{right:5%;bottom:5%;width:100px}
+ #landing .editorial-side-note{right:5%;bottom:24%;font-size:10px}
+ #landing .editorial-bottom{margin-top:28px;gap:12px;flex-wrap:wrap}
+ #landing .editorial-caption{font-size:8px}
+}
+@media(max-height:620px) and (min-width:701px){
+ #landing .editorial-hero h1{font-size:clamp(48px,7.2vw,94px)}
+ #landing .thumb-left{top:2%;width:110px}
+ #landing .thumb-right{bottom:2%;width:105px}
+ #landing .editorial-bottom{margin-top:24px}
+}
+</style>
+
 </head>
 <body>
 <div id="landing">
@@ -1344,22 +1385,7 @@ if(appSearch)appSearch.addEventListener('input',()=>{const q=appSearch.value.tri
 updateAppSelectionCount();
 </script>
 
-<script id="digital-shield-theme-switcher">
-(function(){
-  const themes=["cream","sage","indigo","navy","forest","rose"];
-  const sections=[...document.querySelectorAll(".editorial-hero,#features,#how,#privacy")];
-  if(!sections.length)return;
-  sections.forEach((section,i)=>section.dataset.theme=themes[Math.min(i,themes.length-1)]);
-  const setTheme=(theme)=>{document.body.dataset.theme=theme==="cream"?"cream":theme;document.documentElement.style.colorScheme=(theme==="indigo"||theme==="navy"||theme==="forest")?"dark":"light";};
-  if(!("IntersectionObserver" in window)){setTheme("cream");return;}
-  const observer=new IntersectionObserver(entries=>{
-    const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio);
-    if(visible.length)setTheme(visible[0].target.dataset.theme||"cream");
-  },{rootMargin:"-18% 0px -38% 0px",threshold:[0.05,0.2,0.4,0.6]});
-  sections.forEach(s=>observer.observe(s));
-  setTheme("cream");
-})();
-</script>
+<script id="digital-shield-theme-switcher">(function(){document.body.dataset.theme="cream";})();</script>
 
 </div></div></body>
 </html>
