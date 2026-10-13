@@ -305,6 +305,44 @@ html,body{height:100%;overflow:hidden!important;scroll-behavior:auto!important}
 }
 </style>
 
+
+<style id="digital-shield-theme-onboarding">
+:root{--ds-bg:#f4f2e9;--ds-panel:#fbfaf4;--ds-panel2:#e8e7dc;--ds-ink:#20231a;--ds-muted:#686b5d;--ds-line:rgba(32,35,26,.2);--ds-accent:#718345;--ds-pop:#dcb52f}
+html,body{height:auto!important;min-height:100%;overflow-x:hidden!important;overflow-y:auto!important}
+body{background:var(--ds-bg)!important;color:var(--ds-ink)!important;transition:background-color .8s ease,color .8s ease}
+#landing{background:var(--ds-bg)!important;color:var(--ds-ink)!important;min-height:100svh;overflow:visible!important;transition:background-color .8s ease,color .8s ease}
+#landing .nav,#landing main,#landing section,#landing .card,#landing .editorial-thumb,#landing .btn,#landing .editorial-cta{transition:background-color .8s ease,color .8s ease,border-color .8s ease}
+#landing .nav{color:var(--ds-ink)!important;border-color:var(--ds-line)!important}
+#landing .brand,#landing .navlinks,#landing .navlinks a,#landing .nav>.btn{color:var(--ds-ink)!important}
+#landing .nav>.btn{border-color:var(--ds-ink)!important;background:transparent!important}
+#landing .editorial-hero,#landing #features,#landing #how,#landing #privacy{background:var(--ds-bg)!important;color:var(--ds-ink)!important;border-color:var(--ds-line)!important}
+#landing .editorial-hero h1,#landing .section-title,#landing .card h3{color:var(--ds-ink)!important}
+#landing .editorial-hero .gradient{color:var(--ds-accent)!important;-webkit-text-fill-color:var(--ds-accent)!important}
+#landing .editorial-side-note,#landing .editorial-caption,#landing .section-sub,#landing .card p,#landing .thumb-caption{color:var(--ds-muted)!important}
+#landing .editorial-thumb,#landing .card{background:var(--ds-panel)!important;border-color:var(--ds-line)!important}
+#landing .thumb-top,#landing .card .icon{background:var(--ds-pop)!important;color:var(--ds-ink)!important}
+#landing .editorial-cta{background:var(--ds-ink)!important;color:var(--ds-bg)!important;border-color:var(--ds-ink)!important}
+#landing .editorial-square{background:var(--ds-pop)!important}
+#ds-theme-gate{position:fixed;inset:0;z-index:99999;overflow-y:auto;background:var(--ds-bg);color:var(--ds-ink);padding:clamp(18px,3vw,40px);display:flex;align-items:center;justify-content:center;transition:background-color .8s ease,color .8s ease}
+#ds-theme-gate[hidden]{display:none!important}
+.ds-gate-inner{width:min(100%,1100px);margin:auto}
+.ds-gate-top{display:flex;justify-content:space-between;align-items:center;gap:20px;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.ds-gate-title{font-size:clamp(36px,6vw,76px);letter-spacing:-.075em;line-height:.92;font-weight:700;max-width:850px;margin:clamp(22px,4vh,42px) 0}
+.ds-gate-title em{font-style:normal;color:var(--ds-accent)}
+.ds-gate-preview{height:clamp(140px,25vh,245px);position:relative;border:1px solid var(--ds-line);background:var(--ds-panel);overflow:hidden;display:flex;align-items:center;padding:clamp(18px,4vw,50px);transition:background-color .8s ease}
+.ds-gate-preview:before,.ds-gate-preview:after{content:"";position:absolute;width:clamp(48px,8vw,100px);height:clamp(54px,9vw,112px);background:var(--ds-pop);opacity:.95;transform:rotate(-8deg);right:12%;top:15%;transition:background-color .8s ease}
+.ds-gate-preview:after{right:7%;top:38%;background:var(--ds-accent);transform:rotate(7deg);opacity:.75}
+.ds-gate-preview-copy{position:relative;z-index:1;font-size:clamp(25px,5vw,58px);font-weight:750;letter-spacing:-.075em;line-height:.9;max-width:70%;color:var(--ds-ink)}
+.ds-gate-preview-copy span{color:var(--ds-accent)}
+.ds-gate-options{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+.ds-theme-choice{display:flex;align-items:center;gap:9px;border:1px solid var(--ds-line);background:transparent;color:var(--ds-ink);padding:10px 13px;border-radius:99px;font-size:12px;cursor:pointer}
+.ds-theme-choice[aria-pressed="true"]{outline:2px solid var(--ds-accent);outline-offset:2px}
+.ds-theme-dots{display:flex;gap:3px}.ds-theme-dots i{width:13px;height:13px;border-radius:50%;display:block}
+.ds-gate-bottom{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.ds-gate-hint{font-size:12px;color:var(--ds-muted)}
+#ds-proceed{border:0;background:var(--ds-ink);color:var(--ds-bg);padding:14px 22px;border-radius:99px;font-size:12px;font-weight:700;cursor:pointer}
+@media(max-width:560px){#ds-theme-gate{align-items:flex-start;padding:24px 18px}.ds-gate-title{margin:28px 0}.ds-gate-options{gap:8px}.ds-theme-choice{padding:9px 11px}.ds-gate-bottom{align-items:flex-start;flex-direction:column}#ds-proceed{width:100%}}
+</style>
 </head>
 <body>
 <div id="landing">
@@ -1387,45 +1425,42 @@ updateAppSelectionCount();
 
 <script id="digital-shield-theme-switcher">
 (function(){
-  const themes=[
-    {bg:"#f4f2e9",ink:"#20231a",accent:"#718345",card:"#fbfaf4",pop:"#dcb52f"},
-    {bg:"#e2e8ce",ink:"#28301f",accent:"#536b36",card:"#f0f3e5",pop:"#d8a84e"},
-    {bg:"#302a91",ink:"#f7f3d7",accent:"#e6d875",card:"#4039a3",pop:"#f0a8c8"},
-    {bg:"#07172d",ink:"#f2f1e9",accent:"#9eb9dc",card:"#142642",pop:"#c3d4ee"},
-    {bg:"#0d342b",ink:"#f2f0e5",accent:"#d6df9c",card:"#1b493e",pop:"#e4a86e"},
-    {bg:"#ead8d9",ink:"#34272b",accent:"#a75c72",card:"#f4e8e7",pop:"#d7a84c"}
-  ];
-  let current=0, timer;
-  function paint(index){
-    current=index;
-    const t=themes[index], root=document.documentElement, landing=document.getElementById("landing");
-    root.style.setProperty("--page-bg",t.bg);
-    root.style.setProperty("--page-ink",t.ink);
-    root.style.setProperty("--page-accent",t.accent);
-    root.style.setProperty("--page-card",t.card);
-    root.style.setProperty("--page-pop",t.pop);
-    if(landing){
-      landing.style.backgroundColor=t.bg;
-      landing.style.color=t.ink;
-      const hero=landing.querySelector(".editorial-hero");
-      if(hero) hero.style.backgroundColor=t.bg;
-      const h1=landing.querySelector(".editorial-hero h1");
-      if(h1) h1.style.color=t.ink;
-      const accent=landing.querySelector(".editorial-hero .gradient");
-      if(accent){accent.style.color=t.accent;accent.style.webkitTextFillColor=t.accent;}
-      const btn=landing.querySelector(".editorial-cta");
-      if(btn){btn.style.borderColor=t.ink;btn.style.backgroundColor=(index===0||index===1||index===5)?t.ink:"transparent";btn.style.color=(index===0||index===1||index===5)?t.bg:t.ink;}
-      landing.querySelectorAll(".editorial-thumb").forEach(el=>{el.style.backgroundColor=t.card;el.style.borderColor=t.ink+"33";});
-      landing.querySelectorAll(".thumb-caption,.editorial-caption,.editorial-side-note").forEach(el=>el.style.color=t.ink+"b8");
-    }
-    document.body.dataset.theme="fixed-"+index;
-    document.documentElement.style.colorScheme=(index===2||index===3||index===4)?"dark":"light";
+ const themes=[
+  {name:"Cream",bg:"#f4f2e9",panel:"#fbfaf4",panel2:"#e8e7dc",ink:"#20231a",muted:"#686b5d",line:"rgba(32,35,26,.2)",accent:"#718345",pop:"#dcb52f"},
+  {name:"Sage",bg:"#e2e8ce",panel:"#f0f3e5",panel2:"#d4ddbd",ink:"#28301f",muted:"#606c50",line:"rgba(40,48,31,.22)",accent:"#536b36",pop:"#d8a84e"},
+  {name:"Indigo",bg:"#302a91",panel:"#4039a3",panel2:"#514bb4",ink:"#f7f3d7",muted:"#d0cdef",line:"rgba(247,243,215,.28)",accent:"#e6d875",pop:"#f0a8c8"},
+  {name:"Navy",bg:"#07172d",panel:"#142642",panel2:"#1c3454",ink:"#f2f1e9",muted:"#c0c9d7",line:"rgba(242,241,233,.24)",accent:"#9eb9dc",pop:"#c3d4ee"},
+  {name:"Forest",bg:"#0d342b",panel:"#1b493e",panel2:"#24594b",ink:"#f2f0e5",muted:"#c0d0c4",line:"rgba(242,240,229,.24)",accent:"#d6df9c",pop:"#e4a86e"},
+  {name:"Dusty rose",bg:"#ead8d9",panel:"#f4e8e7",panel2:"#dfc6ca",ink:"#34272b",muted:"#76646a",line:"rgba(52,39,43,.22)",accent:"#a75c72",pop:"#d7a84c"}
+ ];
+ let selected=0, demoTimer=null, demoIndex=0;
+ function apply(i){
+  const t=themes[i],r=document.documentElement;
+  selected=i;
+  const map={"--ds-bg":t.bg,"--ds-panel":t.panel,"--ds-panel2":t.panel2,"--ds-ink":t.ink,"--ds-muted":t.muted,"--ds-line":t.line,"--ds-accent":t.accent,"--ds-pop":t.pop,
+   "--page-bg":t.bg,"--page-ink":t.ink,"--page-muted":t.muted,"--page-accent":t.accent,"--page-line":t.line,"--page-card":t.panel,"--page-pop":t.pop,
+   "--bg":t.bg,"--panel":t.panel,"--panel2":t.panel2,"--text":t.ink,"--muted":t.muted,"--line":t.line,"--accent":t.accent,"--accent2":t.pop,"--theme-primary":t.bg,"--theme-secondary":t.panel,"--theme-light":t.panel2,"--theme-dark":t.ink};
+  Object.keys(map).forEach(k=>r.style.setProperty(k,map[k]));
+  document.body.dataset.theme="chosen-"+i;
+  document.querySelectorAll(".ds-theme-choice").forEach((b,j)=>b.setAttribute("aria-pressed",String(j===i)));
+  const label=document.getElementById("ds-preview-name");if(label)label.textContent=t.name;
+  document.documentElement.style.colorScheme=[2,3,4].includes(i)?"dark":"light";
+ }
+ function init(){
+  if(!document.getElementById("ds-theme-gate")){
+   const gate=document.createElement("div");gate.id="ds-theme-gate";gate.setAttribute("role","dialog");gate.setAttribute("aria-modal","true");gate.setAttribute("aria-label","Preview and choose your website theme");
+   gate.innerHTML='<div class="ds-gate-inner"><div class="ds-gate-top"><span>DIGITAL SHIELD</span><span>Choose your atmosphere · <b id="ds-preview-name">Cream</b></span></div><h1 class="ds-gate-title">Your space.<br><em>Your colour.</em></h1><div class="ds-gate-preview"><div class="ds-gate-preview-copy">See what your<br><span>digital trail</span><br>says about you.</div></div><div class="ds-gate-options" aria-label="Choose a colour theme">'+themes.map((t,i)=>'<button type="button" class="ds-theme-choice" data-theme-choice="'+i+'" aria-pressed="'+(i===0)+'"><span class="ds-theme-dots"><i style="background:'+t.bg+'"></i><i style="background:'+t.accent+'"></i><i style="background:'+t.pop+'"></i></span>'+t.name+'</button>').join("")+'</div><div class="ds-gate-bottom"><span class="ds-gate-hint">Preview the palettes, choose one, then enter the site.</span><button id="ds-proceed" type="button">Use this theme & continue ↗</button></div></div>';
+   document.body.appendChild(gate);
+   gate.querySelectorAll("[data-theme-choice]").forEach(b=>b.addEventListener("click",()=>{if(demoTimer){clearInterval(demoTimer);demoTimer=null;}apply(Number(b.dataset.themeChoice));}));
+   document.getElementById("ds-proceed").addEventListener("click",()=>{if(demoTimer)clearInterval(demoTimer);apply(selected);gate.style.opacity="0";setTimeout(()=>{gate.hidden=true;document.documentElement.style.overflowY="auto";document.body.style.overflowY="auto";},450);});
   }
-  // Keep the homepage to one screen. Colour shifts gently in place, like the reference video.
-  const reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  paint(0);
-  if(!reduced) timer=window.setInterval(()=>paint((current+1)%themes.length),4500);
-  window.addEventListener("pagehide",()=>{if(timer)window.clearInterval(timer);},{once:true});
+  apply(0);
+  // Demonstrate the full-page palette shift first, then return to the first option for the user's choice.
+  if(!(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)){
+   demoTimer=setInterval(()=>{demoIndex=(demoIndex+1)%themes.length;apply(demoIndex);if(demoIndex===themes.length-1){clearInterval(demoTimer);demoTimer=null;apply(0);}},1800);
+  }
+ }
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});else init();
 })();
 </script>
 
