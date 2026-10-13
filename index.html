@@ -208,6 +208,62 @@ body {
 
 .connect-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:24px 0}.connect-card{border:1px solid var(--line);background:#fffaf0;border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px}.connect-card .appicon{width:42px;height:42px;flex-basis:42px}.connect-info{flex:1;min-width:0}.connect-info strong{display:block;color:var(--text)}.connect-info span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.connect-status{font-size:11px;color:#68703a;background:#eef2c9;padding:5px 8px;border-radius:999px;margin-top:7px;display:inline-block}.connect-btn{white-space:nowrap;padding:9px 13px;border-radius:10px;border:1px solid var(--line);background:#fff;font-weight:700;color:var(--text)}.connect-btn:hover{background:#eef2c9}.connect-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.connected-label{font-size:11px;font-weight:800;color:#3D4127;background:#E5E9B8;border:1px solid #8C9658;padding:7px 9px;border-radius:999px}.disconnect-btn{background:#F9FBE9;border-color:#8f4e46;color:#7a3f38}.disconnect-btn:hover{background:#f5d9d9}.auth-modal{position:fixed;inset:0;background:rgba(24,27,15,.58);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}.auth-modal.show{display:flex}.auth-card{max-width:480px;width:100%;background:#fffaf0;border-radius:22px;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.28)}.auth-brand{font-weight:800;color:#3D4127;letter-spacing:.04em}.permission-list{margin:18px 0;padding:0;list-style:none}.permission-list li{padding:10px 0;border-top:1px solid var(--line);font-size:13px}.permission-list li:before{content:'✓';margin-right:9px;color:#636B2F;font-weight:800}.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}@media(max-width:700px){.connect-grid{grid-template-columns:1fr}.connect-card{align-items:flex-start;flex-wrap:wrap}.connect-btn{width:100%}}
 .app-toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:20px 0 10px;padding:14px 16px;border:1px solid #8C9658;border-radius:16px;background:#F9FBE9}.app-toolbar>div{display:flex;align-items:center;gap:10px}.app-toolbar strong{font-size:13px}.app-toolbar span{font-size:11px;color:#4F582B;background:#E5E9B8;border:1px solid #8C9658;padding:5px 8px;border-radius:999px}.app-toolbar input{width:min(260px,48vw);padding:10px 12px;border:1px solid #8C9658;border-radius:10px;background:#EEF2C9;color:#3D4127;outline:none}.app-toolbar input:focus{border-color:#3D4127}.appitem.hidden{display:none}.appitem.unavailable{opacity:.58;cursor:not-allowed}.appitem.unavailable .tag{color:#6b6f45;font-weight:700}.appitem .tag{min-height:16px}.appitem.ready{border-color:#64785a}.appitem.ready .tag{color:#53683f;font-weight:700}.connect-card.ready{border-color:#64785a}</style></style>
+
+<style id="digital-shield-editorial-theme">
+:root{--page-bg:#f4f2e9;--page-ink:#11110f;--page-muted:#64645b;--page-accent:#dcb52f;--page-line:rgba(17,17,15,.2);--page-card:#f9f8f1;--page-pop:#dcb52f}
+html{scroll-behavior:smooth}
+body{background:var(--page-bg);color:var(--page-ink);transition:background-color .85s cubic-bezier(.2,.65,.3,1),color .65s ease}
+body,body *{transition-property:background-color,color,border-color,box-shadow}
+.nav{max-width:1440px;height:82px;padding:0 clamp(22px,5vw,78px);border-bottom:1px solid var(--page-line);background:transparent;transition:background-color .85s ease,border-color .85s ease}
+.brand{font-size:15px;letter-spacing:.09em;color:var(--page-ink);font-weight:800}
+.brand span{color:inherit;opacity:.58}
+.navlinks{gap:clamp(16px,3vw,40px);font-size:12px;color:var(--page-ink);text-transform:uppercase;letter-spacing:.055em}
+.navlinks a{opacity:.78}.navlinks a:hover{opacity:1}
+.nav>.btn{border:1px solid var(--page-ink);border-radius:99px;background:transparent;color:var(--page-ink);padding:10px 19px;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+main{max-width:1600px;padding:0 clamp(18px,3.5vw,56px) 90px}
+.editorial-hero{position:relative;isolation:isolate;min-height:min(790px,calc(100svh - 82px));padding:clamp(90px,13vh,150px) 0 clamp(75px,10vh,115px);display:block;overflow:hidden;border-bottom:1px solid var(--page-line)}
+.editorial-copy{position:relative;z-index:2;width:min(100%,1160px);margin:0 auto;padding:0 clamp(4px,5vw,80px)}
+.editorial-hero h1{font-size:clamp(58px,9.3vw,142px);line-height:.87;letter-spacing:-.092em;font-weight:650;max-width:1120px;margin:0;color:var(--page-ink);text-wrap:balance}
+.editorial-hero .gradient{background:none;color:var(--page-accent);-webkit-text-fill-color:currentColor}
+.editorial-side-note{position:absolute;right:0;top:43%;font-size:clamp(11px,1vw,14px);line-height:1.55;color:var(--page-muted);letter-spacing:.01em}
+.editorial-bottom{display:flex;align-items:center;gap:28px;margin-top:clamp(38px,6vh,70px)}
+.editorial-cta{display:inline-flex;align-items:center;gap:24px;border:1px solid var(--page-ink);border-radius:99px;padding:14px 19px;background:transparent;color:var(--page-ink);font-size:12px;font-weight:650;cursor:pointer}
+.editorial-cta span{font-size:17px;transition:transform .2s}.editorial-cta:hover span{transform:translate(3px,-3px)}
+.editorial-caption{font-size:9px;letter-spacing:.14em;color:var(--page-muted)}
+.editorial-thumb{position:absolute;z-index:1;width:clamp(115px,13vw,190px);padding:9px;background:var(--page-card);border:1px solid var(--page-line);box-shadow:0 10px 35px rgba(20,20,10,.07);transform:rotate(-4deg)}
+.thumb-left{top:8%;left:13%;}.thumb-right{right:11%;bottom:8%;transform:rotate(4deg);width:clamp(105px,12vw,170px)}
+.thumb-top{height:5px;width:26%;background:var(--page-accent);margin-bottom:8px}
+.thumb-image{height:clamp(64px,7vw,100px);background-color:#d9d7c8;background-size:cover;background-position:center}
+.thumb-image-one{background-image:linear-gradient(140deg,transparent 45%,rgba(17,17,15,.2) 46%),linear-gradient(35deg,#d8d9c7 0 35%,#8b9470 36% 58%,#c9b78b 59% 72%,#f2eee1 73%)}
+.thumb-image-two{background-image:linear-gradient(120deg,rgba(17,17,15,.05),transparent 45%),linear-gradient(25deg,#1d2739 0 23%,#e3d7b6 24% 48%,#87906a 49% 73%,#d4b5aa 74%)}
+.thumb-caption{font-size:7px;letter-spacing:.09em;color:var(--page-muted);padding-top:7px}
+.editorial-square{position:absolute;width:13px;height:13px;background:var(--page-pop);z-index:1}
+.square-blue{top:25%;left:12%;background:#3994d4}.square-pink{top:9%;right:39%;background:#ed9fc3}.square-orange{top:32%;right:15%;background:#e85d4a}.square-green{bottom:19%;left:47%;background:#9bcf56}
+#features,#how,#privacy{scroll-margin-top:30px;padding:clamp(70px,10vw,135px) clamp(4px,5vw,80px);border-bottom:1px solid var(--page-line);transition:background-color .85s ease,color .85s ease}
+#features{background:var(--page-bg)}#how{background:var(--page-bg)}#privacy{background:var(--page-bg);border:0}
+.section-title{font-size:clamp(38px,6vw,78px);line-height:.98;letter-spacing:-.075em;font-weight:600;max-width:850px;color:var(--page-ink)}
+.section-sub{max-width:540px;color:var(--page-muted);font-size:14px;line-height:1.8;margin-top:22px}
+.cards{gap:14px;margin-top:40px}
+.card{border:1px solid var(--page-line);border-radius:2px;background:var(--page-card);box-shadow:none;padding:clamp(20px,3vw,34px);transition:transform .25s ease,background-color .85s ease,border-color .85s ease}
+.card:hover{transform:translateY(-4px);box-shadow:none}
+.card .icon{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--page-pop);color:var(--page-ink);font-size:17px}
+.card h3{font-size:17px;letter-spacing:-.035em;color:var(--page-ink)}
+.card p{font-size:13px;line-height:1.8;color:var(--page-muted)}
+#privacy{padding-top:clamp(55px,8vw,100px);padding-bottom:clamp(55px,8vw,100px)}
+#privacy .card{background:transparent}
+.footer{border-color:var(--page-line);color:var(--page-muted);font-size:10px;letter-spacing:.04em}
+body[data-theme="sage"]{--page-bg:#e2e8ce;--page-ink:#22291b;--page-muted:#566149;--page-accent:#6b7d47;--page-line:rgba(34,41,27,.22);--page-card:#edf0df;--page-pop:#a6bd75}
+body[data-theme="indigo"]{--page-bg:#302a91;--page-ink:#fff0a8;--page-muted:#e3dcff;--page-accent:#ffbf3e;--page-line:rgba(255,240,168,.28);--page-card:#3c35a4;--page-pop:#ffbf3e}
+body[data-theme="navy"]{--page-bg:#07172d;--page-ink:#f3f0e5;--page-muted:#bac5d7;--page-accent:#e9bd4b;--page-line:rgba(243,240,229,.23);--page-card:#10233d;--page-pop:#e9bd4b}
+body[data-theme="forest"]{--page-bg:#0d342b;--page-ink:#f1e6c9;--page-muted:#c0d0b8;--page-accent:#e2a34e;--page-line:rgba(241,230,201,.25);--page-card:#174237;--page-pop:#e2a34e}
+body[data-theme="rose"]{--page-bg:#ead8d9;--page-ink:#282326;--page-muted:#65585d;--page-accent:#a85c69;--page-line:rgba(40,35,38,.2);--page-card:#f3e8e7;--page-pop:#c57b87}
+body[data-theme="indigo"] .nav>.btn,body[data-theme="navy"] .nav>.btn,body[data-theme="forest"] .nav>.btn{border-color:var(--page-ink)}
+body[data-theme="indigo"] .editorial-thumb,body[data-theme="navy"] .editorial-thumb,body[data-theme="forest"] .editorial-thumb{box-shadow:0 12px 36px rgba(0,0,0,.18)}
+@media(max-width:850px){.editorial-hero{min-height:650px;padding-top:155px}.editorial-copy{padding:0 12px}.editorial-hero h1{font-size:clamp(54px,11vw,90px);max-width:760px}.editorial-side-note{position:static;margin-top:28px}.thumb-left{left:7%;top:4%}.thumb-right{right:7%;bottom:4%}.editorial-bottom{margin-top:35px;align-items:flex-start;flex-direction:column;gap:13px}.editorial-hero .square-orange{right:6%;top:47%}.editorial-hero .square-blue{left:5%;top:58%}#features,#how,#privacy{padding-left:12px;padding-right:12px}}
+@media(max-width:560px){.nav{height:70px;padding:0 17px}.brand{font-size:12px}.navlinks{gap:11px;font-size:9px}.nav>.btn{padding:8px 12px;font-size:9px}main{padding-left:17px;padding-right:17px}.editorial-hero{min-height:650px;padding-top:158px;padding-bottom:75px}.editorial-hero h1{font-size:clamp(48px,12.5vw,68px);line-height:.91;letter-spacing:-.08em}.editorial-thumb{width:112px;padding:6px}.thumb-left{top:4%;left:5%}.thumb-right{bottom:3%;right:4%;width:105px}.thumb-image{height:58px}.thumb-caption{font-size:6px}.editorial-side-note{font-size:11px;margin-top:24px}.editorial-bottom{margin-top:26px}.editorial-caption{font-size:8px}.editorial-square{width:9px;height:9px}.section-title{font-size:clamp(36px,10vw,52px)}.cards{grid-template-columns:1fr}.card{padding:22px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body,.nav,#features,#how,#privacy,.card{transition:none!important}.editorial-cta span,.card{transition:none!important}}
+</style>
+
 </head>
 <body>
 <div id="landing">
@@ -217,19 +273,15 @@ body {
 <button class="btn small" onclick="openLogin()">Log in</button>
 </header>
 <main>
-<section class="hero">
-<div>
-<div class="eyebrow"><i class="dot"></i> PRIVACY-FIRST DIGITAL FOOTPRINT AWARENESS</div>
+<section class="hero editorial-hero" data-theme="cream">
+<div class="editorial-thumb thumb-left" aria-hidden="true"><div class="thumb-top"></div><div class="thumb-image thumb-image-one"></div><div class="thumb-caption">DIGITAL PRESENCE / 01</div></div>
+<div class="editorial-thumb thumb-right" aria-hidden="true"><div class="thumb-top"></div><div class="thumb-image thumb-image-two"></div><div class="thumb-caption">PRIVACY IN FOCUS / 02</div></div>
+<div class="editorial-copy">
 <h1>See what your <span class="gradient">digital trail</span> says about you.</h1>
-<p>Digital Shield turns social-media safety into something you can actually explore: understand exposure, discover risk signals and get practical recommendations — without a questionnaire.</p>
-<div class="actions"><button class="btn primary" onclick="openLogin()">Scan my footprint →</button><a class="btn ghost" href="#how">See how it works</a></div>
-<div class="trust"><span>🔒 Consent-first</span><span>🛡️ Minimal data</span><span>🔗 Official app authorization</span></div>
+<div class="editorial-side-note">A clearer view<br>of your online life.</div>
+<div class="editorial-bottom"><button class="editorial-cta" onclick="openLogin()">Explore Digital Shield <span aria-hidden="true">↗</span></button><span class="editorial-caption">YOUR DIGITAL LIFE, IN PERSPECTIVE</span></div>
 </div>
-<div class="scan-card">
-<div class="scan-head"><span>LIVE PREVIEW</span><span>● PRIVACY MODE</span></div>
-<div class="orb"><div><div class="score placeholder">AWAITING<small>AUTHORIZED DATA</small></div></div></div>
-<div class="notice">No personal score is shown until Digital Shield receives authorized signals from your connected social accounts.</div>
-</div>
+<div class="editorial-square square-blue" aria-hidden="true"></div><div class="editorial-square square-pink" aria-hidden="true"></div><div class="editorial-square square-orange" aria-hidden="true"></div><div class="editorial-square square-green" aria-hidden="true"></div>
 </section>
 <section id="features">
 <h2 class="section-title">Not another social-media quiz.</h2>
@@ -1291,5 +1343,23 @@ const appSearch=document.getElementById('appSearch');
 if(appSearch)appSearch.addEventListener('input',()=>{const q=appSearch.value.trim().toLowerCase();document.querySelectorAll('.appitem').forEach(card=>card.classList.toggle('hidden',Boolean(q)&&!card.dataset.app.toLowerCase().includes(q)));});
 updateAppSelectionCount();
 </script>
+
+<script id="digital-shield-theme-switcher">
+(function(){
+  const themes=["cream","sage","indigo","navy","forest","rose"];
+  const sections=[...document.querySelectorAll(".editorial-hero,#features,#how,#privacy")];
+  if(!sections.length)return;
+  sections.forEach((section,i)=>section.dataset.theme=themes[Math.min(i,themes.length-1)]);
+  const setTheme=(theme)=>{document.body.dataset.theme=theme==="cream"?"cream":theme;document.documentElement.style.colorScheme=(theme==="indigo"||theme==="navy"||theme==="forest")?"dark":"light";};
+  if(!("IntersectionObserver" in window)){setTheme("cream");return;}
+  const observer=new IntersectionObserver(entries=>{
+    const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio);
+    if(visible.length)setTheme(visible[0].target.dataset.theme||"cream");
+  },{rootMargin:"-18% 0px -38% 0px",threshold:[0.05,0.2,0.4,0.6]});
+  sections.forEach(s=>observer.observe(s));
+  setTheme("cream");
+})();
+</script>
+
 </div></div></body>
 </html>
