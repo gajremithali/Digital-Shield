@@ -1564,10 +1564,10 @@ updateAppSelectionCount();
 (function(){
  const themes=[
   {name:"Cream",bg:"#f4f2e9",panel:"#fbfaf4",panel2:"#e8e7dc",ink:"#20231a",muted:"#686b5d",line:"rgba(32,35,26,.2)",accent:"#718345",pop:"#dcb52f"},
-  {name:"Lichen & Limestone",bg:"#c7d0a8",panel:"#e9e8d6",panel2:"#b3bf8b",ink:"#303a29",muted:"#56604b",line:"rgba(48,58,41,.24)",accent:"#65734a",pop:"#e2c875"},
-  {name:"Tamarillo Red & Butter Yellow",bg:"#a52f35",panel:"#bd4546",panel2:"#d8a95d",ink:"#fff8e9",muted:"#ffe2c5",line:"rgba(255,248,233,.34)",accent:"#f5d97d",pop:"#f5e8b4"},
-  {name:"Aegean Blue & Chalk White",bg:"#356b83",panel:"#477f96",panel2:"#e9e7dc",ink:"#fffdf5",muted:"#e1edf0",line:"rgba(255,253,245,.32)",accent:"#f4f0df",pop:"#9fc5d2"},
-  {name:"Forest",bg:"#0d342b",panel:"#1b493e",panel2:"#24594b",ink:"#f2f0e5",muted:"#c0d0c4",line:"rgba(242,240,229,.24)",accent:"#d6df9c",pop:"#e4a86e"},
+  {name:"Sage",bg:"#dce4cb",panel:"#eef1e4",panel2:"#cbd7b6",ink:"#30392a",muted:"#5b6650",line:"rgba(48,57,42,.22)",accent:"#758b59",pop:"#d9c27b"},
+  {name:"Indigo",bg:"#514b91",panel:"#6660a5",panel2:"#827cb7",ink:"#faf8f0",muted:"#e1dff0",line:"rgba(250,248,240,.26)",accent:"#d8d0f0",pop:"#e7c7a6"},
+  {name:"Deep Navy",bg:"#24364c",panel:"#344961",panel2:"#465d73",ink:"#f7f5ee",muted:"#d1d9df",line:"rgba(247,245,238,.25)",accent:"#b7c9d8",pop:"#d9c5a5"},
+  {name:"Forest Green",bg:"#405a46",panel:"#536d58",panel2:"#6b826b",ink:"#f8f5e9",muted:"#dce4d6",line:"rgba(248,245,233,.25)",accent:"#d2d9a3",pop:"#d6b58a"},
   {name:"Dusty rose",bg:"#ead8d9",panel:"#f4e8e7",panel2:"#dfc6ca",ink:"#34272b",muted:"#76646a",line:"rgba(52,39,43,.22)",accent:"#a75c72",pop:"#d7a84c"}
  ];
  let selected=0, previewTimer=null;
@@ -1610,15 +1610,15 @@ updateAppSelectionCount();
   const reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const themes=[
    {bg:"#f4f2e9",panel:"#fbfaf4",panel2:"#e8e7dc",ink:"#20231a",muted:"#686b5d",line:"rgba(32,35,26,.2)",accent:"#718345",pop:"#dcb52f"},
-   {bg:"#c7d0a8",panel:"#e9e8d6",panel2:"#b3bf8b",ink:"#303a29",muted:"#56604b",line:"rgba(48,58,41,.24)",accent:"#65734a",pop:"#e2c875"},
-   {bg:"#a52f35",panel:"#bd4546",panel2:"#d8a95d",ink:"#fff8e9",muted:"#ffe2c5",line:"rgba(255,248,233,.34)",accent:"#f5d97d",pop:"#f5e8b4"},
-   {bg:"#356b83",panel:"#477f96",panel2:"#e9e7dc",ink:"#fffdf5",muted:"#e1edf0",line:"rgba(255,253,245,.32)",accent:"#f4f0df",pop:"#9fc5d2"},
-   {bg:"#0d342b",panel:"#1b493e",panel2:"#24594b",ink:"#f2f0e5",muted:"#c0d0c4",line:"rgba(242,240,229,.24)",accent:"#d6df9c",pop:"#e4a86e"},
+   {bg:"#dce4cb",panel:"#eef1e4",panel2:"#cbd7b6",ink:"#30392a",muted:"#5b6650",line:"rgba(48,57,42,.22)",accent:"#758b59",pop:"#d9c27b"},
+   {bg:"#514b91",panel:"#6660a5",panel2:"#827cb7",ink:"#faf8f0",muted:"#e1dff0",line:"rgba(250,248,240,.26)",accent:"#d8d0f0",pop:"#e7c7a6"},
+   {bg:"#24364c",panel:"#344961",panel2:"#465d73",ink:"#f7f5ee",muted:"#d1d9df",line:"rgba(247,245,238,.25)",accent:"#b7c9d8",pop:"#d9c5a5"},
+   {bg:"#405a46",panel:"#536d58",panel2:"#6b826b",ink:"#f8f5e9",muted:"#dce4d6",line:"rgba(248,245,233,.25)",accent:"#d2d9a3",pop:"#d6b58a"},
    {bg:"#ead8d9",panel:"#f4e8e7",panel2:"#dfc6ca",ink:"#34272b",muted:"#76646a",line:"rgba(52,39,43,.22)",accent:"#a75c72",pop:"#d7a84c"}
   ];
   let saved=null;try{saved=localStorage.getItem("digitalShieldTheme");}catch(e){}
   const applyDemo=t=>{const r=document.documentElement;const m={"--ds-bg":t.bg,"--ds-panel":t.panel,"--ds-panel2":t.panel2,"--ds-ink":t.ink,"--ds-muted":t.muted,"--ds-line":t.line,"--ds-accent":t.accent,"--ds-pop":t.pop,"--page-bg":t.bg,"--page-ink":t.ink,"--page-muted":t.muted,"--page-accent":t.accent,"--page-line":t.line,"--page-card":t.panel,"--page-pop":t.pop,"--bg":t.bg,"--panel":t.panel,"--panel2":t.panel2,"--text":t.ink,"--muted":t.muted,"--line":t.line,"--accent":t.accent,"--accent2":t.pop,"--theme-primary":t.bg,"--theme-secondary":t.panel,"--theme-light":t.panel,"--theme-dark":t.ink};Object.keys(m).forEach(k=>r.style.setProperty(k,m[k]));};
-  let n=0;const show=()=>{applyDemo(themes[n]);document.querySelectorAll(".ds-swatch").forEach((b,i)=>b.classList.toggle("ds-demo-focus",i===n));const name=document.getElementById("ds-theme-name");if(name)name.textContent=["CREAM","LICHEN & LIMESTONE","TAMARILLO RED & BUTTER YELLOW","AEGEAN BLUE & CHALK WHITE","FOREST","DUSTY ROSE"][n];n++;if(n>=themes.length){clearInterval(timer);setTimeout(()=>{document.querySelectorAll(".ds-demo-focus").forEach(b=>b.classList.remove("ds-demo-focus"));const idx=saved!==null&&Number.isInteger(Number(saved))&&Number(saved)>=0&&Number(saved)<themes.length?Number(saved):0;if(window.digitalShieldApplyTheme)window.digitalShieldApplyTheme(idx,false);else applyDemo(themes[idx]);},700);}};
+  let n=0;const show=()=>{applyDemo(themes[n]);document.querySelectorAll(".ds-swatch").forEach((b,i)=>b.classList.toggle("ds-demo-focus",i===n));const name=document.getElementById("ds-theme-name");if(name)name.textContent=["CREAM","LICHEN & LIMESTONE","INDIGO","DEEP NAVY","FOREST GREEN","DUSTY ROSE"][n];n++;if(n>=themes.length){clearInterval(timer);setTimeout(()=>{document.querySelectorAll(".ds-demo-focus").forEach(b=>b.classList.remove("ds-demo-focus"));const idx=saved!==null&&Number.isInteger(Number(saved))&&Number(saved)>=0&&Number(saved)<themes.length?Number(saved):0;if(window.digitalShieldApplyTheme)window.digitalShieldApplyTheme(idx,false);else applyDemo(themes[idx]);},700);}};
   if(reduced){const idx=saved!==null&&Number.isInteger(Number(saved))&&Number(saved)>=0&&Number(saved)<themes.length?Number(saved):0;applyDemo(themes[idx]);return;}
   show();const timer=setInterval(show,2500);
  }
