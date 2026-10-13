@@ -424,6 +424,7 @@ body{background:var(--ds-bg)!important;background-image:none!important;color:var
 .appitem .tag{color:var(--ds-muted)!important}
 .appitem input{accent-color:var(--ds-accent)!important}
 </style>
+<style id="digital-shield-theme-demo-animation">.ds-swatch{transition:transform .3s ease,outline .3s ease,box-shadow .3s ease}.ds-swatch.ds-demo-focus{transform:scale(1.24);outline:2px solid var(--ds-ink);outline-offset:3px}#ds-theme-dock{gap:11px}</style>
 </head>
 <body>
 <div id="landing">
@@ -514,6 +515,9 @@ body{background:var(--ds-bg)!important;background-image:none!important;color:var
 <label class="appitem" data-app="YouTube"><img alt="YouTube" class="appicon" src="https://cdn.simpleicons.org/youtube"/><div class="appmeta"><div class="appname">YouTube</div><div class="tag">Ready · Google OAuth</div></div><input checked="" type="checkbox"/></label>
 <label class="appitem" data-app="Facebook"><img alt="Facebook" class="appicon" src="https://cdn.simpleicons.org/facebook"/><div class="appmeta"><div class="appname">Facebook</div><div class="tag">Ready · Safety Review</div></div><input type="checkbox"/></label>
 <label class="appitem unavailable" data-app="Spotify"><img alt="Spotify" class="appicon" src="https://cdn.simpleicons.org/spotify"/><div class="appmeta"><div class="appname">Spotify</div><div class="tag">Coming soon · Premium developer access</div></div><input type="checkbox" disabled/></label>
+<label class="appitem unavailable" data-app="WhatsApp"><img alt="WhatsApp" class="appicon" src="https://cdn.simpleicons.org/whatsapp"/><div class="appmeta"><div class="appname">WhatsApp</div><div class="tag">Coming soon · Not connectable yet</div></div><input type="checkbox" disabled/></label>
+<label class="appitem unavailable" data-app="Snapchat"><img alt="Snapchat" class="appicon" src="https://cdn.simpleicons.org/snapchat"/><div class="appmeta"><div class="appname">Snapchat</div><div class="tag">Coming soon · Not connectable yet</div></div><input type="checkbox" disabled/></label>
+<label class="appitem unavailable" data-app="Discord"><img alt="Discord" class="appicon" src="https://cdn.simpleicons.org/discord"/><div class="appmeta"><div class="appname">Discord</div><div class="tag">Coming soon · Not connectable yet</div></div><input type="checkbox" disabled/></label>
 </div>
 <div class="notice">No passwords or private messages are collected. Only platforms with an available authorization flow can be connected; unavailable platforms are excluded from scoring.</div>
 <div class="navigation-actions" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px"><button class="btn" onclick="showScreen('consentScreen',2)">← Back</button><button class="btn primary" onclick="prepareConnections()">Continue to secure connection →</button></div>
@@ -978,9 +982,7 @@ function showScreen(id,n){
  document.getElementById(id).classList.add('active');
  document.querySelectorAll('.step').forEach((x,i)=>x.classList.toggle('on',i<n));
  window.digitalShieldCurrentScreen=id;
- // Advance the colour palette with the user's progress through the real app flow.
- const stageThemes={loginScreen:0,consentScreen:1,appsScreen:2,connectScreen:3,scanScreen:4,reportScreen:5};
- if(typeof window.digitalShieldApplyTheme==='function')window.digitalShieldApplyTheme(stageThemes[id]??0,false);
+ // Keep the user's selected colour theme consistent across every screen.
  window.scrollTo({top:0,behavior:'smooth'});
 }
 function editSelectedApps(){
@@ -1503,45 +1505,39 @@ updateAppSelectionCount();
  const themes=[
   {name:"Cream",bg:"#f4f2e9",panel:"#fbfaf4",panel2:"#e8e7dc",ink:"#20231a",muted:"#686b5d",line:"rgba(32,35,26,.2)",accent:"#718345",pop:"#dcb52f"},
   {name:"Sage",bg:"#e2e8ce",panel:"#f0f3e5",panel2:"#d4ddbd",ink:"#28301f",muted:"#606c50",line:"rgba(40,48,31,.22)",accent:"#536b36",pop:"#d8a84e"},
-  {name:"Indigo",bg:"#302a91",panel:"#4039a3",panel2:"#514bb4",ink:"#f7f3d7",muted:"#d0cdef",line:"rgba(247,243,215,.28)",accent:"#e6d875",pop:"#f0a8c8"},
+  {name:"Terracotta",bg:"#8b4938",panel:"#a75d49",panel2:"#bd755e",ink:"#fff2e5",muted:"#f0d0c1",line:"rgba(255,242,229,.28)",accent:"#f0c58a",pop:"#e8a7a0"},
   {name:"Navy",bg:"#07172d",panel:"#142642",panel2:"#1c3454",ink:"#f2f1e9",muted:"#c0c9d7",line:"rgba(242,241,233,.24)",accent:"#9eb9dc",pop:"#c3d4ee"},
   {name:"Forest",bg:"#0d342b",panel:"#1b493e",panel2:"#24594b",ink:"#f2f0e5",muted:"#c0d0c4",line:"rgba(242,240,229,.24)",accent:"#d6df9c",pop:"#e4a86e"},
   {name:"Dusty rose",bg:"#ead8d9",panel:"#f4e8e7",panel2:"#dfc6ca",ink:"#34272b",muted:"#76646a",line:"rgba(52,39,43,.22)",accent:"#a75c72",pop:"#d7a84c"}
  ];
- let selected=0, userPicked=false, observer=null;
+ let selected=0, previewTimer=null;
  function apply(i,save){
   selected=i;const t=themes[i],r=document.documentElement;
-  const map={"--ds-bg":t.bg,"--ds-panel":t.panel,"--ds-panel2":t.panel2,"--ds-ink":t.ink,"--ds-muted":t.muted,"--ds-line":t.line,"--ds-accent":t.accent,"--ds-pop":t.pop,"--page-bg":t.bg,"--page-ink":t.ink,"--page-muted":t.muted,"--page-accent":t.accent,"--page-line":t.line,"--page-card":t.panel,"--page-pop":t.pop,"--bg":t.bg,"--panel":t.panel,"--panel2":t.panel2,"--text":t.ink,"--muted":t.muted,"--line":t.line,"--accent":t.accent,"--accent2":t.pop,"--theme-primary":t.bg,"--theme-secondary":t.panel,"--theme-light":t.panel,"--theme-dark":t.ink};
+  const map={"--ds-bg":t.bg,"--ds-panel":t.panel,"--ds-panel2":t.panel2,"--ds-ink":t.ink,"--ds-muted":t.muted,"--ds-line":t.line,"--ds-accent":t.accent,"--ds-pop":t.pop,"--page-bg":t.bg,"--page-ink":t.ink,"--page-muted":t.muted,"--page-accent":t.accent,"--page-line":t.line,"--page-card":t.panel,"--page-pop":t.pop,"--bg":t.bg,"--panel":t.panel,"--panel2":t.panel,"--text":t.ink,"--muted":t.muted,"--line":t.line,"--accent":t.accent,"--accent2":t.pop,"--theme-primary":t.bg,"--theme-secondary":t.panel,"--theme-light":t.panel,"--theme-dark":t.ink};
   Object.keys(map).forEach(k=>r.style.setProperty(k,map[k]));
-  document.body.dataset.theme="scroll-"+i;
+  document.body.dataset.theme="chosen-"+i;
   document.querySelectorAll(".ds-swatch").forEach((b,j)=>b.setAttribute("aria-pressed",String(j===i)));
-  
   r.style.colorScheme=[2,3,4].includes(i)?"dark":"light";
   if(save){try{localStorage.setItem("digitalShieldTheme",String(i));}catch(e){}}
  }
  window.digitalShieldApplyTheme=apply;
  function init(){
   const gate=document.getElementById("ds-theme-gate");if(gate)gate.remove();
-  const sections=[document.querySelector(".editorial-hero"),document.getElementById("features"),document.getElementById("how"),document.getElementById("privacy")].filter(Boolean);
   if(!document.getElementById("ds-theme-dock")){
-   const dock=document.createElement("div");dock.id="ds-theme-dock";dock.setAttribute("aria-label","Choose website colours");
+   const dock=document.createElement("div");dock.id="ds-theme-dock";dock.setAttribute("aria-label","Preview and choose website colours");
    dock.innerHTML=themes.map((t,i)=>'<button type="button" class="ds-swatch" data-theme-choice="'+i+'" title="'+t.name+'" aria-label="Preview '+t.name+' theme" aria-pressed="'+(i===0)+'" style="background:'+t.bg+';box-shadow:inset 0 0 0 5px '+t.accent+'"></button>').join("");
    document.body.appendChild(dock);
-   dock.querySelectorAll("[data-theme-choice]").forEach(b=>b.addEventListener("click",()=>{userPicked=true;if(observer)observer.disconnect();apply(Number(b.dataset.themeChoice),true);}));
+   dock.querySelectorAll("[data-theme-choice]").forEach(b=>b.addEventListener("click",()=>{
+    if(previewTimer){clearInterval(previewTimer);previewTimer=null;}
+    apply(Number(b.dataset.themeChoice),true);
+   }));
   }
   let saved=null;try{saved=localStorage.getItem("digitalShieldTheme");}catch(e){}
-  // Scrolling drives the palette across the page. Clicking a swatch previews that palette manually.
-  apply(0,false);
-  if("IntersectionObserver" in window){
-   observer=new IntersectionObserver(entries=>{
-    const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
-    if(visible&&!userPicked)apply(Number(visible.target.dataset.scrollTheme||0),false);
-   },{rootMargin:"-22% 0px -48% 0px",threshold:[0.05,0.15,0.3,0.5]});
-   sections.forEach((el,i)=>{el.dataset.scrollTheme=String(i%themes.length);observer.observe(el);});
-  }
-  if(saved!==null&&Number.isInteger(Number(saved))&&Number(saved)>=0&&Number(saved)<themes.length){
-   // Saved palette is a starting preference; scrolling still changes themes naturally.
-   userPicked=false;apply(0,false);
+  const valid=saved!==null&&Number.isInteger(Number(saved))&&Number(saved)>=0&&Number(saved)<themes.length;
+  apply(valid?Number(saved):0,false);
+  if(!valid&&!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches){
+   let n=0;const swatches=[...document.querySelectorAll(".ds-swatch")];
+   previewTimer=setInterval(()=>{swatches.forEach((b,i)=>b.classList.toggle("ds-demo-focus",i===n));n++;if(n>=themes.length){clearInterval(previewTimer);previewTimer=null;swatches.forEach(b=>b.classList.remove("ds-demo-focus"));}},650);
   }
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});else init();
