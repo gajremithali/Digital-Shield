@@ -385,6 +385,33 @@ html,body{height:auto!important;min-height:100%!important;overflow-x:hidden!impo
 #landing footer{background:var(--ds-bg)!important;color:var(--ds-ink)!important;border-color:var(--ds-line)!important}
 #ds-theme-dock{z-index:9998}
 </style>
+
+<style id="digital-shield-global-theme-application">
+body{background:var(--ds-bg)!important;background-image:none!important;color:var(--ds-ink)!important}
+.app,.app.active{background:var(--ds-bg)!important;color:var(--ds-ink)!important}
+.appnav,.nav.appnav{background:var(--ds-bg)!important;color:var(--ds-ink)!important;border-bottom:1px solid var(--ds-line)!important}
+.appnav .brand,.appnav .brand span,.appnav .btn{color:var(--ds-ink)!important}
+.appnav .btn{background:transparent!important;border-color:var(--ds-line)!important}
+.appwrap,.screen,.center{color:var(--ds-ink)!important}
+.app .panel,.app .login,.app .center>.panel,.app .report-card,.app .metric,.app .card{background:var(--ds-panel)!important;color:var(--ds-ink)!important;border:1px solid var(--ds-line)!important}
+.app .panel h1,.app .panel h2,.app .panel h3,.app .section-title,.app h2,.app h3,.app label,.app .brand{color:var(--ds-ink)!important}
+.app p,.app li,.app .muted,.app .field label,.app .tag,.app small{color:var(--ds-muted)!important}
+.app .field input,.app input:not([type=checkbox]):not([type=radio]),.app textarea,.app select{background:var(--ds-panel2)!important;color:var(--ds-ink)!important;border:1px solid var(--ds-line)!important}
+.app .field input::placeholder,.app input::placeholder,.app textarea::placeholder{color:var(--ds-muted)!important;opacity:.8}
+.app .btn,.app button.btn{background:var(--ds-panel)!important;color:var(--ds-ink)!important;border:1px solid var(--ds-line)!important}
+.app .btn.primary,.app button.primary,.app .btn.primary:hover{background:var(--ds-ink)!important;color:var(--ds-bg)!important;border-color:var(--ds-ink)!important}
+.app .eyebrow{background:var(--ds-panel2)!important;color:var(--ds-ink)!important;border-color:var(--ds-accent)!important}
+.app .progress .step{background:var(--ds-panel2)!important}
+.app .progress .step.on{background:linear-gradient(90deg,var(--ds-accent),var(--ds-pop))!important}
+.app .appitem,.app .permission-item,.app .platform-card{background:var(--ds-panel)!important;color:var(--ds-ink)!important;border:1px solid var(--ds-line)!important}
+.app .appitem.selected,.app .permission-item.selected,.app .platform-card.selected{background:var(--ds-panel2)!important;border-color:var(--ds-accent)!important}
+.app .appicon{background:var(--ds-panel2)!important}
+.app .check input,.app input[type=checkbox],.app input[type=radio]{accent-color:var(--ds-accent)!important}
+.app .notice,.app .alert,.app .status,.app .report-summary{background:var(--ds-panel2)!important;color:var(--ds-ink)!important;border-color:var(--ds-line)!important}
+.app .risk-score,.app .score,.app .metric-value{color:var(--ds-accent)!important}
+.app .footer{background:var(--ds-bg)!important;color:var(--ds-muted)!important}
+#ds-theme-dock{background:var(--ds-panel)!important;color:var(--ds-ink)!important;border-color:var(--ds-line)!important}
+</style>
 </head>
 <body>
 <div id="landing">
@@ -1478,7 +1505,7 @@ updateAppSelectionCount();
  let selected=0, userPicked=false, observer=null;
  function apply(i,save){
   selected=i;const t=themes[i],r=document.documentElement;
-  const map={"--ds-bg":t.bg,"--ds-panel":t.panel,"--ds-panel2":t.panel2,"--ds-ink":t.ink,"--ds-muted":t.muted,"--ds-line":t.line,"--ds-accent":t.accent,"--ds-pop":t.pop,"--page-bg":t.bg,"--page-ink":t.ink,"--page-muted":t.muted,"--page-accent":t.accent,"--page-line":t.line,"--page-card":t.panel,"--page-pop":t.pop,"--bg":t.bg,"--panel":t.panel,"--panel2":t.panel2,"--text":t.ink,"--muted":t.muted,"--line":t.line,"--accent":t.accent,"--accent2":t.pop,"--theme-primary":t.bg,"--theme-secondary":t.panel,"--theme-light":t.panel2,"--theme-dark":t.ink};
+  const map={"--ds-bg":t.bg,"--ds-panel":t.panel,"--ds-panel2":t.panel2,"--ds-ink":t.ink,"--ds-muted":t.muted,"--ds-line":t.line,"--ds-accent":t.accent,"--ds-pop":t.pop,"--page-bg":t.bg,"--page-ink":t.ink,"--page-muted":t.muted,"--page-accent":t.accent,"--page-line":t.line,"--page-card":t.panel,"--page-pop":t.pop,"--bg":t.bg,"--panel":t.panel,"--panel2":t.panel2,"--text":t.ink,"--muted":t.muted,"--line":t.line,"--accent":t.accent,"--accent2":t.pop,"--theme-primary":t.bg,"--theme-secondary":t.panel,"--theme-light":t.panel,"--theme-dark":t.ink};
   Object.keys(map).forEach(k=>r.style.setProperty(k,map[k]));
   document.body.dataset.theme="scroll-"+i;
   document.querySelectorAll(".ds-swatch").forEach((b,j)=>b.setAttribute("aria-pressed",String(j===i)));
