@@ -456,6 +456,32 @@ body{background:var(--ds-bg)!important;background-image:none!important;color:var
 @media(max-width:560px){#ds-theme-dock{gap:7px;padding:8px}#ds-theme-dock .ds-swatch{flex-basis:19px;width:19px;height:19px}}
 </style>
 <style id="digital-shield-theme-label-style">#ds-theme-name{font-size:10px;letter-spacing:.06em;white-space:nowrap;color:var(--ds-ink);margin-right:2px}@media(max-width:560px){#ds-theme-name{font-size:9px}}</style>
+<style id="digital-shield-theme-final-contrast">
+/* Theme tokens are applied across every step, not just the landing page. */
+html,body,body #landing,body .app,body .screen,body .appwrap{background-color:var(--ds-bg)!important;color:var(--ds-ink)!important}
+body .appnav,body .nav,body header,body .topbar{background-color:var(--ds-bg)!important;color:var(--ds-ink)!important;border-color:var(--ds-line)!important}
+body .app .panel,body .app .card,body .app .report-card,body .app .metric,body .app .connection-card,
+body .app .report-section,body .app .report-panel,body .app .exposure-map,body .app .footprint-snapshot,
+body .app .appitem,body .app .platform-card,body .app .permission-item{background-color:var(--ds-panel)!important;color:var(--ds-ink)!important;border-color:var(--ds-line)!important}
+body .app .platform-toolbar,body .app .search-platforms,body .app .platform-search,body .app .search-input,
+body .app input[type=search],body .app input:not([type=checkbox]):not([type=radio]):not([type=submit]),
+body .app textarea,body .app select{background-color:var(--ds-panel2)!important;color:var(--ds-ink)!important;border-color:var(--ds-line)!important}
+body .app input::placeholder,body .app textarea::placeholder,body .app input[type=search]::placeholder{color:var(--ds-muted)!important;opacity:1!important}
+body .app h1,body .app h2,body .app h3,body .app h4,body .app label,body .app .appname,
+body .app .section-title,body .app .metric-value,body .app .connection-card strong{color:var(--ds-ink)!important}
+body .app p,body .app li,body .app .muted,body .app .tag,body .app small,body .app .description,
+body .app .metric-label,body .app .section-description{color:var(--ds-muted)!important}
+body .app .btn,body .app button{border-color:var(--ds-line)!important}
+body .app .btn.primary,body .app button.primary,body .app .primary{background:var(--ds-ink)!important;color:var(--ds-bg)!important;border-color:var(--ds-ink)!important}
+body .app .progress .step,body .app .progress-segment,body .app .progress-track,body .app .progress-bar{background:var(--ds-panel2)!important;border-color:var(--ds-line)!important}
+body .app .progress .step.on,body .app .progress-segment.active,body .app .progress-fill,body .app .progress-bar>span{background:linear-gradient(90deg,var(--ds-accent),var(--ds-pop))!important}
+body .app .bar,body .app .bar-track,body .app .exposure-bar,body .app .meter{background:var(--ds-panel2)!important}
+body .app .bar>span,body .app .bar-fill,body .app .exposure-bar>span,body .app .meter>span{background:linear-gradient(90deg,var(--ds-accent),var(--ds-pop))!important}
+body .app .notice,body .app .alert,body .app .status,body .app .report-summary,body .app .report-note,
+body .app .explanation,body .app .meaning{background:var(--ds-panel2)!important;color:var(--ds-ink)!important;border-color:var(--ds-line)!important}
+#ds-theme-dock{background:var(--ds-panel)!important;color:var(--ds-ink)!important;border-color:var(--ds-line)!important}
+#ds-theme-name{color:var(--ds-ink)!important}
+</style>
 </head>
 <body>
 <div id="landing">
@@ -549,6 +575,8 @@ body{background:var(--ds-bg)!important;background-image:none!important;color:var
 <label class="appitem unavailable" data-app="WhatsApp"><img alt="WhatsApp" class="appicon" src="https://cdn.simpleicons.org/whatsapp"/><div class="appmeta"><div class="appname">WhatsApp</div><div class="tag">Coming soon · Not connectable yet</div></div><input type="checkbox" disabled/></label>
 <label class="appitem unavailable" data-app="Snapchat"><img alt="Snapchat" class="appicon" src="https://cdn.simpleicons.org/snapchat"/><div class="appmeta"><div class="appname">Snapchat</div><div class="tag">Coming soon · Not connectable yet</div></div><input type="checkbox" disabled/></label>
 <label class="appitem unavailable" data-app="X"><img alt="X" class="appicon" src="https://cdn.simpleicons.org/x"/><div class="appmeta"><div class="appname">X</div><div class="tag">Coming soon · Not connectable yet</div></div><input type="checkbox" disabled/></label>
+<label class="appitem unavailable" data-app="Pinterest"><img alt="Pinterest" class="appicon" src="https://cdn.simpleicons.org/pinterest"/><div class="appmeta"><div class="appname">Pinterest</div><div class="tag">Coming soon · Not connectable yet</div></div><input type="checkbox" disabled/></label>
+<label class="appitem unavailable" data-app="Reddit"><img alt="Reddit" class="appicon" src="https://cdn.simpleicons.org/reddit"/><div class="appmeta"><div class="appname">Reddit</div><div class="tag">Coming soon · Not connectable yet</div></div><input type="checkbox" disabled/></label>
 </div>
 <div class="notice">No passwords or private messages are collected. Only platforms with an available authorization flow can be connected; unavailable platforms are excluded from scoring.</div>
 <div class="navigation-actions" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px"><button class="btn" onclick="showScreen('consentScreen',2)">← Back</button><button class="btn primary" onclick="prepareConnections()">Continue to secure connection →</button></div>
@@ -1535,9 +1563,9 @@ updateAppSelectionCount();
 (function(){
  const themes=[
   {name:"Cream",bg:"#f4f2e9",panel:"#fbfaf4",panel2:"#e8e7dc",ink:"#20231a",muted:"#686b5d",line:"rgba(32,35,26,.2)",accent:"#718345",pop:"#dcb52f"},
-  {name:"Sage",bg:"#e2e8ce",panel:"#f0f3e5",panel2:"#d4ddbd",ink:"#28301f",muted:"#606c50",line:"rgba(40,48,31,.22)",accent:"#536b36",pop:"#d8a84e"},
-  {name:"Terracotta",bg:"#8b4938",panel:"#a75d49",panel2:"#bd755e",ink:"#fff2e5",muted:"#f0d0c1",line:"rgba(255,242,229,.28)",accent:"#f0c58a",pop:"#e8a7a0"},
-  {name:"Navy",bg:"#07172d",panel:"#142642",panel2:"#1c3454",ink:"#f2f1e9",muted:"#c0c9d7",line:"rgba(242,241,233,.24)",accent:"#9eb9dc",pop:"#c3d4ee"},
+  {name:"Lichen & Limestone",bg:"#c7d0a8",panel:"#e9e8d6",panel2:"#b3bf8b",ink:"#303a29",muted:"#56604b",line:"rgba(48,58,41,.24)",accent:"#65734a",pop:"#e2c875"},
+  {name:"Tamarillo & Butter",bg:"#a52f35",panel:"#bd4546",panel2:"#d8a95d",ink:"#fff8e9",muted:"#ffe2c5",line:"rgba(255,248,233,.34)",accent:"#f5d97d",pop:"#f5e8b4"},
+  {name:"Aegean Blue & Chalk",bg:"#356b83",panel:"#477f96",panel2:"#e9e7dc",ink:"#fffdf5",muted:"#e1edf0",line:"rgba(255,253,245,.32)",accent:"#f4f0df",pop:"#9fc5d2"},
   {name:"Forest",bg:"#0d342b",panel:"#1b493e",panel2:"#24594b",ink:"#f2f0e5",muted:"#c0d0c4",line:"rgba(242,240,229,.24)",accent:"#d6df9c",pop:"#e4a86e"},
   {name:"Dusty rose",bg:"#ead8d9",panel:"#f4e8e7",panel2:"#dfc6ca",ink:"#34272b",muted:"#76646a",line:"rgba(52,39,43,.22)",accent:"#a75c72",pop:"#d7a84c"}
  ];
@@ -1575,5 +1603,25 @@ updateAppSelectionCount();
 })();
 </script>
 
-</div></div></body>
+</div></div><script id="digital-shield-first-visit-theme-demo">
+(function(){
+ function run(){
+  let saved=null;try{saved=localStorage.getItem("digitalShieldTheme");}catch(e){}
+  if(saved!==null)return;
+  const themes=[
+   {bg:"#f4f2e9",panel:"#fbfaf4",panel2:"#e8e7dc",ink:"#20231a",muted:"#686b5d",line:"rgba(32,35,26,.2)",accent:"#718345",pop:"#dcb52f"},
+   {bg:"#c7d0a8",panel:"#e9e8d6",panel2:"#b3bf8b",ink:"#303a29",muted:"#56604b",line:"rgba(48,58,41,.24)",accent:"#65734a",pop:"#e2c875"},
+   {bg:"#a52f35",panel:"#bd4546",panel2:"#d8a95d",ink:"#fff8e9",muted:"#ffe2c5",line:"rgba(255,248,233,.34)",accent:"#f5d97d",pop:"#f5e8b4"},
+   {bg:"#356b83",panel:"#477f96",panel2:"#e9e7dc",ink:"#fffdf5",muted:"#e1edf0",line:"rgba(255,253,245,.32)",accent:"#f4f0df",pop:"#9fc5d2"},
+   {bg:"#0d342b",panel:"#1b493e",panel2:"#24594b",ink:"#f2f0e5",muted:"#c0d0c4",line:"rgba(242,240,229,.24)",accent:"#d6df9c",pop:"#e4a86e"},
+   {bg:"#ead8d9",panel:"#f4e8e7",panel2:"#dfc6ca",ink:"#34272b",muted:"#76646a",line:"rgba(52,39,43,.22)",accent:"#a75c72",pop:"#d7a84c"}
+  ];
+  if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  let n=0;const applyDemo=t=>{const r=document.documentElement;const m={"--ds-bg":t.bg,"--ds-panel":t.panel,"--ds-panel2":t.panel2,"--ds-ink":t.ink,"--ds-muted":t.muted,"--ds-line":t.line,"--ds-accent":t.accent,"--ds-pop":t.pop};Object.keys(m).forEach(k=>r.style.setProperty(k,m[k]));};
+  const timer=setInterval(()=>{applyDemo(themes[n]);const swatches=[...document.querySelectorAll(".ds-swatch")];swatches.forEach((b,i)=>b.classList.toggle("ds-demo-focus",i===n));n++;if(n>=themes.length){clearInterval(timer);setTimeout(()=>{if(!localStorage.getItem("digitalShieldTheme")){const t=themes[0];applyDemo(t);if(window.digitalShieldApplyTheme)window.digitalShieldApplyTheme(0,false);}document.querySelectorAll(".ds-demo-focus").forEach(b=>b.classList.remove("ds-demo-focus"));},800);}},900);
+ }
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>setTimeout(run,500),{once:true});else setTimeout(run,500);
+})();
+</script>
+</body>
 </html>
