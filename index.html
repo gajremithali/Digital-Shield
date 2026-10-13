@@ -425,6 +425,37 @@ body{background:var(--ds-bg)!important;background-image:none!important;color:var
 .appitem input{accent-color:var(--ds-accent)!important}
 </style>
 <style id="digital-shield-theme-demo-animation">.ds-swatch{transition:transform .3s ease,outline .3s ease,box-shadow .3s ease}.ds-swatch.ds-demo-focus{transform:scale(1.24);outline:2px solid var(--ds-ink);outline-offset:3px}#ds-theme-dock{gap:11px}</style>
+<style id="digital-shield-theme-contrast-complete">
+/* Make all UI text and controls follow the selected palette, including elements outside the landing section. */
+.app .apps-head,.app .apps-head h1,.app .apps-head p,.app .platforms-title,.app .platforms-intro,
+.app .appmeta,.app .appname,.app .tag,.app .platform-toolbar,.app .platform-toolbar label,
+.app .panel .subhead,.app .panel .eyebrow,.app .report-section h2,.app .report-section h3,
+.app .report-section .description,.app .report-section .section-kicker,.app .metric-label,
+.app .risk-summary p,.app .report-card p,.app .report-card li,.app .connection-card p,
+.app .connection-card h3,.app .connection-card .status,.app .notice,.app .alert,
+.app .step-label,.app .progress-label{color:var(--ds-ink)!important}
+.app .tag,.app .muted,.app .report-section .description,.app .metric-label{color:var(--ds-muted)!important}
+.app .platform-toolbar,.app .search-platforms,.app .platform-search,.app input[type="search"],
+.app .search-box,.app .search-input{background:var(--ds-panel2)!important;color:var(--ds-ink)!important;border-color:var(--ds-line)!important}
+.app input[type="search"]::placeholder,.app .search-platforms::placeholder,.app .platform-search::placeholder,
+.app .search-input::placeholder{color:var(--ds-muted)!important;opacity:1!important}
+.app .progress .step,.app .progress-segment,.app .progress-bar,.app .progress-track{background:var(--ds-panel2)!important;border-color:var(--ds-line)!important}
+.app .progress .step.on,.app .progress-segment.active,.app .progress-fill,.app .progress-bar>span{background:linear-gradient(90deg,var(--ds-accent),var(--ds-pop))!important}
+.app .report-section,.app .report-panel,.app .exposure-map,.app .footprint-snapshot,
+.app .connection-card,.app .platform-toolbar{border-color:var(--ds-line)!important}
+.app .report-section,.app .report-panel,.app .exposure-map,.app .footprint-snapshot{background:var(--ds-panel)!important}
+.app .report-section .explanation,.app .report-section .meaning,.app .report-note{background:var(--ds-panel2)!important;color:var(--ds-ink)!important;border-color:var(--ds-line)!important}
+.app .exposure-bar,.app .meter,.app .bar,.app .bar-track{background:var(--ds-panel2)!important}
+.app .exposure-bar>span,.app .meter>span,.app .bar>span,.app .bar-fill{background:linear-gradient(90deg,var(--ds-accent),var(--ds-pop))!important}
+.app .report-section .section-kicker,.app .report-section .eyebrow{color:var(--ds-accent)!important}
+#ds-theme-dock{display:flex;align-items:center;gap:8px;max-width:calc(100vw - 20px);padding:9px 12px}
+#ds-theme-dock:before{content:"";display:inline-block;width:0;height:0}
+#ds-theme-dock .ds-swatch{flex:0 0 22px}
+#ds-theme-dock .ds-swatch:after{content:attr(title);position:absolute;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%);font-size:10px;line-height:1;padding:5px 7px;border-radius:6px;background:var(--ds-panel);color:var(--ds-ink);border:1px solid var(--ds-line);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s ease}
+#ds-theme-dock .ds-swatch:hover:after,#ds-theme-dock .ds-swatch:focus-visible:after{opacity:1}
+@media(max-width:560px){#ds-theme-dock{gap:7px;padding:8px}#ds-theme-dock .ds-swatch{flex-basis:19px;width:19px;height:19px}}
+</style>
+<style id="digital-shield-theme-label-style">#ds-theme-name{font-size:10px;letter-spacing:.06em;white-space:nowrap;color:var(--ds-ink);margin-right:2px}@media(max-width:560px){#ds-theme-name{font-size:9px}}</style>
 </head>
 <body>
 <div id="landing">
@@ -517,7 +548,7 @@ body{background:var(--ds-bg)!important;background-image:none!important;color:var
 <label class="appitem unavailable" data-app="Spotify"><img alt="Spotify" class="appicon" src="https://cdn.simpleicons.org/spotify"/><div class="appmeta"><div class="appname">Spotify</div><div class="tag">Coming soon · Premium developer access</div></div><input type="checkbox" disabled/></label>
 <label class="appitem unavailable" data-app="WhatsApp"><img alt="WhatsApp" class="appicon" src="https://cdn.simpleicons.org/whatsapp"/><div class="appmeta"><div class="appname">WhatsApp</div><div class="tag">Coming soon · Not connectable yet</div></div><input type="checkbox" disabled/></label>
 <label class="appitem unavailable" data-app="Snapchat"><img alt="Snapchat" class="appicon" src="https://cdn.simpleicons.org/snapchat"/><div class="appmeta"><div class="appname">Snapchat</div><div class="tag">Coming soon · Not connectable yet</div></div><input type="checkbox" disabled/></label>
-<label class="appitem unavailable" data-app="Discord"><img alt="Discord" class="appicon" src="https://cdn.simpleicons.org/discord"/><div class="appmeta"><div class="appname">Discord</div><div class="tag">Coming soon · Not connectable yet</div></div><input type="checkbox" disabled/></label>
+<label class="appitem unavailable" data-app="X"><img alt="X" class="appicon" src="https://cdn.simpleicons.org/x"/><div class="appmeta"><div class="appname">X</div><div class="tag">Coming soon · Not connectable yet</div></div><input type="checkbox" disabled/></label>
 </div>
 <div class="notice">No passwords or private messages are collected. Only platforms with an available authorization flow can be connected; unavailable platforms are excluded from scoring.</div>
 <div class="navigation-actions" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px"><button class="btn" onclick="showScreen('consentScreen',2)">← Back</button><button class="btn primary" onclick="prepareConnections()">Continue to secure connection →</button></div>
@@ -1516,7 +1547,7 @@ updateAppSelectionCount();
   const map={"--ds-bg":t.bg,"--ds-panel":t.panel,"--ds-panel2":t.panel2,"--ds-ink":t.ink,"--ds-muted":t.muted,"--ds-line":t.line,"--ds-accent":t.accent,"--ds-pop":t.pop,"--page-bg":t.bg,"--page-ink":t.ink,"--page-muted":t.muted,"--page-accent":t.accent,"--page-line":t.line,"--page-card":t.panel,"--page-pop":t.pop,"--bg":t.bg,"--panel":t.panel,"--panel2":t.panel,"--text":t.ink,"--muted":t.muted,"--line":t.line,"--accent":t.accent,"--accent2":t.pop,"--theme-primary":t.bg,"--theme-secondary":t.panel,"--theme-light":t.panel,"--theme-dark":t.ink};
   Object.keys(map).forEach(k=>r.style.setProperty(k,map[k]));
   document.body.dataset.theme="chosen-"+i;
-  document.querySelectorAll(".ds-swatch").forEach((b,j)=>b.setAttribute("aria-pressed",String(j===i)));
+  document.querySelectorAll(".ds-swatch").forEach((b,j)=>b.setAttribute("aria-pressed",String(j===i)));const nameLabel=document.getElementById("ds-theme-name");if(nameLabel)nameLabel.textContent=t.name.toUpperCase();
   r.style.colorScheme=[2,3,4].includes(i)?"dark":"light";
   if(save){try{localStorage.setItem("digitalShieldTheme",String(i));}catch(e){}}
  }
@@ -1525,7 +1556,7 @@ updateAppSelectionCount();
   const gate=document.getElementById("ds-theme-gate");if(gate)gate.remove();
   if(!document.getElementById("ds-theme-dock")){
    const dock=document.createElement("div");dock.id="ds-theme-dock";dock.setAttribute("aria-label","Preview and choose website colours");
-   dock.innerHTML=themes.map((t,i)=>'<button type="button" class="ds-swatch" data-theme-choice="'+i+'" title="'+t.name+'" aria-label="Preview '+t.name+' theme" aria-pressed="'+(i===0)+'" style="background:'+t.bg+';box-shadow:inset 0 0 0 5px '+t.accent+'"></button>').join("");
+   dock.innerHTML='<span id="ds-theme-name" class="ds-theme-name">CREAM</span>'+themes.map((t,i)=>'<button type="button" class="ds-swatch" data-theme-choice="'+i+'" title="'+t.name+'" aria-label="Preview '+t.name+' theme" aria-pressed="'+(i===0)+'" style="background:'+t.bg+';box-shadow:inset 0 0 0 5px '+t.accent+'"></button>').join("");
    document.body.appendChild(dock);
    dock.querySelectorAll("[data-theme-choice]").forEach(b=>b.addEventListener("click",()=>{
     if(previewTimer){clearInterval(previewTimer);previewTimer=null;}
