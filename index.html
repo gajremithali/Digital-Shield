@@ -1385,7 +1385,49 @@ if(appSearch)appSearch.addEventListener('input',()=>{const q=appSearch.value.tri
 updateAppSelectionCount();
 </script>
 
-<script id="digital-shield-theme-switcher">(function(){document.body.dataset.theme="cream";})();</script>
+<script id="digital-shield-theme-switcher">
+(function(){
+  const themes=[
+    {bg:"#f4f2e9",ink:"#20231a",accent:"#718345",card:"#fbfaf4",pop:"#dcb52f"},
+    {bg:"#e2e8ce",ink:"#28301f",accent:"#536b36",card:"#f0f3e5",pop:"#d8a84e"},
+    {bg:"#302a91",ink:"#f7f3d7",accent:"#e6d875",card:"#4039a3",pop:"#f0a8c8"},
+    {bg:"#07172d",ink:"#f2f1e9",accent:"#9eb9dc",card:"#142642",pop:"#c3d4ee"},
+    {bg:"#0d342b",ink:"#f2f0e5",accent:"#d6df9c",card:"#1b493e",pop:"#e4a86e"},
+    {bg:"#ead8d9",ink:"#34272b",accent:"#a75c72",card:"#f4e8e7",pop:"#d7a84c"}
+  ];
+  let current=0, timer;
+  function paint(index){
+    current=index;
+    const t=themes[index], root=document.documentElement, landing=document.getElementById("landing");
+    root.style.setProperty("--page-bg",t.bg);
+    root.style.setProperty("--page-ink",t.ink);
+    root.style.setProperty("--page-accent",t.accent);
+    root.style.setProperty("--page-card",t.card);
+    root.style.setProperty("--page-pop",t.pop);
+    if(landing){
+      landing.style.backgroundColor=t.bg;
+      landing.style.color=t.ink;
+      const hero=landing.querySelector(".editorial-hero");
+      if(hero) hero.style.backgroundColor=t.bg;
+      const h1=landing.querySelector(".editorial-hero h1");
+      if(h1) h1.style.color=t.ink;
+      const accent=landing.querySelector(".editorial-hero .gradient");
+      if(accent){accent.style.color=t.accent;accent.style.webkitTextFillColor=t.accent;}
+      const btn=landing.querySelector(".editorial-cta");
+      if(btn){btn.style.borderColor=t.ink;btn.style.backgroundColor=(index===0||index===1||index===5)?t.ink:"transparent";btn.style.color=(index===0||index===1||index===5)?t.bg:t.ink;}
+      landing.querySelectorAll(".editorial-thumb").forEach(el=>{el.style.backgroundColor=t.card;el.style.borderColor=t.ink+"33";});
+      landing.querySelectorAll(".thumb-caption,.editorial-caption,.editorial-side-note").forEach(el=>el.style.color=t.ink+"b8");
+    }
+    document.body.dataset.theme="fixed-"+index;
+    document.documentElement.style.colorScheme=(index===2||index===3||index===4)?"dark":"light";
+  }
+  // Keep the homepage to one screen. Colour shifts gently in place, like the reference video.
+  const reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  paint(0);
+  if(!reduced) timer=window.setInterval(()=>paint((current+1)%themes.length),4500);
+  window.addEventListener("pagehide",()=>{if(timer)window.clearInterval(timer);},{once:true});
+})();
+</script>
 
 </div></div></body>
 </html>
