@@ -1601,14 +1601,6 @@ async function copyDigitalShieldSummary(){
   const summary='Digital Shield report\\nExposure score: '+score+'/100\\nPrivacy readiness: '+readiness+'/100\\nConnected sources: '+apps+'\\nGenerated: '+new Date().toLocaleString();
   try{await navigator.clipboard.writeText(summary);const el=document.getElementById('reportCopyStatus');if(el)el.textContent='Safety summary copied to your clipboard.';}catch(e){const el=document.getElementById('reportCopyStatus');if(el)el.textContent='Clipboard access was unavailable. Use Print / Save as PDF instead.';}
 }
-}
-function printDigitalShieldReport(){window.print();}
-async function copyDigitalShieldSummary(){
-  const score=document.getElementById('reportScore')?.textContent||'—', readinessEl=document.querySelector('#enhancedReport')?.previousElementSibling?.querySelector('.bigscore'), readiness=readinessEl?.textContent||'—', apps=document.getElementById('reportCoverage')?.innerText||'';
-  const summary='Digital Shield report\nExposure score: '+score+'/100\nPrivacy readiness: '+readiness+'/100\nConnected sources: '+apps+'\nGenerated: '+new Date().toLocaleString();
-  try{await navigator.clipboard.writeText(summary);const el=document.getElementById('reportCopyStatus');if(el)el.textContent='Safety summary copied to your clipboard.';}catch(e){const el=document.getElementById('reportCopyStatus');if(el)el.textContent='Clipboard access was unavailable. Use Print / Save as PDF instead.';}
-}
-
 function escapeHtml(value){return String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 document.querySelectorAll('.appitem').forEach(card=>{
   const checkbox=card.querySelector('input[type="checkbox"]');
